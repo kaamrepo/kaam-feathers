@@ -61,6 +61,7 @@
     "@feathersjs/transport-commons": "^5.0.5",
     "@feathersjs/typebox": "^5.0.5",
     "compression": "^1.7.4",
+    "firebase-admin": "^11.9.0",
     "mongodb": "^5.2.0",
     "twilio": "^4.11.2",
     "winston": "^3.9.0"

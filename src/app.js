@@ -21,7 +21,7 @@ import { authentication } from './authentication.js'
 
 import { services } from './services/index.js'
 import { channels } from './channels.js'
-
+import admin from 'firebase-admin'
 const app = express(feathers())
 
 // Load app configuration
@@ -51,6 +51,27 @@ app.configure(channels)
 // Configure a middleware for 404s and the error handler
 app.use(notFound())
 app.use(errorHandler({ logger }))
+
+// Fcm Notification
+const uid = 'some-uid'
+const additionalClaims = {
+  premiumAccount: true
+}
+let serviceAccount = app.get('firebase_fcm_object')
+let firbaseEmail = app.get('firebase_db_url')
+// console.log('service account json', serviceAccount)
+// console.log('service account firbaseEmail', firbaseEmail)
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: firbaseEmail
+})
+app.set('FIREBASE', admin)
+
+admin
+  .auth()
+  .createCustomToken(uid, additionalClaims)
+  // .then((customToken) => console.log('CustomToken', customToken))
+  .catch((error) => console.log(error))
 
 // Register hooks that run on all service methods
 app.hooks({
