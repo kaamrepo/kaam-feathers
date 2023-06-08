@@ -2,8 +2,7 @@
 import { authenticate } from '@feathersjs/authentication'
 
 import { hooks as schemaHooks } from '@feathersjs/schema'
-import
-{
+import {
   userDataValidator,
   userPatchValidator,
   userQueryValidator,
@@ -19,12 +18,13 @@ import { generateOTPandExpiryTime } from './hooks/create/generateOTPandExpiryTim
 import { duplicateKeyError } from './hooks/error/duplicateKeyError.js'
 import { sendOTP } from './hooks/create/sendOTP.js'
 
+import { notificationHelper } from '../../helpers/notificationHelper.js'
+
 export * from './users.class.js'
 export * from './users.schema.js'
 
 // A configure function that registers the service and its hooks via `app.configure`
-export const user = (app) =>
-{
+export const user = (app) => {
   // Register our service on the Feathers application
   app.use(userPath, new UserService(getOptions(app)), {
     // A list of all methods this service exposes externally
@@ -47,18 +47,46 @@ export const user = (app) =>
       all: [schemaHooks.validateQuery(userQueryValidator), schemaHooks.resolveQuery(userQueryResolver)],
       find: [],
       get: [],
-      create: [generateOTPandExpiryTime, schemaHooks.validateData(userDataValidator), sendOTP, schemaHooks.resolveData(userDataResolver)],
+      create: [
+        generateOTPandExpiryTime,
+        schemaHooks.validateData(userDataValidator),
+        sendOTP,
+        schemaHooks.resolveData(userDataResolver)
+      ],
       patch: [schemaHooks.validateData(userPatchValidator), schemaHooks.resolveData(userPatchResolver)],
       remove: []
     },
     after: {
-      all: []
+      all: [],
+      create: [
+        async (hook) => {
+          try {
+            let notificationMessage = {
+              notification: {
+                title: 'Toolbox training completed',
+                body: 'Test 1'
+              },
+              data: {
+                event: 'Toolbox Training',
+                action: 'close'
+              }
+            }
+            let response = await notificationHelper(hook.app).sent(
+              [
+                'f6ZU75sdSbyfiiJ-Hjk6WB:APA91bF0XGwpmZYcLC3SqYq1RtT4GFfa4ezJxUt-FcubFPRdLDpyMbvD9yPudFYn1KFjzI5uQ3fsG4-aZ5r3wK1ErEXQhO-gbDU0axgfJ3UGIGFAH4xkuT0r1grbmpCiNmF1B8AGGzpA'
+              ],
+              notificationMessage
+            )
+            console.log('response', response)
+          } catch (error) {
+            console.log('Notificaion error', error)
+          }
+        }
+      ]
     },
     error: {
       all: [],
-      create: [
-        duplicateKeyError
-      ]
+      create: [duplicateKeyError]
     }
   })
 }

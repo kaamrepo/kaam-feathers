@@ -1,5 +1,5 @@
-const { handleError } = require('./errorhandlingHelper')
-module.exports = function (app) {
+import { handleError } from './errorhandlingHelper.js'
+export const notificationHelper = async (app) => {
   return {
     sent: async function (registrationTokens, message) {
       try {

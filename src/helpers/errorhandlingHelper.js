@@ -1,6 +1,6 @@
-const errors = require('@feathersjs/errors')
+import errors from '@feathersjs/errors'
 
-const DEFAULT_ERROR_MSG = {
+export const DEFAULT_ERROR_MSG = {
   INTERNAL_SERVER_ERROR: 'Internal Server Error. Something went wrong.',
   USER_NOT_FOUND: 'username: %username% does not exist',
   ESCALATION_LEVEL_ALREADY_EXISTS: 'Escalation %escalationLevel% already exist',
@@ -14,7 +14,7 @@ const DEFAULT_ERROR_MSG = {
   ANSWERSHEET_EXISTS: 'This checklist is already %status% by another reviewer.'
 }
 
-const HTTP_ERRORS = {
+export const HTTP_ERRORS = {
   BadRequest: 'BadRequest',
   NotAuthenticated: 'NotAuthenticated',
   PaymentError: 'PaymentError',
@@ -30,7 +30,7 @@ const HTTP_ERRORS = {
   Unavailable: 'Unavailable'
 }
 
-const processErrorText = (errorText, value) => {
+export const processErrorText = (errorText, value) => {
   if (value) {
     return errorText.replace(/%\w+%/g, value)
   }
@@ -58,7 +58,7 @@ const processErrorText = (errorText, value) => {
  * NotImplemented: 501,
  * Unavailable: 503
  */
-const handleError = (httpErrorType, defaultErrorMessage, data, customMessage) => {
+export const handleError = (httpErrorType, defaultErrorMessage, data, customMessage) => {
   let errorText = customMessage
   let errorType = 'GeneralError'
 
@@ -69,5 +69,3 @@ const handleError = (httpErrorType, defaultErrorMessage, data, customMessage) =>
 
   throw new errors[errorType](processErrorText(errorText, data?.value), data)
 }
-
-module.exports = { handleError, HTTP_ERRORS, DEFAULT_ERROR_MSG }
