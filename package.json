@@ -7,7 +7,9 @@
   "keywords": [
     "feathers"
   ],
-  "author": {},
+  "author": {
+    "name": "Kaam-Lineup"
+  },
   "contributors": [],
   "bugs": {},
   "engines": {
@@ -47,6 +49,8 @@
     "@feathersjs/adapter-commons": "^5.0.5",
     "@feathersjs/authentication": "^5.0.5",
     "@feathersjs/authentication-client": "^5.0.5",
+    "@feathersjs/authentication-local": "^5.0.5",
+    "@feathersjs/authentication-oauth": "^5.0.5",
     "@feathersjs/configuration": "^5.0.5",
     "@feathersjs/errors": "^5.0.5",
     "@feathersjs/express": "^5.0.5",
@@ -57,7 +61,9 @@
     "@feathersjs/transport-commons": "^5.0.5",
     "@feathersjs/typebox": "^5.0.5",
     "compression": "^1.7.4",
+    "firebase-admin": "^11.9.0",
     "mongodb": "^5.2.0",
+    "twilio": "^4.11.2",
     "winston": "^3.9.0"
   },
   "devDependencies": {
