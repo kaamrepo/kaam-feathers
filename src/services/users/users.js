@@ -2,7 +2,8 @@
 import { authenticate } from '@feathersjs/authentication'
 
 import { hooks as schemaHooks } from '@feathersjs/schema'
-import {
+import
+{
   userDataValidator,
   userPatchValidator,
   userQueryValidator,
@@ -14,12 +15,16 @@ import {
 } from './users.schema.js'
 import { UserService, getOptions } from './users.class.js'
 import { userPath, userMethods } from './users.shared.js'
+import { generateOTPandExpiryTime } from './hooks/create/generateOTPandExpiryTime.js'
+import { duplicateKeyError } from './hooks/error/duplicateKeyError.js'
+import { sendOTP } from './hooks/create/sendOTP.js'
 
 export * from './users.class.js'
 export * from './users.schema.js'
 
 // A configure function that registers the service and its hooks via `app.configure`
-export const user = (app) => {
+export const user = (app) =>
+{
   // Register our service on the Feathers application
   app.use(userPath, new UserService(getOptions(app)), {
     // A list of all methods this service exposes externally
@@ -42,7 +47,7 @@ export const user = (app) => {
       all: [schemaHooks.validateQuery(userQueryValidator), schemaHooks.resolveQuery(userQueryResolver)],
       find: [],
       get: [],
-      create: [schemaHooks.validateData(userDataValidator), schemaHooks.resolveData(userDataResolver)],
+      create: [generateOTPandExpiryTime, schemaHooks.validateData(userDataValidator), sendOTP, schemaHooks.resolveData(userDataResolver)],
       patch: [schemaHooks.validateData(userPatchValidator), schemaHooks.resolveData(userPatchResolver)],
       remove: []
     },
@@ -50,7 +55,10 @@ export const user = (app) => {
       all: []
     },
     error: {
-      all: []
+      all: [],
+      create: [
+        duplicateKeyError
+      ]
     }
   })
 }

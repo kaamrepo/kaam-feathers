@@ -9,8 +9,15 @@ import { dataValidator, queryValidator } from '../../validators.js'
 export const userSchema = Type.Object(
   {
     _id: ObjectIdSchema(),
-    email: Type.String(),
-    password: Type.Optional(Type.String()),
+    phone: Type.String({ minLength: 10, maxLength: 10 }),
+    dialCode: Type.String({ minLength: 1 }),
+    firstname: Type.String({ minLength: 1 }),
+    lastname: Type.String({ minLength: 1 }),
+    email: Type.Optional(Type.String({ format: 'email' })),
+    otp: Type.String({ minLength: 1 }),
+    otpExpiresAt: Type.String({ format: 'date-time' }),
+    createdAt: Type.String({ format: 'date-time' }),
+    updatedAt: Type.String({ format: 'date-time' }),
     googleId: Type.Optional(Type.String()),
     facebookId: Type.Optional(Type.String()),
     twitterId: Type.Optional(Type.String()),
@@ -23,21 +30,28 @@ export const userValidator = getValidator(userSchema, dataValidator)
 export const userResolver = resolve({})
 
 export const userExternalResolver = resolve({
-  // The password should never be visible externally
-  password: async () => undefined
+  // The otp should never be visible externally
+  otp: async () => undefined
 })
 
 // Schema for creating new entries
 export const userDataSchema = Type.Pick(
   userSchema,
-  ['email', 'password', 'googleId', 'facebookId', 'twitterId', 'githubId', 'auth0Id'],
+  ['phone', 'otp', 'dialCode', 'email', 'firstname', 'lastname', 'otpExpiresAt'],
   {
     $id: 'UserData'
   }
 )
 export const userDataValidator = getValidator(userDataSchema, dataValidator)
 export const userDataResolver = resolve({
-  password: passwordHash({ strategy: 'local' })
+  otp: passwordHash({ strategy: 'local' }),
+  createdAt: async (value, _, context) => new Date(),
+  updatedAt: async (value, _, context) => new Date(),
+  otpExpiresAt: async (value, user, context) =>
+  {
+    const expiryTime = Number(context.app.get("kaam_otp_validity_time")) ?? 4
+    return value ? new Date(new Date(value).getTime() + expiryTime * 60000) : undefined
+  }
 })
 
 // Schema for updating existing entries
@@ -46,18 +60,17 @@ export const userPatchSchema = Type.Partial(userSchema, {
 })
 export const userPatchValidator = getValidator(userPatchSchema, dataValidator)
 export const userPatchResolver = resolve({
-  password: passwordHash({ strategy: 'local' })
+  otp: passwordHash({ strategy: 'local' }),
+  updatedAt: async (value, _, context) => new Date(),
 })
 
 // Schema for allowed query properties
 export const userQueryProperties = Type.Pick(userSchema, [
   '_id',
   'email',
-  'googleId',
-  'facebookId',
-  'twitterId',
-  'githubId',
-  'auth0Id'
+  'phone',
+  'firstname',
+  'lastname'
 ])
 export const userQuerySchema = Type.Intersect(
   [
@@ -70,8 +83,10 @@ export const userQuerySchema = Type.Intersect(
 export const userQueryValidator = getValidator(userQuerySchema, queryValidator)
 export const userQueryResolver = resolve({
   // If there is a user (e.g. with authentication), they are only allowed to see their own data
-  _id: async (value, user, context) => {
-    if (context.params.user) {
+  _id: async (value, user, context) =>
+  {
+    if (context.params.user)
+    {
       return context.params.user._id
     }
 
