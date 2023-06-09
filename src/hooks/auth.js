@@ -1,5 +1,5 @@
 import { userPath } from "../services/users/users.shared.js";
-import { GeneralError } from '@feathersjs/errors';
+import { Forbidden, GeneralError, NotFound } from '@feathersjs/errors';
 
 export const auth = async (context) =>
 {
@@ -8,8 +8,12 @@ export const auth = async (context) =>
     const user = await context.app.service(userPath).getByPhone(auth.phone)
 
     const date = new Date(auth.date);
-    if (user && user?.otpExpiresAt)
+    if (user)
     {
+        if (!user.otpExpiresAt)
+        {
+            throw new NotFound("User doesn't exits.");
+        }
         const expiryTime = Number(context.app.get("kaam_otp_validity_time")) ?? 4
         const otpCreatedTime = new Date(new Date(user?.otpExpiresAt).getTime() - expiryTime * 60000)
         const isValid = otpCreatedTime <= date && date <= user.otpExpiresAt

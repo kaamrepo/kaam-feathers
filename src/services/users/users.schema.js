@@ -64,6 +64,27 @@ export const userPatchResolver = resolve({
   updatedAt: async (value, _, context) => new Date(),
 })
 
+// Schema for login user route
+
+export const loginPatchSchema = Type.Pick(
+  userSchema,
+  ['dialCode', 'phone', 'otp', 'otpExpiresAt'],
+  {
+    $id: 'LoginPatch'
+  })
+export const loginPatchValidator = getValidator(loginPatchSchema, dataValidator)
+export const loginPatchResolver = resolve({
+  otp: passwordHash({ strategy: 'local' }),
+  updatedAt: async (value, _, context) => new Date(),
+  otpExpiresAt: async (value, user, context) =>
+  {
+    const expiryTime = Number(context.app.get("kaam_otp_validity_time")) ?? 4
+    return value ? new Date(new Date(value).getTime() + expiryTime * 60000) : undefined
+  }
+})
+
+
+
 // Schema for allowed query properties
 export const userQueryProperties = Type.Pick(userSchema, [
   '_id',

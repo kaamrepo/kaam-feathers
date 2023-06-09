@@ -11,13 +11,16 @@ import
   userExternalResolver,
   userDataResolver,
   userPatchResolver,
-  userQueryResolver
+  userQueryResolver,
+  loginPatchValidator,
+  loginPatchResolver
 } from './users.schema.js'
 import { UserService, getOptions } from './users.class.js'
-import { userPath, userMethods } from './users.shared.js'
+import { userPath, userMethods, userLoginPath, userLoginMethods } from './users.shared.js'
 import { generateOTPandExpiryTime } from './hooks/create/generateOTPandExpiryTime.js'
 import { duplicateKeyError } from './hooks/error/duplicateKeyError.js'
 import { sendOTP } from './hooks/create/sendOTP.js'
+import { checkUserExists } from './hooks/login/checkUserExists.js'
 
 export * from './users.class.js'
 export * from './users.schema.js'
@@ -61,4 +64,19 @@ export const user = (app) =>
       ]
     }
   })
+
+  //// <- ******************************** LOGIN ROUTE *********************************** -> ////
+
+  app.use(userLoginPath, new UserService(getOptions(app)), {
+    methods: userLoginMethods,
+    events: []
+  })
+  app.service(userLoginPath).hooks({
+    before: {
+      all: [],
+      patch: [checkUserExists, generateOTPandExpiryTime, schemaHooks.validateData(loginPatchValidator), sendOTP, schemaHooks.resolveData(loginPatchResolver)],
+    }
+  })
+
+  //// <- ******************************** LOGIN *********************************** -> ////
 }
