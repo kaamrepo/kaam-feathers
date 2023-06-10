@@ -3,9 +3,7 @@ import cloudinary from 'cloudinary'
 import fs from 'fs'
 const saveCloudnaryImage = async function (imagePath) {
   try {
-    console.log('Image Path ', imagePath)
     let image = await cloudinary.uploader.upload(imagePath)
-    console.log('image =============> ', image)
     if (image && Object.keys(image).length !== 0 && image.url) {
       await fs.unlink(imagePath, (error) => {
         if (error) {
