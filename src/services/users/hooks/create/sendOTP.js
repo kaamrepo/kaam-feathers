@@ -13,7 +13,7 @@ export const sendOTP = async (context) =>
         const message = await client.messages.create({
             body: `${ context.data.otp } is your Verification Code.`,
             from: '+13614365406',
-            to: `${ context.data.dialCode }${ context.data.phone }`
+            to: `${ context.data.dialcode }${ context.data.phone }`
         });
         console.log(message.sid);
     } catch (error)

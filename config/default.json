@@ -52,7 +52,7 @@
       }
     }
   },
-  "mongodb": "mongodb://127.0.0.1:27020/kaam-feathers",
+  "mongodb": "mongodb://127.0.0.1:27017/kaam-feathers",
   "firebase_db_url": "https://kaam-e6e80-default-rtdb.firebaseio.com",
   "firebase_fcm_object": {
     "type": "service_account",

@@ -16,5 +16,6 @@
   "cloudName":"KAAM_CLOUDINARY_CLOUDNAME",
   "apiKey":"KAAM_CLOUDINARY_APIKEY",
   "apiSecret":"KAAM_CLOUDINARY_APISECRETKEY",
-  "url":"KAAM_CLOUDINARY_URL"
+  "url":"KAAM_CLOUDINARY_URL",
+  "kaam_otp_digits": "KAAM_OTP_DIGITS"
 }

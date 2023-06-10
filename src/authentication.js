@@ -4,6 +4,7 @@ import { LocalStrategy } from '@feathersjs/authentication-local'
 import { oauth, OAuthStrategy } from '@feathersjs/authentication-oauth'
 import { COMMON_ENDPOINT } from './constant/endpoints.js'
 import { auth } from "./hooks/auth.js"
+import { userPath } from './services/users/users.shared.js'
 export const authenticationPath = `${ COMMON_ENDPOINT }authentication`
 
 export const authentication = (app) =>
@@ -25,6 +26,17 @@ export const authentication = (app) =>
         auth
       ],
     },
+    after: {
+      create: [
+        async (context) =>
+        {
+          const { user } = context.result;
+          await context.app.service(userPath)._patch(user._id, {
+            $unset: { otpexpiresat: '' }
+          })
+        }
+      ]
+    }
   })
   // app.configure(oauth())
 }
