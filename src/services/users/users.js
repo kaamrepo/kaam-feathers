@@ -17,21 +17,41 @@ import { userPath, userMethods } from './users.shared.js'
 import { generateOTPandExpiryTime } from './hooks/create/generateOTPandExpiryTime.js'
 import { duplicateKeyError } from './hooks/error/duplicateKeyError.js'
 import { sendOTP } from './hooks/create/sendOTP.js'
-
+import multer from 'multer'
 import { notificationHelper } from '../../helpers/notificationHelper.js'
+import { saveCloudnaryImage } from '../../helpers/saveCloudnaryImage.js'
 
 export * from './users.class.js'
 export * from './users.schema.js'
 
 // A configure function that registers the service and its hooks via `app.configure`
 export const user = (app) => {
-  // Register our service on the Feathers application
-  app.use(userPath, new UserService(getOptions(app)), {
-    // A list of all methods this service exposes externally
-    methods: userMethods,
-    // You can add additional custom events to be sent to clients here
-    events: []
+  const storage = multer.diskStorage({
+    destination: (_req, _file, cb) => cb(null, 'uploads/profilepic'), // where the files are being stored
+    filename: (_req, file, cb) => cb(null, `ProfilePic_${Date.now()}-${file.originalname}`) // getting the file name
   })
+  const upload = multer({
+    storage: storage
+  })
+  // Register our service on the Feathers application
+  app.use(
+    userPath,
+    upload.single('profilePic'),
+    async (req, res, next) => {
+      console.log(req.body)
+      console.log(req.file)
+      let imageUpload = await saveCloudnaryImage(req.file.path)
+      console.log('imageUpload', imageUpload)
+      next()
+    },
+    new UserService(getOptions(app)),
+    {
+      // A list of all methods this service exposes externally
+      methods: userMethods,
+      // You can add additional custom events to be sent to clients here
+      events: []
+    }
+  )
   // Initialize hooks
   app.service(userPath).hooks({
     around: {
@@ -71,7 +91,8 @@ export const user = (app) => {
                 action: 'close'
               }
             }
-            let response = await notificationHelper(hook.app).sent(
+            let response = await notificationHelper(
+              hook.app,
               [
                 'f6ZU75sdSbyfiiJ-Hjk6WB:APA91bF0XGwpmZYcLC3SqYq1RtT4GFfa4ezJxUt-FcubFPRdLDpyMbvD9yPudFYn1KFjzI5uQ3fsG4-aZ5r3wK1ErEXQhO-gbDU0axgfJ3UGIGFAH4xkuT0r1grbmpCiNmF1B8AGGzpA'
               ],

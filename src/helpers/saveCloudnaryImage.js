@@ -1,0 +1,22 @@
+import { handleError } from './errorhandlingHelper.js'
+import cloudinary from 'cloudinary'
+import fs from 'fs'
+const saveCloudnaryImage = async function (imagePath) {
+  try {
+    console.log('Image Path ', imagePath)
+    let image = await cloudinary.uploader.upload(imagePath)
+    console.log('image =============> ', image)
+    // if (image && Object.keys(image).length !== 0 && image.url) {
+    //   fs.unlink(imagePath)
+    // }
+    return image.url
+  } catch (error) {
+    handleError(
+      undefined,
+      undefined,
+      { value: undefined },
+      `Error occurred while Uploading Image In cloud>>> ${error}`
+    )
+  }
+}
+export { saveCloudnaryImage }

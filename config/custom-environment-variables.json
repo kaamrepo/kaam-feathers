@@ -9,5 +9,12 @@
   },
   "kaam_otp_validity_time": "KAAM_OTP_VALIDITY_TIME",
   "kaam_twilio_account_sid": "KAAM_TWILIO_ACCOUNT_SID",
-  "kaam_twilio_auth_token": "KAAM_TWILIO_AUTH_TOKEN"
+  "kaam_twilio_auth_token": "KAAM_TWILIO_AUTH_TOKEN",
+  "firebase_db_url": "KAAM_FIREBASE_EMAIL_ID",
+  "firebase_fcm_serive_account": "KAAM_FIREBASE_SERVICEACCOUNT",
+  "firebase_fcm_auth_url": "KAAM_FIREBASE_AUTH_URL",
+  "cloudName":"KAAM_CLOUDINARY_CLOUDNAME",
+  "apiKey":"KAAM_CLOUDINARY_APIKEY",
+  "apiSecret":"KAAM_CLOUDINARY_APISECRETKEY",
+  "url":"KAAM_CLOUDINARY_URL"
 }
