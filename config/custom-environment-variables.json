@@ -9,5 +9,6 @@
   },
   "kaam_otp_validity_time": "KAAM_OTP_VALIDITY_TIME",
   "kaam_twilio_account_sid": "KAAM_TWILIO_ACCOUNT_SID",
-  "kaam_twilio_auth_token": "KAAM_TWILIO_AUTH_TOKEN"
+  "kaam_twilio_auth_token": "KAAM_TWILIO_AUTH_TOKEN",
+  "kaam_otp_digits": "KAAM_OTP_DIGITS"
 }
