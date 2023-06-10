@@ -10,14 +10,14 @@ export const userSchema = Type.Object(
   {
     _id: ObjectIdSchema(),
     phone: Type.String({ minLength: 10, maxLength: 10 }),
-    dialCode: Type.String({ minLength: 1 }),
+    dialcode: Type.String({ minLength: 1 }),
     firstname: Type.String({ minLength: 1 }),
     lastname: Type.String({ minLength: 1 }),
     email: Type.Optional(Type.String({ format: 'email' })),
     otp: Type.String({ minLength: 1 }),
-    otpExpiresAt: Type.String({ format: 'date-time' }),
-    createdAt: Type.String({ format: 'date-time' }),
-    updatedAt: Type.String({ format: 'date-time' }),
+    otpexpiresat: Type.String({ format: 'date-time' }),
+    createdat: Type.String({ format: 'date-time' }),
+    updatedat: Type.String({ format: 'date-time' }),
     googleId: Type.Optional(Type.String()),
     facebookId: Type.Optional(Type.String()),
     twitterId: Type.Optional(Type.String()),
@@ -37,7 +37,7 @@ export const userExternalResolver = resolve({
 // Schema for creating new entries
 export const userDataSchema = Type.Pick(
   userSchema,
-  ['phone', 'otp', 'dialCode', 'email', 'firstname', 'lastname', 'otpExpiresAt'],
+  ['phone', 'otp', 'dialcode', 'email', 'firstname', 'lastname', 'otpexpiresat'],
   {
     $id: 'UserData'
   }
@@ -45,9 +45,9 @@ export const userDataSchema = Type.Pick(
 export const userDataValidator = getValidator(userDataSchema, dataValidator)
 export const userDataResolver = resolve({
   otp: passwordHash({ strategy: 'local' }),
-  createdAt: async (value, _, context) => new Date(),
-  updatedAt: async (value, _, context) => new Date(),
-  otpExpiresAt: async (value, user, context) =>
+  createdat: async (value, _, context) => new Date(),
+  updatedat: async (value, _, context) => new Date(),
+  otpexpiresat: async (value, user, context) =>
   {
     const expiryTime = Number(context.app.get("kaam_otp_validity_time")) ?? 4
     return value ? new Date(new Date(value).getTime() + expiryTime * 60000) : undefined
@@ -61,22 +61,22 @@ export const userPatchSchema = Type.Partial(userSchema, {
 export const userPatchValidator = getValidator(userPatchSchema, dataValidator)
 export const userPatchResolver = resolve({
   otp: passwordHash({ strategy: 'local' }),
-  updatedAt: async (value, _, context) => new Date(),
+  updatedat: async (value, _, context) => new Date(),
 })
 
 // Schema for login user route
 
 export const loginPatchSchema = Type.Pick(
   userSchema,
-  ['dialCode', 'phone', 'otp', 'otpExpiresAt'],
+  ['dialcode', 'phone', 'otp', 'otpexpiresat'],
   {
     $id: 'LoginPatch'
   })
 export const loginPatchValidator = getValidator(loginPatchSchema, dataValidator)
 export const loginPatchResolver = resolve({
   otp: passwordHash({ strategy: 'local' }),
-  updatedAt: async (value, _, context) => new Date(),
-  otpExpiresAt: async (value, user, context) =>
+  updatedat: async (value, _, context) => new Date(),
+  otpexpiresat: async (value, user, context) =>
   {
     const expiryTime = Number(context.app.get("kaam_otp_validity_time")) ?? 4
     return value ? new Date(new Date(value).getTime() + expiryTime * 60000) : undefined

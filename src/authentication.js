@@ -32,7 +32,7 @@ export const authentication = (app) =>
         {
           const { user } = context.result;
           await context.app.service(userPath)._patch(user._id, {
-            $unset: { otpExpiresAt: '' }
+            $unset: { otpexpiresat: '' }
           })
         }
       ]
