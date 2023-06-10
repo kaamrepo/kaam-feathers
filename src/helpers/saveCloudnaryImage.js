@@ -6,9 +6,15 @@ const saveCloudnaryImage = async function (imagePath) {
     console.log('Image Path ', imagePath)
     let image = await cloudinary.uploader.upload(imagePath)
     console.log('image =============> ', image)
-    // if (image && Object.keys(image).length !== 0 && image.url) {
-    //   fs.unlink(imagePath)
-    // }
+    if (image && Object.keys(image).length !== 0 && image.url) {
+      await fs.unlink(imagePath, (error) => {
+        if (error) {
+          console.error('Error deleting file:', error)
+        } else {
+          console.log('File deleted successfully')
+        }
+      })
+    }
     return image.url
   } catch (error) {
     handleError(
