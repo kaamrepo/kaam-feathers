@@ -1,18 +1,19 @@
 // For more information about this file see https://dove.feathersjs.com/guides/cli/service.html
 import { authenticate } from '@feathersjs/authentication'
 import { hooks as schemaHooks } from '@feathersjs/schema'
-import {
-  userDataValidator,
-  userPatchValidator,
-  userQueryValidator,
-  userResolver,
-  userExternalResolver,
-  userDataResolver,
-  userPatchResolver,
-  userQueryResolver,
-  loginPatchValidator,
-  loginPatchResolver
-} from './users.schema.js'
+import
+  {
+    userDataValidator,
+    userPatchValidator,
+    userQueryValidator,
+    userResolver,
+    userExternalResolver,
+    userDataResolver,
+    userPatchResolver,
+    userQueryResolver,
+    loginPatchValidator,
+    loginPatchResolver
+  } from './users.schema.js'
 import { UserService, getOptions } from './users.class.js'
 import { userPath, userMethods, userLoginPath, userLoginMethods } from './users.shared.js'
 import { generateOTPandExpiryTime } from './hooks/create/generateOTPandExpiryTime.js'
@@ -23,7 +24,8 @@ import { checkUserExists } from './hooks/login/checkUserExists.js'
 export * from './users.class.js'
 export * from './users.schema.js'
 // A configure function that registers the service and its hooks via `app.configure`
-export const user = (app) => {
+export const user = (app) =>
+{
   // Register our service on the Feathers application
   app.use(userPath, new UserService(getOptions(app)), {
     // A list of all methods this service exposes externally
@@ -111,22 +113,4 @@ export const user = (app) => {
 
   //// <- ******************************** LOGIN ROUTE *********************************** -> ////
 
-  app.use(userLoginPath, new UserService(getOptions(app)), {
-    methods: userLoginMethods,
-    events: []
-  })
-  app.service(userLoginPath).hooks({
-    before: {
-      all: [],
-      patch: [
-        checkUserExists,
-        generateOTPandExpiryTime,
-        schemaHooks.validateData(loginPatchValidator),
-        sendOTP,
-        schemaHooks.resolveData(loginPatchResolver)
-      ]
-    }
-  })
-
-  //// <- ******************************** LOGIN *********************************** -> ////
 }
