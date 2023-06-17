@@ -16,7 +16,10 @@ export const auth = async (context) =>
         }
         const expiryTime = Number(context.app.get("kaam_otp_validity_time")) ?? 4
         const otpCreatedTime = new Date(new Date(user?.otpexpiresat).getTime() - expiryTime * 60000)
-        const isValid = otpCreatedTime <= date && date <= user.otpexpiresat
+        const isValid = otpCreatedTime <= date && date <= user.otpexpiresat;
+        console.log(date);
+        console.log(otpCreatedTime);
+        console.log(user?.otpexpiresat);
         if (!isValid)
         {
             throw new GeneralError("OTP has expired!")
