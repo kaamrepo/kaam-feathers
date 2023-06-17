@@ -2,24 +2,25 @@
 import { authenticate } from '@feathersjs/authentication'
 import { hooks as schemaHooks } from '@feathersjs/schema'
 import
-  {
-    userDataValidator,
-    userPatchValidator,
-    userQueryValidator,
-    userResolver,
-    userExternalResolver,
-    userDataResolver,
-    userPatchResolver,
-    userQueryResolver,
-    loginPatchValidator,
-    loginPatchResolver
-  } from './users.schema.js'
+{
+  userDataValidator,
+  userPatchValidator,
+  userQueryValidator,
+  userResolver,
+  userExternalResolver,
+  userDataResolver,
+  userPatchResolver,
+  userQueryResolver,
+  loginPatchValidator,
+  loginPatchResolver
+} from './users.schema.js'
 import { UserService, getOptions } from './users.class.js'
 import { userPath, userMethods, userLoginPath, userLoginMethods } from './users.shared.js'
 import { generateOTPandExpiryTime } from './hooks/create/generateOTPandExpiryTime.js'
 import { duplicateKeyError } from './hooks/error/duplicateKeyError.js'
 import { sendOTP } from './hooks/create/sendOTP.js'
 import { checkUserExists } from './hooks/login/checkUserExists.js'
+import { checkUserAlreadyRegistered } from './hooks/create/checkUserAlreadyRegistered.js'
 
 export * from './users.class.js'
 export * from './users.schema.js'
@@ -49,6 +50,7 @@ export const user = (app) =>
       find: [],
       get: [],
       create: [
+        checkUserAlreadyRegistered,
         generateOTPandExpiryTime,
         schemaHooks.validateData(userDataValidator),
         sendOTP,
