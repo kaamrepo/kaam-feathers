@@ -18,6 +18,9 @@ export const userSchema = Type.Object(
     otpexpiresat: Type.String({ format: 'date-time' }),
     createdat: Type.String({ format: 'date-time' }),
     updatedat: Type.String({ format: 'date-time' }),
+
+    aboutme: Type.Optional(Type.String({ minLength: 1, maxLength: 256 })),
+
     googleId: Type.Optional(Type.String()),
     facebookId: Type.Optional(Type.String()),
     twitterId: Type.Optional(Type.String()),
