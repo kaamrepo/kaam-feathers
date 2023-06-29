@@ -4,6 +4,7 @@ import { Type, getValidator, querySyntax } from '@feathersjs/typebox'
 import { ObjectIdSchema } from '@feathersjs/typebox'
 import { passwordHash } from '@feathersjs/authentication-local'
 import { dataValidator, queryValidator } from '../../validators.js'
+import { getDateWithStartTime } from '../../utils/date.js'
 
 // Main data model schema
 export const userSchema = Type.Object(
@@ -20,6 +21,18 @@ export const userSchema = Type.Object(
     updatedat: Type.String({ format: 'date-time' }),
 
     aboutme: Type.Optional(Type.String({ minLength: 1, maxLength: 256 })),
+    dateofbirth: Type.String({ format: 'date-time' }),
+    address: Type.Object({
+      addressline: Type.Optional(Type.String()),
+      pincode: Type.String(),
+      district: Type.Optional(Type.String()),
+      city: Type.Optional(Type.String()),
+      state: Type.Optional(Type.String()),
+      country: Type.Optional(Type.String()),
+    }),
+
+    aadharno: Type.Optional(Type.String()),
+    panno: Type.Optional(Type.String()),
 
     googleId: Type.Optional(Type.String()),
     facebookId: Type.Optional(Type.String()),
@@ -65,6 +78,10 @@ export const userPatchValidator = getValidator(userPatchSchema, dataValidator)
 export const userPatchResolver = resolve({
   otp: passwordHash({ strategy: 'local' }),
   updatedat: async (value, _, context) => new Date(),
+  dateofbirth: async (value, _, context) =>
+  {
+    if (value) return getDateWithStartTime(value);
+  },
 })
 
 // Schema for login user route
