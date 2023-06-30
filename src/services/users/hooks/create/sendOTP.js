@@ -18,7 +18,7 @@ export const sendOTP = async (context) =>
         console.log(message.sid);
     } catch (error)
     {
-        console.error(error);
+        console.log(JSON.stringify(error, null, 4));
         throw new BadRequest(error.message)
     }
     return context

@@ -38,7 +38,12 @@ export const userSchema = Type.Object(
     facebookId: Type.Optional(Type.String()),
     twitterId: Type.Optional(Type.String()),
     githubId: Type.Optional(Type.String()),
-    auth0Id: Type.Optional(Type.String())
+    auth0Id: Type.Optional(Type.String()),
+
+
+    // Account related fields
+
+    isactive: Type.Boolean({ default: true })
   },
   { $id: 'User', additionalProperties: false }
 )
@@ -61,6 +66,7 @@ export const userDataSchema = Type.Pick(
 export const userDataValidator = getValidator(userDataSchema, dataValidator)
 export const userDataResolver = resolve({
   otp: passwordHash({ strategy: 'local' }),
+  isactive: async () => true,
   createdat: async (value, _, context) => new Date(),
   updatedat: async (value, _, context) => new Date(),
   otpexpiresat: async (value, user, context) =>
@@ -82,6 +88,11 @@ export const userPatchResolver = resolve({
   {
     if (value) return getDateWithStartTime(value);
   },
+  isactive: async (value, _data, context) =>
+  {
+    console.log("isactive value", value)
+    console.log("isactive data", _data)
+  }
 })
 
 // Schema for login user route
