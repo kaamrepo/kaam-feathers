@@ -56,7 +56,9 @@ export const user = (app) => {
             console.error('Multer error:', err)
             throw new BadRequest('File upload failed.')
           } else {
-            req.body.profilePic = req.file.path
+            if (req.file) {
+              req.body.profilePic = req.file.path
+            }
             next()
           }
         })
