@@ -4,6 +4,7 @@ import { Type, getValidator, querySyntax } from '@feathersjs/typebox'
 import { ObjectIdSchema } from '@feathersjs/typebox'
 import { passwordHash } from '@feathersjs/authentication-local'
 import { dataValidator, queryValidator } from '../../validators.js'
+import { getDateWithStartTime } from '../../utils/date.js'
 
 // Main data model schema
 export const userSchema = Type.Object(
@@ -18,12 +19,28 @@ export const userSchema = Type.Object(
     otpexpiresat: Type.String({ format: 'date-time' }),
     createdat: Type.String({ format: 'date-time' }),
     updatedat: Type.String({ format: 'date-time' }),
+
+    aboutme: Type.Optional(Type.String({ minLength: 1, maxLength: 256 })),
+    dateofbirth: Type.String({ format: 'date-time' }),
+    address: Type.Object({
+      addressline: Type.Optional(Type.String()),
+      pincode: Type.String(),
+      district: Type.Optional(Type.String()),
+      city: Type.Optional(Type.String()),
+      state: Type.Optional(Type.String()),
+      country: Type.Optional(Type.String())
+    }),
+
+    aadharno: Type.Optional(Type.String()),
+    panno: Type.Optional(Type.String()),
+
     googleId: Type.Optional(Type.String()),
     facebookId: Type.Optional(Type.String()),
     twitterId: Type.Optional(Type.String()),
     githubId: Type.Optional(Type.String()),
     auth0Id: Type.Optional(Type.String()),
-    profilePic: Type.Optional(Type.String())
+    profilePic: Type.Optional(Type.String()),
+    isactive: Type.Boolean({ default: true })
   },
   { $id: 'User', additionalProperties: false }
 )
@@ -46,6 +63,7 @@ export const userDataSchema = Type.Pick(
 export const userDataValidator = getValidator(userDataSchema, dataValidator)
 export const userDataResolver = resolve({
   otp: passwordHash({ strategy: 'local' }),
+  isactive: async () => true,
   createdat: async (value, _, context) => new Date(),
   updatedat: async (value, _, context) => new Date(),
   otpexpiresat: async (value, user, context) => {

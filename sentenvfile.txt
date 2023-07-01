@@ -1,7 +1,7 @@
 [System.Environment]::SetEnvironmentVariable("KAAM_OTP_VALIDITY_TIME","3","Machine")
 [System.Environment]::SetEnvironmentVariable("KAAM_OTP_DIGITS","4","Machine")
 [System.Environment]::SetEnvironmentVariable("KAAM_TWILIO_ACCOUNT_SID","ACacad5b885f666d5882e2de8ee4355735","Machine")
-[System.Environment]::SetEnvironmentVariable("KAAM_TWILIO_AUTH_TOKEN","228c031677cf9886083e231e0b6ae39c","Machine")
+[System.Environment]::SetEnvironmentVariable("KAAM_TWILIO_AUTH_TOKEN","83f61536219d1a8f2d0879c7ebd47efe","Machine")
 [System.Environment]::SetEnvironmentVariable("KAAM_FIREBASE_EMAIL_ID","https://kaam-e6e80-default-rtdb.firebaseio.com","Machine")
 [System.Environment]::SetEnvironmentVariable("KAAM_CLOUDINARY_URL","cloudinary://453392342355197:6Vq4DD5rgFcU7IhMw0vkQROMilo@dz81rzrlu","Machine")
 [System.Environment]::SetEnvironmentVariable("KAAM_CLOUDINARY_CLOUDNAME","dz81rzrlu","Machine")
