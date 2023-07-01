@@ -39,7 +39,7 @@ export const userSchema = Type.Object(
     twitterId: Type.Optional(Type.String()),
     githubId: Type.Optional(Type.String()),
     auth0Id: Type.Optional(Type.String()),
-    profilePic: Type.Optional(Type.String()),
+    profilepic: Type.Optional(Type.String()),
     isactive: Type.Boolean({ default: true })
   },
   { $id: 'User', additionalProperties: false }

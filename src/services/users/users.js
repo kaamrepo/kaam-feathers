@@ -51,13 +51,13 @@ export const user = (app) => {
     async (req, res, next) => {
       // Check if the method is PATCH
       if (req.method === 'PATCH') {
-        await upload.single('profilePic')(req, res, (err) => {
+        await upload.single('profilepic')(req, res, (err) => {
           if (err) {
             console.error('Multer error:', err)
             throw new BadRequest('File upload failed.')
           } else {
             if (req.file) {
-              req.body.profilePic = req.file.path
+              req.body.profilepic = req.file.path
             }
             next()
           }
