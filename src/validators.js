@@ -20,11 +20,15 @@ const formats = [
   'regex'
 ]
 
-export const dataValidator = addFormats(new Ajv({}), formats)
+export const dataValidator = addFormats(new Ajv({
+  parseDate: true,
+  useDefaults: true,
+
+}), formats)
 
 export const queryValidator = addFormats(
   new Ajv({
-    coerceTypes: true
+    coerceTypes: true,
   }),
   formats
 )

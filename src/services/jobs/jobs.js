@@ -2,7 +2,8 @@
 import { authenticate } from '@feathersjs/authentication'
 
 import { hooks as schemaHooks } from '@feathersjs/schema'
-import {
+import
+{
   jobsDataValidator,
   jobsPatchValidator,
   jobsQueryValidator,
@@ -14,12 +15,14 @@ import {
 } from './jobs.schema.js'
 import { JobsService, getOptions } from './jobs.class.js'
 import { jobsPath, jobsMethods } from './jobs.shared.js'
+import { commonHook } from '../../hooks/commonHook.js'
 
 export * from './jobs.class.js'
 export * from './jobs.schema.js'
 
 // A configure function that registers the service and its hooks via `app.configure`
-export const jobs = (app) => {
+export const jobs = (app) =>
+{
   // Register our service on the Feathers application
   app.use(jobsPath, new JobsService(getOptions(app)), {
     // A list of all methods this service exposes externally
@@ -37,7 +40,7 @@ export const jobs = (app) => {
       ]
     },
     before: {
-      all: [schemaHooks.validateQuery(jobsQueryValidator), schemaHooks.resolveQuery(jobsQueryResolver)],
+      all: [commonHook, schemaHooks.validateQuery(jobsQueryValidator), schemaHooks.resolveQuery(jobsQueryResolver)],
       find: [],
       get: [],
       create: [schemaHooks.validateData(jobsDataValidator), schemaHooks.resolveData(jobsDataResolver)],

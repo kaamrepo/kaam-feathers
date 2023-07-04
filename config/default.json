@@ -51,5 +51,5 @@
       }
     }
   },
-  "mongodb": "mongodb://127.0.0.1:27020/kaam-feathers"
+  "mongodb": "mongodb://127.0.0.1:27017/kaam-feathers"
 }

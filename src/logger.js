@@ -5,6 +5,15 @@ import { createLogger, format, transports } from 'winston'
 export const logger = createLogger({
   // To see more detailed errors, change this to 'debug'
   level: 'info',
-  format: format.combine(format.splat(), format.simple()),
-  transports: [new transports.Console()]
+  format: format.combine(
+    format.splat(),
+    format.simple(),
+    format.timestamp(),
+    format.printf(info => `\n${ info.level }: ${ [info.timestamp] }: ${ info.message }`)
+  ),
+  transports: [
+    new transports.Console({ level: 'error' }),
+    new transports.File({ filename: 'logs/combined.log' }),
+    new transports.File({ level: 'error', filename: 'logs/error.log' }),
+  ],
 })

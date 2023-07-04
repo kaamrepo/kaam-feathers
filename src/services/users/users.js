@@ -1,7 +1,8 @@
 // For more information about this file see https://dove.feathersjs.com/guides/cli/service.html
 import { authenticate } from '@feathersjs/authentication'
 import { hooks as schemaHooks } from '@feathersjs/schema'
-import {
+import
+{
   userDataValidator,
   userPatchValidator,
   userQueryValidator,
@@ -28,11 +29,13 @@ export * from './users.class.js'
 export * from './users.schema.js'
 const storage = multer.diskStorage({
   destination: (_req, _file, cb) => cb(null, profilePhotosPath), // where the files are being stored
-  filename: (_req, file, cb) => cb(null, `ProfilePic_${Date.now()}-${file.originalname}`) // getting the file name
+  filename: (_req, file, cb) => cb(null, `ProfilePic_${ Date.now() }-${ file.originalname }`) // getting the file name
 })
-const fileFilter = function (req, file, cb) {
+const fileFilter = function (req, file, cb)
+{
   const allowedTypes = ['image/jpg', 'image/jpeg', 'image/png']
-  if (!allowedTypes.includes(file.mimetype)) {
+  if (!allowedTypes.includes(file.mimetype))
+  {
     const error = new Error('Wrong file type')
     error.code = 'LIMIT_FILE_TYPES'
     return cb(error, false)
@@ -44,23 +47,31 @@ const upload = multer({
   fileFilter: fileFilter
 })
 // A configure function that registers the service and its hooks via `app.configure`
-export const user = (app) => {
+export const user = (app) =>
+{
   // Register our service on the Feathers application
   app.use(
     userPath,
-    async (req, res, next) => {
+    async (req, res, next) =>
+    {
       // Check if the method is PATCH
-      if (req.method === 'PATCH') {
-        await upload.single('profilePic')(req, res, (err) => {
-          if (err) {
+      if (req.method === 'PATCH')
+      {
+        await upload.single('profilePic')(req, res, (err) =>
+        {
+          if (err)
+          {
             console.error('Multer error:', err)
             throw new BadRequest('File upload failed.')
-          } else {
-            req.body.profilePic = req.file.path
+          } else
+          {
+            if (req.file)
+            { req.body.profilePic = req.file.path }
             next()
           }
         })
-      } else {
+      } else
+      {
         // For other methods, skip the Multer middleware
         next()
       }
