@@ -12,7 +12,7 @@ export const logger = createLogger({
     format.printf(info => `\n${ info.level }: ${ [info.timestamp] }: ${ info.message }`)
   ),
   transports: [
-    new transports.Console({ level: 'error' }),
+    new transports.Console({ level: 'info' }),
     new transports.File({ filename: 'logs/combined.log' }),
     new transports.File({ level: 'error', filename: 'logs/error.log' }),
   ],
