@@ -31,7 +31,7 @@ const storage = multer.diskStorage({
   filename: (_req, file, cb) => cb(null, `ProfilePic_${Date.now()}-${file.originalname}`) // getting the file name
 })
 const fileFilter = function (req, file, cb) {
-  const allowedTypes = ['image/jpg', 'image/jpeg', 'image/png']
+  const allowedTypes = ['image/jpg', 'image/jpeg', 'image/png', 'image/webp']
   if (!allowedTypes.includes(file.mimetype)) {
     const error = new Error('Wrong file type')
     error.code = 'LIMIT_FILE_TYPES'
