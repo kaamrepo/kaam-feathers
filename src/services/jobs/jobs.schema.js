@@ -1,5 +1,6 @@
 // For more information about this file see https://dove.feathersjs.com/guides/cli/service.schemas.html
 import { resolve, getValidator, querySyntax, virtual } from '@feathersjs/schema'
+import { resolveQueryObjectId } from '@feathersjs/mongodb'
 import { ObjectIdSchema } from '@feathersjs/schema'
 import { dataValidator, queryValidator } from '../../validators.js'
 import { userPath } from '../users/users.shared.js'
@@ -22,30 +23,34 @@ export const jobSchema = {
       type: 'array',
       items: { type: 'string', minLength: 1 },
       minItems: 1,
-      maxItems: 1,
+      maxItems: 3,
       uniqueItems: true
     },
-    employerId: ObjectIdSchema(),
+    employerid: ObjectIdSchema(),
     salary: { type: 'number' },
     location: {
       type: 'object',
       properties: {
+        name: { type: 'string' },
         type: { type: 'string', default: 'Point' },
         coordinates: { type: 'array', items: { type: 'number' } }
       },
       required: ['coordinates'],
       additionalProperties: false
-    }
+    },
+
+    createdat: { type: 'string', format: 'date-time' },
+    updatedat: { type: 'string', format: 'date-time' },
   }
 }
 export const jobValidator = getValidator(jobSchema, dataValidator)
 export const jobResolver = resolve({})
 
 export const jobExternalResolver = resolve({
-  employeerDetails: virtual(async (job, context) =>
+  employerDetails: virtual(async (job, context) =>
   {
     const $select = ["firstname", "lastname", "email", "_id"]
-    return context.app.service(userPath).get(job.employerId, { query: { $select } })
+    return context.app.service(userPath).get(job.employerid, { query: { $select } })
   })
 })
 
@@ -54,13 +59,20 @@ export const jobDataSchema = {
   $id: 'JobData',
   type: 'object',
   additionalProperties: false,
-  required: ['position', 'description', 'requirements', 'about', 'tags', 'salary', 'location', 'employerId'],
+  required: ['position', 'description', 'requirements', 'about', 'tags', 'salary', 'location'],
   properties: {
     ...jobSchema.properties
   }
 }
 export const jobDataValidator = getValidator(jobDataSchema, dataValidator)
-export const jobDataResolver = resolve({})
+export const jobDataResolver = resolve({
+  createdat: async (value, _data, context) => new Date(),
+  employerid: async (value, _data, context) =>
+  {
+    const { user } = context.params;
+    return user?._id;
+  }
+})
 
 // Schema for updating existing data
 export const jobPatchSchema = {
@@ -73,16 +85,27 @@ export const jobPatchSchema = {
   }
 }
 export const jobPatchValidator = getValidator(jobPatchSchema, dataValidator)
-export const jobPatchResolver = resolve({})
+export const jobPatchResolver = resolve({
+  updatedat: async (value, _data, context) => new Date(),
+})
 
 // Schema for allowed query properties
 export const jobQuerySchema = {
   $id: 'JobQuery',
   type: 'object',
-  additionalProperties: false,
+  additionalProperties: true,
   properties: {
-    ...querySyntax(jobSchema.properties)
+    ...querySyntax(jobSchema.properties, {
+      position: {
+        $regex: { type: 'string' },
+        $options: { type: 'string' },
+      }
+    })
   }
 }
 export const jobQueryValidator = getValidator(jobQuerySchema, queryValidator)
-export const jobQueryResolver = resolve({})
+export const jobQueryResolver = resolve({
+  // properties: {
+  //   employerid: resolveQueryObjectId
+  // }
+})

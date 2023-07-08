@@ -40,7 +40,12 @@ export const job = (app) =>
       ]
     },
     before: {
-      all: [commonHook, schemaHooks.validateQuery(jobQueryValidator), schemaHooks.resolveQuery(jobQueryResolver)],
+      all: [
+        commonHook,
+        // async (h) => { console.log(JSON.stringify(h.params.query, null, 4)); },
+        schemaHooks.validateQuery(jobQueryValidator),
+        schemaHooks.resolveQuery(jobQueryResolver)
+      ],
       find: [],
       get: [],
       create: [schemaHooks.validateData(jobDataValidator), schemaHooks.resolveData(jobDataResolver)],

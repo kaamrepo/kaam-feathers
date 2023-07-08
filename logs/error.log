@@ -68,3 +68,453 @@ error: 2023-07-08T13:12:49.850Z: Data: [
     message: 'must NOT have additional properties'
   }
 ]
+
+error: 2023-07-08T17:38:09.856Z: NotAuthenticated: invalid signature
+    at MyAuthService.verifyAccessToken (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\authentication\lib\core.js:134:19)
+    at JWTStrategy.authenticate (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\authentication\lib\jwt.js:112:51)
+    at MyAuthService.authenticate (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\authentication\lib\core.js:156:29)
+    at JobService.<anonymous> (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\authentication\lib\hooks\authenticate.js:40:50)
+    at JobService.dispatch (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\hooks\script\compose.js:30:43)
+    at JobService.logError (file:///D:/React%20Native/lineup/kaam-feathers/src/hooks/log-error.js:5:11)
+    at JobService.dispatch (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\hooks\script\compose.js:30:43)
+    at JobService.eventHook (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\feathers\lib\events.js:10:12)
+    at JobService.dispatch (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\hooks\script\compose.js:30:43)
+    at JobService.hookChain (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\hooks\script\hooks.js:27:28)
+
+error: 2023-07-08T17:38:09.877Z: Data: { name: 'JsonWebTokenError' }
+
+error: 2023-07-08T17:49:37.755Z: BadRequest: validation failed
+    at JobService.<anonymous> (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\schema\lib\hooks\validate.js:47:35)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+
+error: 2023-07-08T17:49:37.758Z: Data: [
+  {
+    instancePath: '',
+    schemaPath: '#/required',
+    keyword: 'required',
+    params: { missingProperty: 'about' },
+    message: "must have required property 'about'"
+  }
+]
+
+error: 2023-07-08T17:50:54.912Z: BadRequest: validation failed
+    at JobService.<anonymous> (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\schema\lib\hooks\validate.js:47:35)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+
+error: 2023-07-08T17:50:54.914Z: Data: [
+  {
+    instancePath: '/tags',
+    schemaPath: '#/properties/tags/maxItems',
+    keyword: 'maxItems',
+    params: { limit: 1 },
+    message: 'must NOT have more than 1 items'
+  }
+]
+
+error: 2023-07-08T18:04:35.628Z: BadRequest: validation failed
+    at JobService.<anonymous> (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\schema\lib\hooks\validate.js:20:31)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+
+error: 2023-07-08T18:04:35.631Z: Data: [
+  {
+    instancePath: '',
+    schemaPath: '#/additionalProperties',
+    keyword: 'additionalProperties',
+    params: { additionalProperty: 'exmployerid' },
+    message: 'must NOT have additional properties'
+  }
+]
+
+error: 2023-07-08T18:04:46.642Z: BadRequest: validation failed
+    at JobService.<anonymous> (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\schema\lib\hooks\validate.js:20:31)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+
+error: 2023-07-08T18:04:46.646Z: Data: [
+  {
+    instancePath: '/employerid',
+    schemaPath: '#/properties/employerid/anyOf/0/anyOf/0/type',
+    keyword: 'type',
+    params: { type: 'string' },
+    message: 'must be string'
+  },
+  {
+    instancePath: '/employerid',
+    schemaPath: '#/properties/employerid/anyOf/0/anyOf/1/additionalProperties',
+    keyword: 'additionalProperties',
+    params: { additionalProperty: '$nin' },
+    message: 'must NOT have additional properties'
+  },
+  {
+    instancePath: '/employerid',
+    schemaPath: '#/properties/employerid/anyOf/0/anyOf',
+    keyword: 'anyOf',
+    params: {},
+    message: 'must match a schema in anyOf'
+  },
+  {
+    instancePath: '/employerid/$nin',
+    schemaPath: '#/properties/employerid/anyOf/1/properties/%24nin/type',
+    keyword: 'type',
+    params: { type: 'array' },
+    message: 'must be array'
+  },
+  {
+    instancePath: '/employerid',
+    schemaPath: '#/properties/employerid/anyOf',
+    keyword: 'anyOf',
+    params: {},
+    message: 'must match a schema in anyOf'
+  }
+]
+
+error: 2023-07-08T18:05:28.188Z: BadRequest: validation failed
+    at JobService.<anonymous> (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\schema\lib\hooks\validate.js:20:31)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+
+error: 2023-07-08T18:05:28.192Z: Data: [
+  {
+    instancePath: '/employerid',
+    schemaPath: '#/properties/employerid/anyOf/0/anyOf/0/type',
+    keyword: 'type',
+    params: { type: 'string' },
+    message: 'must be string'
+  },
+  {
+    instancePath: '/employerid',
+    schemaPath: '#/properties/employerid/anyOf/0/anyOf/1/additionalProperties',
+    keyword: 'additionalProperties',
+    params: { additionalProperty: '$nin' },
+    message: 'must NOT have additional properties'
+  },
+  {
+    instancePath: '/employerid',
+    schemaPath: '#/properties/employerid/anyOf/0/anyOf',
+    keyword: 'anyOf',
+    params: {},
+    message: 'must match a schema in anyOf'
+  },
+  {
+    instancePath: '/employerid/$nin',
+    schemaPath: '#/properties/employerid/anyOf/1/properties/%24nin/type',
+    keyword: 'type',
+    params: { type: 'array' },
+    message: 'must be array'
+  },
+  {
+    instancePath: '/employerid',
+    schemaPath: '#/properties/employerid/anyOf',
+    keyword: 'anyOf',
+    params: {},
+    message: 'must match a schema in anyOf'
+  }
+]
+
+error: 2023-07-08T18:14:07.358Z: BadRequest: validation failed
+    at JobService.<anonymous> (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\schema\lib\hooks\validate.js:20:31)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+
+error: 2023-07-08T18:14:07.363Z: Data: [
+  {
+    instancePath: '/employerid',
+    schemaPath: '#/properties/employerid/anyOf/0/anyOf/0/type',
+    keyword: 'type',
+    params: { type: 'string' },
+    message: 'must be string'
+  },
+  {
+    instancePath: '/employerid',
+    schemaPath: '#/properties/employerid/anyOf/0/anyOf/1/additionalProperties',
+    keyword: 'additionalProperties',
+    params: { additionalProperty: '$nin' },
+    message: 'must NOT have additional properties'
+  },
+  {
+    instancePath: '/employerid',
+    schemaPath: '#/properties/employerid/anyOf/0/anyOf',
+    keyword: 'anyOf',
+    params: {},
+    message: 'must match a schema in anyOf'
+  },
+  {
+    instancePath: '/employerid/$nin',
+    schemaPath: '#/properties/employerid/anyOf/1/properties/%24nin/type',
+    keyword: 'type',
+    params: { type: 'array' },
+    message: 'must be array'
+  },
+  {
+    instancePath: '/employerid',
+    schemaPath: '#/properties/employerid/anyOf',
+    keyword: 'anyOf',
+    params: {},
+    message: 'must match a schema in anyOf'
+  }
+]
+
+error: 2023-07-08T18:15:47.042Z: BadRequest: validation failed
+    at JobService.<anonymous> (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\schema\lib\hooks\validate.js:20:31)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+
+error: 2023-07-08T18:15:47.050Z: Data: [
+  {
+    instancePath: '/employerid',
+    schemaPath: '#/properties/employerid/anyOf/0/anyOf/0/type',
+    keyword: 'type',
+    params: { type: 'string' },
+    message: 'must be string'
+  },
+  {
+    instancePath: '/employerid',
+    schemaPath: '#/properties/employerid/anyOf/0/anyOf/1/additionalProperties',
+    keyword: 'additionalProperties',
+    params: { additionalProperty: '$nin' },
+    message: 'must NOT have additional properties'
+  },
+  {
+    instancePath: '/employerid',
+    schemaPath: '#/properties/employerid/anyOf/0/anyOf',
+    keyword: 'anyOf',
+    params: {},
+    message: 'must match a schema in anyOf'
+  },
+  {
+    instancePath: '/employerid/$nin',
+    schemaPath: '#/properties/employerid/anyOf/1/properties/%24nin/type',
+    keyword: 'type',
+    params: { type: 'array' },
+    message: 'must be array'
+  },
+  {
+    instancePath: '/employerid',
+    schemaPath: '#/properties/employerid/anyOf',
+    keyword: 'anyOf',
+    params: {},
+    message: 'must match a schema in anyOf'
+  }
+]
+
+error: 2023-07-08T18:18:09.641Z: BadRequest: validation failed
+    at JobService.<anonymous> (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\schema\lib\hooks\validate.js:20:31)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+
+error: 2023-07-08T18:18:09.645Z: Data: [
+  {
+    instancePath: '/employerid',
+    schemaPath: '#/properties/employerid/anyOf/0/anyOf/0/type',
+    keyword: 'type',
+    params: { type: 'string' },
+    message: 'must be string'
+  },
+  {
+    instancePath: '/employerid',
+    schemaPath: '#/properties/employerid/anyOf/0/anyOf/1/additionalProperties',
+    keyword: 'additionalProperties',
+    params: { additionalProperty: '$nin' },
+    message: 'must NOT have additional properties'
+  },
+  {
+    instancePath: '/employerid',
+    schemaPath: '#/properties/employerid/anyOf/0/anyOf',
+    keyword: 'anyOf',
+    params: {},
+    message: 'must match a schema in anyOf'
+  },
+  {
+    instancePath: '/employerid/$nin',
+    schemaPath: '#/properties/employerid/anyOf/1/properties/%24nin/type',
+    keyword: 'type',
+    params: { type: 'array' },
+    message: 'must be array'
+  },
+  {
+    instancePath: '/employerid',
+    schemaPath: '#/properties/employerid/anyOf',
+    keyword: 'anyOf',
+    params: {},
+    message: 'must match a schema in anyOf'
+  }
+]
+
+error: 2023-07-08T18:19:24.742Z: BadRequest: validation failed
+    at JobService.<anonymous> (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\schema\lib\hooks\validate.js:20:31)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+
+error: 2023-07-08T18:19:24.744Z: Data: [
+  {
+    instancePath: '/position',
+    schemaPath: '#/properties/position/anyOf/0/type',
+    keyword: 'type',
+    params: { type: 'string' },
+    message: 'must be string'
+  },
+  {
+    instancePath: '/position',
+    schemaPath: '#/properties/position/anyOf/1/additionalProperties',
+    keyword: 'additionalProperties',
+    params: { additionalProperty: '$regexp' },
+    message: 'must NOT have additional properties'
+  },
+  {
+    instancePath: '/position',
+    schemaPath: '#/properties/position/anyOf',
+    keyword: 'anyOf',
+    params: {},
+    message: 'must match a schema in anyOf'
+  }
+]
+
+error: 2023-07-08T18:19:40.892Z: BadRequest: validation failed
+    at JobService.<anonymous> (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\schema\lib\hooks\validate.js:20:31)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+
+error: 2023-07-08T18:19:40.895Z: Data: [
+  {
+    instancePath: '/position',
+    schemaPath: '#/properties/position/anyOf/0/type',
+    keyword: 'type',
+    params: { type: 'string' },
+    message: 'must be string'
+  },
+  {
+    instancePath: '/position',
+    schemaPath: '#/properties/position/anyOf/1/additionalProperties',
+    keyword: 'additionalProperties',
+    params: { additionalProperty: '$regex' },
+    message: 'must NOT have additional properties'
+  },
+  {
+    instancePath: '/position',
+    schemaPath: '#/properties/position/anyOf',
+    keyword: 'anyOf',
+    params: {},
+    message: 'must match a schema in anyOf'
+  }
+]
+
+error: 2023-07-08T18:21:44.449Z: BadRequest: validation failed
+    at JobService.<anonymous> (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\schema\lib\hooks\validate.js:20:31)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+
+error: 2023-07-08T18:21:44.451Z: Data: [
+  {
+    instancePath: '/position',
+    schemaPath: '#/properties/position/anyOf/0/type',
+    keyword: 'type',
+    params: { type: 'string' },
+    message: 'must be string'
+  },
+  {
+    instancePath: '/position',
+    schemaPath: '#/properties/position/anyOf/1/additionalProperties',
+    keyword: 'additionalProperties',
+    params: { additionalProperty: '$regex' },
+    message: 'must NOT have additional properties'
+  },
+  {
+    instancePath: '/position',
+    schemaPath: '#/properties/position/anyOf',
+    keyword: 'anyOf',
+    params: {},
+    message: 'must match a schema in anyOf'
+  }
+]
+
+error: 2023-07-08T18:25:46.833Z: BadRequest: validation failed
+    at JobService.<anonymous> (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\schema\lib\hooks\validate.js:20:31)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+
+error: 2023-07-08T18:25:46.838Z: Data: [
+  {
+    instancePath: '/position',
+    schemaPath: '#/properties/position/anyOf/0/type',
+    keyword: 'type',
+    params: { type: 'string' },
+    message: 'must be string'
+  },
+  {
+    instancePath: '/position',
+    schemaPath: '#/properties/position/anyOf/1/additionalProperties',
+    keyword: 'additionalProperties',
+    params: { additionalProperty: '$options' },
+    message: 'must NOT have additional properties'
+  },
+  {
+    instancePath: '/position',
+    schemaPath: '#/properties/position/anyOf',
+    keyword: 'anyOf',
+    params: {},
+    message: 'must match a schema in anyOf'
+  }
+]
+
+error: 2023-07-08T18:26:20.743Z: MongoServerError:  invalid flag in regex options: g
+    at Connection.onMessage (D:\React Native\lineup\kaam-feathers\node_modules\mongodb\lib\cmap\connection.js:202:26)
+    at MessageStream.<anonymous> (D:\React Native\lineup\kaam-feathers\node_modules\mongodb\lib\cmap\connection.js:61:60)
+    at MessageStream.emit (node:events:513:28)
+    at processIncomingData (D:\React Native\lineup\kaam-feathers\node_modules\mongodb\lib\cmap\message_stream.js:124:16)
+    at MessageStream._write (D:\React Native\lineup\kaam-feathers\node_modules\mongodb\lib\cmap\message_stream.js:33:9)
+    at writeOrBuffer (node:internal/streams/writable:392:12)
+    at _write (node:internal/streams/writable:333:10)
+    at Writable.write (node:internal/streams/writable:337:10)
+    at Socket.ondata (node:internal/streams/readable:766:22)
+    at Socket.emit (node:events:513:28)
+
+error: 2023-07-08T19:11:10.404Z: NotAuthenticated: Not authenticated
+    at JobService.<anonymous> (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\authentication\lib\hooks\authenticate.js:46:19)
+    at JobService.dispatch (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\hooks\script\compose.js:30:43)
+    at JobService.logError (file:///D:/React%20Native/lineup/kaam-feathers/src/hooks/log-error.js:5:11)
+    at JobService.dispatch (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\hooks\script\compose.js:30:43)
+    at JobService.eventHook (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\feathers\lib\events.js:10:12)
+    at JobService.dispatch (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\hooks\script\compose.js:30:43)
+    at JobService.hookChain (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\hooks\script\hooks.js:27:28)
+    at JobService.dispatch (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\hooks\script\compose.js:30:43)
+    at JobService.<anonymous> (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\hooks\script\compose.js:16:25)
+    at JobService.patch (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\hooks\script\hooks.js:44:53)
+
+error: 2023-07-08T19:11:19.492Z: NotAuthenticated: Not authenticated
+    at JobService.<anonymous> (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\authentication\lib\hooks\authenticate.js:46:19)
+    at JobService.dispatch (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\hooks\script\compose.js:30:43)
+    at JobService.logError (file:///D:/React%20Native/lineup/kaam-feathers/src/hooks/log-error.js:5:11)
+    at JobService.dispatch (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\hooks\script\compose.js:30:43)
+    at JobService.eventHook (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\feathers\lib\events.js:10:12)
+    at JobService.dispatch (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\hooks\script\compose.js:30:43)
+    at JobService.hookChain (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\hooks\script\hooks.js:27:28)
+    at JobService.dispatch (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\hooks\script\compose.js:30:43)
+    at JobService.<anonymous> (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\hooks\script\compose.js:16:25)
+    at JobService.patch (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\hooks\script\hooks.js:44:53)
+
+error: 2023-07-08T19:11:39.888Z: NotAuthenticated: Not authenticated
+    at JobService.<anonymous> (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\authentication\lib\hooks\authenticate.js:46:19)
+    at JobService.dispatch (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\hooks\script\compose.js:30:43)
+    at JobService.logError (file:///D:/React%20Native/lineup/kaam-feathers/src/hooks/log-error.js:5:11)
+    at JobService.dispatch (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\hooks\script\compose.js:30:43)
+    at JobService.eventHook (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\feathers\lib\events.js:10:12)
+    at JobService.dispatch (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\hooks\script\compose.js:30:43)
+    at JobService.hookChain (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\hooks\script\hooks.js:27:28)
+    at JobService.dispatch (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\hooks\script\compose.js:30:43)
+    at JobService.<anonymous> (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\hooks\script\compose.js:16:25)
+    at JobService.patch (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\hooks\script\hooks.js:44:53)
+
+error: 2023-07-08T19:11:54.511Z: NotAuthenticated: Not authenticated
+    at JobService.<anonymous> (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\authentication\lib\hooks\authenticate.js:46:19)
+    at JobService.dispatch (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\hooks\script\compose.js:30:43)
+    at JobService.logError (file:///D:/React%20Native/lineup/kaam-feathers/src/hooks/log-error.js:5:11)
+    at JobService.dispatch (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\hooks\script\compose.js:30:43)
+    at JobService.eventHook (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\feathers\lib\events.js:10:12)
+    at JobService.dispatch (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\hooks\script\compose.js:30:43)
+    at JobService.hookChain (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\hooks\script\hooks.js:27:28)
+    at JobService.dispatch (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\hooks\script\compose.js:30:43)
+    at JobService.<anonymous> (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\hooks\script\compose.js:16:25)
+    at JobService.patch (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\hooks\script\hooks.js:44:53)
+
+error: 2023-07-08T19:12:00.778Z: NotAuthenticated: Not authenticated
+    at JobService.<anonymous> (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\authentication\lib\hooks\authenticate.js:46:19)
+    at JobService.dispatch (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\hooks\script\compose.js:30:43)
+    at JobService.logError (file:///D:/React%20Native/lineup/kaam-feathers/src/hooks/log-error.js:5:11)
+    at JobService.dispatch (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\hooks\script\compose.js:30:43)
+    at JobService.eventHook (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\feathers\lib\events.js:10:12)
+    at JobService.dispatch (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\hooks\script\compose.js:30:43)
+    at JobService.hookChain (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\hooks\script\hooks.js:27:28)
+    at JobService.dispatch (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\hooks\script\compose.js:30:43)
+    at JobService.<anonymous> (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\hooks\script\compose.js:16:25)
+    at JobService.patch (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\hooks\script\hooks.js:44:53)
