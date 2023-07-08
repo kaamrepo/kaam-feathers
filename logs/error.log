@@ -1,0 +1,70 @@
+
+error: 2023-07-08T09:08:07.121Z: Unhandled Rejection Error: Can not find service 'users'
+    at Function.defaultService (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\feathers\lib\application.js:41:15)
+    at Function.service (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\feathers\lib\application.js:47:33)
+    at MyAuthService.setup (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\authentication\lib\service.js:134:26)
+    at async app.hooks.setup (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\configuration\lib\index.js:26:25)
+    at async Function.listen (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\express\lib\index.js:106:13)
+
+error: 2023-07-08T09:08:23.361Z: Unhandled Rejection Error: Can not find service 'users'
+    at Function.defaultService (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\feathers\lib\application.js:41:15)
+    at Function.service (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\feathers\lib\application.js:47:33)
+    at MyAuthService.setup (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\authentication\lib\service.js:134:26)
+    at async app.hooks.setup (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\configuration\lib\index.js:26:25)
+    at async Function.listen (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\express\lib\index.js:106:13)
+
+error: 2023-07-08T10:13:34.595Z: BadRequest: validation failed
+    at UserService.<anonymous> (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\schema\lib\hooks\validate.js:47:35)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+
+error: 2023-07-08T10:13:34.599Z: Data: [
+  {
+    instancePath: '',
+    schemaPath: '#/required',
+    keyword: 'required',
+    params: { missingProperty: 'email' },
+    message: "must have required property 'email'"
+  }
+]
+
+error: 2023-07-08T10:21:11.987Z: BadRequest: validation failed
+    at UserService.<anonymous> (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\schema\lib\hooks\validate.js:47:35)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+
+error: 2023-07-08T10:21:11.994Z: Data: [
+  {
+    instancePath: '/dateofbirth',
+    schemaPath: '#/properties/dateofbirth/format',
+    keyword: 'format',
+    params: { format: 'date' },
+    message: 'must match format "date"'
+  }
+]
+
+error: 2023-07-08T10:21:17.541Z: BadRequest: validation failed
+    at UserService.<anonymous> (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\schema\lib\hooks\validate.js:47:35)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+
+error: 2023-07-08T10:21:17.543Z: Data: [
+  {
+    instancePath: '/dateofbirth',
+    schemaPath: '#/properties/dateofbirth/format',
+    keyword: 'format',
+    params: { format: 'date' },
+    message: 'must match format "date"'
+  }
+]
+
+error: 2023-07-08T13:12:49.834Z: BadRequest: validation failed
+    at UserService.<anonymous> (D:\React Native\lineup\kaam-feathers\node_modules\@feathersjs\schema\lib\hooks\validate.js:47:35)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+
+error: 2023-07-08T13:12:49.850Z: Data: [
+  {
+    instancePath: '',
+    schemaPath: '#/additionalProperties',
+    keyword: 'additionalProperties',
+    params: { additionalProperty: 'profilePic' },
+    message: 'must NOT have additional properties'
+  }
+]
