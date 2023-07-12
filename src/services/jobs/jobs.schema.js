@@ -28,6 +28,7 @@ export const jobSchema = {
     },
     employerid: ObjectIdSchema(),
     salary: { type: 'number' },
+    salaryduration: { type: 'string', enum: ['year', 'month', 'week'] },
     location: {
       type: 'object',
       properties: {
@@ -37,6 +38,17 @@ export const jobSchema = {
       },
       required: ['coordinates'],
       additionalProperties: false
+    },
+
+
+    styles: {
+      type: "object",
+      properties: {
+        bgcolor: { type: "string", default: "white" },
+        color: { type: "string", default: "black" }
+      },
+      required: ["bgcolor", "color"],
+      additionalProperties: false,
     },
 
     createdat: { type: 'string', format: 'date-time' },
@@ -59,7 +71,7 @@ export const jobDataSchema = {
   $id: 'JobData',
   type: 'object',
   additionalProperties: false,
-  required: ['position', 'description', 'requirements', 'about', 'tags', 'salary', 'location'],
+  required: ['position', 'description', 'requirements', 'about', 'tags', 'salary', 'salaryduration', 'location'],
   properties: {
     ...jobSchema.properties
   }
