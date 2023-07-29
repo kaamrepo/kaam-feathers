@@ -13,8 +13,9 @@ import
   jobPatchResolver,
   jobQueryResolver
 } from './jobs.schema.js'
-import { JobService, getOptions } from './jobs.class.js'
-import { jobPath, jobMethods } from './jobs.shared.js'
+import { JobService, NearJobService, getOptions } from './jobs.class.js'
+import
+{ jobPath, jobMethods, nearByJobPath, nearByJobMethods } from './jobs.shared.js'
 import { commonHook } from '../../hooks/commonHook.js'
 import { getNearByJobs } from './hooks/getNearByJobs.js'
 
@@ -45,11 +46,48 @@ export const job = (app) =>
         commonHook,
         schemaHooks.validateQuery(jobQueryValidator),
         schemaHooks.resolveQuery(jobQueryResolver),
+      ],
+      find: [],
+      get: [],
+      create: [schemaHooks.validateData(jobDataValidator), schemaHooks.resolveData(jobDataResolver)],
+      patch: [schemaHooks.validateData(jobPatchValidator), schemaHooks.resolveData(jobPatchResolver)],
+      remove: []
+    },
+    after: {
+      all: []
+    },
+    error: {
+      all: []
+    }
+  })
+
+
+  // Near By jobs 
+
+  app.use(nearByJobPath, new NearJobService(getOptions(app)), {
+    // A list of all methods this service exposes externally
+    methods: nearByJobMethods,
+    // You can add additional custom events to be sent to clients here
+    events: []
+  })
+  // Initialize hooks
+  app.service(nearByJobPath).hooks({
+    around: {
+      all: [
+        authenticate('jwt'),
+        schemaHooks.resolveExternal(jobExternalResolver),
+        schemaHooks.resolveResult(jobResolver)
+      ]
+    },
+    before: {
+      all: [
+        commonHook,
+        schemaHooks.validateQuery(jobQueryValidator),
+        schemaHooks.resolveQuery(jobQueryResolver),
 
       ],
       find: [
         getNearByJobs,
-        async (h) => { console.log(h.params); },
       ],
       get: [],
       create: [schemaHooks.validateData(jobDataValidator), schemaHooks.resolveData(jobDataResolver)],
@@ -58,11 +96,11 @@ export const job = (app) =>
     },
     after: {
       all: [
-        async (h) =>
-        {
-          console.log("🎁🎁🎁🎁🎁🎁🎁🎁🎁🎁🎁🎁🎁🎁🎁🎁");
-          console.log(h.result)
-        }
+        // async (h) =>
+        // {
+        //   console.log("🎁🎁🎁🎁");
+        //   console.log(h.result)
+        // }
       ]
     },
     error: {

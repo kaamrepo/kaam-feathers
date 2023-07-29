@@ -10,12 +10,6 @@ export const getNearByJobs = async (context) =>
 
     if (coordinates)
     {
-        const $skip = context.params.query.$skip
-        const $limit = context.params.query.$limit
-        const $sort = context.params.query.$sort
-        delete context.params.query.$skip;
-        delete context.params.query.$limit;
-        delete context.params.query.$sort;
         context.params.pipeline.push(
             {
                 $geoNear: {
@@ -30,19 +24,15 @@ export const getNearByJobs = async (context) =>
                     spherical: true
                 }
             },
-            // {
-            //     $match: context.params.query
-            // },
-            { $sort },
-            { $skip },
-            { $limit },
+            {
+                $feathers: context.params.query
+            }
         )
-        context.params.query = {};
     }
     if (context.params?.pipeline?.length <= 0)
     {
         delete context.params.pipeline
     }
-    // console.log(JSON.stringify(context.params.pipeline, null, 5))
+    console.log(JSON.stringify(context.params.pipeline, null, 5));
     return context;
 }

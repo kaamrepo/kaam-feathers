@@ -4,6 +4,9 @@ export const jobPath = `${ COMMON_ENDPOINT }jobs`
 
 export const jobMethods = ['find', 'get', 'create', 'patch', 'remove']
 
+export const nearByJobPath = `${ COMMON_ENDPOINT }nearby-jobs`
+export const nearByJobMethods = ['find', 'get', 'create', 'patch', 'remove']
+
 export const jobClient = (client) =>
 {
   const connection = client.get('connection')

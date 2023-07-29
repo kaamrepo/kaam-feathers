@@ -79,7 +79,7 @@ export const jobDataSchema = {
 export const jobDataValidator = getValidator(jobDataSchema, dataValidator)
 export const jobDataResolver = resolve({
   createdat: async (value, _data, context) => new Date(),
-  employerid: async (value, _data, context) =>
+  createdby: async (value, _data, context) =>
   {
     const { user } = context.params;
     return user?._id;
@@ -113,29 +113,29 @@ export const jobQuerySchema = {
         $options: { type: 'string' },
       },
       coordinates: { type: 'array', items: { type: 'string' } },
-      location: {
-        $geoNear: {
-          type: 'object',
-          properties: {
-            near: {
-              type: 'object',
-              properties: {
-                type: { type: "string" },
-                coordinates: { type: 'array', items: { type: 'number' } }
-              }
-            },
-            distanceField: { type: 'string' },
-            spherical: { type: 'boolean' },
-          }
-        }
-      }
+      // location: {
+      //   $geoNear: {
+      //     type: 'object',  
+      //     properties: {
+      //       near: {
+      //         type: 'object',
+      //         properties: {
+      //           type: { type: "string" },
+      //           coordinates: { type: 'array', items: { type: 'number' } }
+      //         }
+      //       },
+      //       distanceField: { type: 'string' },
+      //       spherical: { type: 'boolean' },
+      //     }
+      //   }
+      // }
     })
   }
 }
 export const jobQueryValidator = getValidator(jobQuerySchema, queryValidator)
 export const jobQueryResolver = resolve({
   properties: {
-    employerid: resolveQueryObjectId,
+    createdby: resolveQueryObjectId,
     coordinates: async (value, _data, _context) =>
     {
       if (value)

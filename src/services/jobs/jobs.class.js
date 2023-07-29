@@ -3,6 +3,15 @@ import { MongoDBService } from '@feathersjs/mongodb'
 // By default calls the standard MongoDB adapter service methods but can be customized with your own functionality.
 export class JobService extends MongoDBService { }
 
+export class NearJobService extends MongoDBService
+{
+  async find(params)
+  {
+    const jobs = await super.find({ pipeline: params.pipeline })
+    return jobs
+  }
+}
+
 export const getOptions = (app) =>
 {
   return {
