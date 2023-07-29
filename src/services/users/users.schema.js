@@ -22,6 +22,8 @@ export const userSchema = {
     createdat: { type: 'string', format: 'date-time' },
     updatedat: { type: 'string', format: 'date-time' },
 
+    isactive: { type: 'boolean', default: true },
+
     aboutme: { type: 'string', minLength: 1, maxLength: 256 },
     dateofbirth: { type: 'string', format: 'date' },
     address: {

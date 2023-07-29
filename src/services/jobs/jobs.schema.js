@@ -26,7 +26,7 @@ export const jobSchema = {
       maxItems: 3,
       uniqueItems: true
     },
-    employerid: ObjectIdSchema(),
+    createdby: ObjectIdSchema(),
     salary: { type: 'number' },
     salaryduration: { type: 'string', enum: ['year', 'month', 'week'] },
     location: {
@@ -62,7 +62,7 @@ export const jobExternalResolver = resolve({
   employerDetails: virtual(async (job, context) =>
   {
     const $select = ["firstname", "lastname", "email", "_id"]
-    return context.app.service(userPath).get(job.employerid, { query: { $select } })
+    return context.app.service(userPath).get(job.createdby, { query: { $select } })
   })
 })
 
@@ -111,13 +111,37 @@ export const jobQuerySchema = {
       position: {
         $regex: { type: 'string' },
         $options: { type: 'string' },
+      },
+      coordinates: { type: 'array', items: { type: 'string' } },
+      location: {
+        $geoNear: {
+          type: 'object',
+          properties: {
+            near: {
+              type: 'object',
+              properties: {
+                type: { type: "string" },
+                coordinates: { type: 'array', items: { type: 'number' } }
+              }
+            },
+            distanceField: { type: 'string' },
+            spherical: { type: 'boolean' },
+          }
+        }
       }
     })
   }
 }
 export const jobQueryValidator = getValidator(jobQuerySchema, queryValidator)
 export const jobQueryResolver = resolve({
-  // properties: {
-  //   employerid: resolveQueryObjectId
-  // }
+  properties: {
+    employerid: resolveQueryObjectId,
+    coordinates: async (value, _data, _context) =>
+    {
+      if (value)
+      {
+        return value?.map(n => Number(n))
+      }
+    }
+  }
 })

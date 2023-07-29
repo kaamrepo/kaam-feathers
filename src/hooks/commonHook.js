@@ -63,8 +63,6 @@ export const commonHook = async (context) =>
             }
         });
         context.params.query = query;
-
-        console.log(context.params.query);
     }
     return context;
 };
