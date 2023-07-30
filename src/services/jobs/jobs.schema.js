@@ -28,7 +28,7 @@ export const jobSchema = {
     },
     createdby: ObjectIdSchema(),
     salary: { type: 'number' },
-    salaryduration: { type: 'string', enum: ['year', 'month', 'week'] },
+    salarybasis: { type: 'string', enum: ['year', 'month', 'week'] },
     location: {
       type: 'object',
       properties: {
@@ -61,7 +61,7 @@ export const jobResolver = resolve({})
 export const jobExternalResolver = resolve({
   employerDetails: virtual(async (job, context) =>
   {
-    const $select = ["firstname", "lastname", "email", "_id"]
+    const $select = ["firstname", "lastname", "email", "_id", "profilepic"]
     return context.app.service(userPath).get(job.createdby, { query: { $select } })
   })
 })
@@ -71,7 +71,7 @@ export const jobDataSchema = {
   $id: 'JobData',
   type: 'object',
   additionalProperties: false,
-  required: ['position', 'description', 'requirements', 'about', 'tags', 'salary', 'salaryduration', 'location'],
+  required: ['position', 'description', 'requirements', 'about', 'tags', 'salary', 'salarybasis', 'location'],
   properties: {
     ...jobSchema.properties
   }

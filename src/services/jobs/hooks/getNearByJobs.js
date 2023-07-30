@@ -33,6 +33,5 @@ export const getNearByJobs = async (context) =>
     {
         delete context.params.pipeline
     }
-    console.log(JSON.stringify(context.params.pipeline, null, 5));
     return context;
 }

@@ -96,11 +96,7 @@ export const job = (app) =>
     },
     after: {
       all: [
-        // async (h) =>
-        // {
-        //   console.log("🎁🎁🎁🎁");
-        //   console.log(h.result)
-        // }
+
       ]
     },
     error: {
