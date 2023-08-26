@@ -62,6 +62,7 @@ app.use(errorHandler({ logger }))
 
 
 
+console.log("🍔🍔🍔", app.get('firebase_db_url'))
 // Fcm Notification
 const uid = 'some-uid'
 const additionalClaims = {
