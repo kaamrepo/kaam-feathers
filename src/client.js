@@ -1,6 +1,10 @@
 // For more information about this file see https://dove.feathersjs.com/guides/cli/client.html
 import { feathers } from '@feathersjs/feathers'
 import authenticationClient from '@feathersjs/authentication-client'
+import { chatClient } from './services/chats/chats.shared.js'
+
+import { jobapplicationClient } from './services/jobapplications/jobapplications.shared.js'
+
 import { jobClient } from './services/jobs/jobs.shared.js'
 
 import { userClient } from './services/users/users.shared.js'
@@ -23,6 +27,10 @@ export const createClient = (connection, authenticationOptions = {}) => {
   client.configure(userClient)
 
   client.configure(jobClient)
+
+  client.configure(jobapplicationClient)
+
+  client.configure(chatClient)
 
   return client
 }

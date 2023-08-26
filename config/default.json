@@ -23,8 +23,7 @@
         "typ": "access"
       },
       "audience": "https://yourdomain.com",
-      "algorithm": "HS256",
-      "expiresIn": "1d"
+      "algorithm": "HS256"
     },
     "local": {
       "usernameField": "phone",

@@ -13,9 +13,9 @@ import
   jobPatchResolver,
   jobQueryResolver
 } from './jobs.schema.js'
-import { JobService, NearJobService, getOptions } from './jobs.class.js'
+import { JobService, getOptions } from './jobs.class.js'
 import
-{ jobPath, jobMethods, nearByJobPath, nearByJobMethods } from './jobs.shared.js'
+{ jobPath, jobMethods } from './jobs.shared.js'
 import { commonHook } from '../../hooks/commonHook.js'
 import { getNearByJobs } from './hooks/getNearByJobs.js'
 
@@ -25,7 +25,6 @@ export * from './jobs.schema.js'
 // A configure function that registers the service and its hooks via `app.configure`
 export const job = (app) =>
 {
-  // Register our service on the Feathers application
   app.use(jobPath, new JobService(getOptions(app)), {
     // A list of all methods this service exposes externally
     methods: jobMethods,
@@ -34,44 +33,6 @@ export const job = (app) =>
   })
   // Initialize hooks
   app.service(jobPath).hooks({
-    around: {
-      all: [
-        authenticate('jwt'),
-        schemaHooks.resolveExternal(jobExternalResolver),
-        schemaHooks.resolveResult(jobResolver)
-      ]
-    },
-    before: {
-      all: [
-        commonHook,
-        schemaHooks.validateQuery(jobQueryValidator),
-        schemaHooks.resolveQuery(jobQueryResolver),
-      ],
-      find: [],
-      get: [],
-      create: [schemaHooks.validateData(jobDataValidator), schemaHooks.resolveData(jobDataResolver)],
-      patch: [schemaHooks.validateData(jobPatchValidator), schemaHooks.resolveData(jobPatchResolver)],
-      remove: []
-    },
-    after: {
-      all: []
-    },
-    error: {
-      all: []
-    }
-  })
-
-
-  // Near By jobs 
-
-  app.use(nearByJobPath, new NearJobService(getOptions(app)), {
-    // A list of all methods this service exposes externally
-    methods: nearByJobMethods,
-    // You can add additional custom events to be sent to clients here
-    events: []
-  })
-  // Initialize hooks
-  app.service(nearByJobPath).hooks({
     around: {
       all: [
         authenticate('jwt'),
@@ -95,9 +56,7 @@ export const job = (app) =>
       remove: []
     },
     after: {
-      all: [
-
-      ]
+      all: []
     },
     error: {
       all: []

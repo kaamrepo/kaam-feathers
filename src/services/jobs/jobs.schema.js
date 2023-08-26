@@ -16,9 +16,7 @@ export const jobSchema = {
     position: { type: 'string', minLength: 1 },
     description: { type: 'string', minLength: 1 },
     requirements: { type: 'string', minLength: 1 },
-    about: { type: 'string', minLength: 1 },
-    review: { type: 'string', minLength: 1 },
-
+    about: { type: 'string' },
     tags: {
       type: 'array',
       items: { type: 'string', minLength: 1 },
