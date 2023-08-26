@@ -9,7 +9,7 @@
     "default": 10,
     "max": 50
   },
-  "mongodb": "mongodb://127.0.0.1:27017/kaam-feathers",
+  "mongodb": "mongodb+srv://lineup:07zhRwDfLoz7vq6D@kaam.pgh6b6u.mongodb.net/kaamdb?retryWrites=true&w=majority",
   "authentication": {
     "entity": "user",
     "service": "api/users",
