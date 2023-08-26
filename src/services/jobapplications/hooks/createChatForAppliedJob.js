@@ -2,7 +2,6 @@
 import { NotFound } from "@feathersjs/errors";
 import { chatPath } from "../../chats/chats.shared.js";
 import { userPath } from "../../users/users.shared.js";
-import { jobapplicationPath } from "../jobapplications.shared.js";
 
 export const createChatForAppliedJob = async (context) =>
 {

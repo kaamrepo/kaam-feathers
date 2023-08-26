@@ -14,6 +14,7 @@ import {
 } from './chats.schema.js'
 import { ChatService, getOptions } from './chats.class.js'
 import { chatPath, chatMethods } from './chats.shared.js'
+import { updateChatIdInJobApplication } from './hooks/updateChatIdInJobApplication.js'
 
 export * from './chats.class.js'
 export * from './chats.schema.js'
@@ -45,7 +46,8 @@ export const chat = (app) => {
       remove: []
     },
     after: {
-      all: []
+      all: [],
+      create:[updateChatIdInJobApplication]
     },
     error: {
       all: []

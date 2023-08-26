@@ -17,27 +17,25 @@ export const jobapplicationSchema = {
     appliedby: ObjectIdSchema(),
     createdat: { type: 'string', format: 'date-time' },
     updatedat: { type: 'string', format: 'date-time' },
-    status: { type: 'string', enum: ["Applied", "Approved", "Rejected"] },
+    status: { type: 'string', enum: ['Applied', 'Approved', 'Rejected'] },
     updatedby: ObjectIdSchema(),
-    employerid: ObjectIdSchema()
+    employerid: ObjectIdSchema(),
+    chatid: ObjectIdSchema()
   }
 }
 export const jobapplicationValidator = getValidator(jobapplicationSchema, dataValidator)
 export const jobapplicationResolver = resolve({
-  applicantDetails: async (value, data, context) =>
-  {
-    const user = await context.app.service(userPath).get(data?.appliedby);
+  applicantDetails: async (value, data, context) => {
+    const user = await context.app.service(userPath).get(data?.appliedby)
     return user
   },
-  jobDetails: async (value, data, context) =>
-  {
-    const user = await context.app.service(jobPath).get(data?.jobid);
+  jobDetails: async (value, data, context) => {
+    const user = await context.app.service(jobPath).get(data?.jobid)
     return user
-  },
+  }
 })
 
-export const jobapplicationExternalResolver = resolve({
-})
+export const jobapplicationExternalResolver = resolve({})
 
 // Schema for creating new data
 export const jobapplicationDataSchema = {
@@ -52,8 +50,8 @@ export const jobapplicationDataSchema = {
 export const jobapplicationDataValidator = getValidator(jobapplicationDataSchema, dataValidator)
 export const jobapplicationDataResolver = resolve({
   createdat: async () => new Date(),
-  status: async () => "Applied",
-  appliedby: async (_value, _data, _context) => _context?.params?.user?._id,
+  status: async () => 'Applied',
+  appliedby: async (_value, _data, _context) => _context?.params?.user?._id
 })
 
 // Schema for updating existing data
@@ -69,7 +67,7 @@ export const jobapplicationPatchSchema = {
 export const jobapplicationPatchValidator = getValidator(jobapplicationPatchSchema, dataValidator)
 export const jobapplicationPatchResolver = resolve({
   updatedat: async () => new Date(),
-  updatedby: async (_value, _data, _context) => _context?.params?.user?._id,
+  updatedby: async (_value, _data, _context) => _context?.params?.user?._id
 })
 
 // Schema for allowed query properties
