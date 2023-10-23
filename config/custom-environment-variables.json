@@ -17,6 +17,7 @@
   "apiKey": "KAAM_CLOUDINARY_APIKEY",
   "apiSecret": "KAAM_CLOUDINARY_APISECRETKEY",
   "url": "KAAM_CLOUDINARY_URL",
-  "kaam_otp_digits": "KAAM_OTP_DIGITS"
+  "kaam_otp_digits": "KAAM_OTP_DIGITS",
+  "kaam_port": "KAAM_PORT",
+  "kaam_host": "KAAM_HOST"
 }
-

@@ -22,7 +22,9 @@ export const configurationSchema = {
     apiKey: { type: 'string' },
     apiSecret: { type: 'string' },
     url: { type: 'string' },
-    kaam_otp_digits: { type: 'string' }
+    kaam_otp_digits: { type: 'string' },
+    kaam_host: { type: 'string' },
+    kaam_port: { type: 'string' }
   }
 }
 
