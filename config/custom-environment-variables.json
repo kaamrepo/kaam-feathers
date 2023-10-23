@@ -19,5 +19,6 @@
   "url": "KAAM_CLOUDINARY_URL",
   "kaam_otp_digits": "KAAM_OTP_DIGITS",
   "kaam_port": "KAAM_PORT",
-  "kaam_host": "KAAM_HOST"
+  "kaam_host": "KAAM_HOST",
+  "kaam_mongodb": "KAAM_MONGODB_URI"
 }

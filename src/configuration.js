@@ -24,7 +24,8 @@ export const configurationSchema = {
     url: { type: 'string' },
     kaam_otp_digits: { type: 'string' },
     kaam_host: { type: 'string' },
-    kaam_port: { type: 'string' }
+    kaam_port: { type: 'string' },
+    kaam_mongodb: { type: 'string' },
   }
 }
 

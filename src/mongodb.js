@@ -2,10 +2,8 @@
 import { MongoClient } from 'mongodb'
 
 export const mongodb = (app) => {
-  const connection = app.get('mongodb')
-
-  let mongodbUrl = `mongodb://${ encodeURIComponent(process.env.KAAM_DB_USERNAME) }:${ encodeURIComponent(process.env.KAAM_DB_PASSWORD) }@${ process.env.KAAM_DB_HOSTNAME }:${ process.env.KAAM_DB_PORT }/${ process.env.KAAM_DB_NAME }?authSource=${ process.env.KAAM_DB_NAME }`
-  
+  const connection = app.get('kaam_mongodb')
+  console.log("connection", connection);
   const database = new URL(connection).pathname.substring(1)
   const mongoClient = MongoClient.connect(connection).then((client) => client.db(database))
 

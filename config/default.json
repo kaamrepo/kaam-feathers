@@ -9,7 +9,7 @@
     "default": 10,
     "max": 50
   },
-  "mongodb": "mongodb+srv://kaamappofficial:njQGVrwKFg7ay2lu@kaamapp-cluster.os4fvpu.mongodb.net/kaamdatabase?retryWrites=true&w=majority",
+  "mongodb": "mongodb://localhost:27017",
   "authentication": {
     "entity": "user",
     "service": "api/users",
