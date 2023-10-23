@@ -6,6 +6,6 @@ const host = app.get('kaam_host')
 
 process.on('unhandledRejection', (reason) => logger.error('Unhandled Rejection %O', reason))
 
-app.listen(Number(port)).then(() => {
+app.listen(port).then(() => {
   logger.info(`Feathers app listening on http://${ host }:${ port }`)
 })
