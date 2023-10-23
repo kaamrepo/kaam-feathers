@@ -9,7 +9,7 @@
     "default": 10,
     "max": 50
   },
-  "mongodb": "mongodb+srv://lineup:07zhRwDfLoz7vq6D@kaam.pgh6b6u.mongodb.net/kaamdb?retryWrites=true&w=majority",
+  "mongodb": "mongodb+srv://kaamappofficial:njQGVrwKFg7ay2lu@kaamapp-cluster.os4fvpu.mongodb.net/kaamdatabase?retryWrites=true&w=majority",
   "authentication": {
     "entity": "user",
     "service": "api/users",
