@@ -5,8 +5,8 @@ import Twilio from 'twilio';
 
 export const sendOTP = async (context) =>
 {
-    const accountSid = context.app.get('kaam_twilio_account_sid');
-    const authToken = context.app.get('kaam_twilio_auth_token');
+    const accountSid = process.env.KAAM_TWILIO_ACCOUNT_SID;
+    const authToken = process.env.KAAM_TWILIO_AUTH_TOKEN;
     const client = new Twilio(accountSid, authToken);
     console.log(context.data.otp)
     try

@@ -14,7 +14,8 @@ export const auth = async (context) =>
         {
             throw new NotFound("User doesn't exits.");
         }
-        const expiryTime = Number(context.app.get("kaam_otp_validity_time")) ?? 4
+    
+        const expiryTime = Number(process.env.KAAM_OTP_VALIDITY_TIME) ?? 4
         const otpCreatedTime = new Date(new Date(user?.otpexpiresat).getTime() - expiryTime * 60000)
         const isValid = otpCreatedTime <= date && date <= user.otpexpiresat;
         if (!isValid)

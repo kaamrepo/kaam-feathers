@@ -68,14 +68,14 @@ function jsonConcat(o1, o2) {
   }
   return o1
 }
-let serviceAccountInfo = app.get('firebase_fcm_serive_account')
-let serviceAuthUrl = app.get('firebase_fcm_auth_url')
+let serviceAccountInfo = process.env.KAAM_FIREBASE_SERVICEACCOUNT;
+let serviceAuthUrl = process.env.KAAM_FIREBASE_AUTH_URL;
 let serviceAccount = {}
 if (serviceAuthUrl && Object.keys(serviceAuthUrl).length != 0) {
   serviceAccount = jsonConcat(serviceAccount, JSON.parse(serviceAuthUrl))
 }
 serviceAccount = jsonConcat(serviceAccount, JSON.parse(serviceAccountInfo))
-let firbaseEmail = app.get('firebase_db_url')
+let firbaseEmail = process.env.KAAM_FIREBASE_EMAIL_ID;
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   databaseURL: firbaseEmail
@@ -88,9 +88,9 @@ admin
 
 //cloudnary setup
 cloudinary.config({
-  cloud_name: app.get('cloudName'),
-  api_key: app.get('apiKey'),
-  api_secret: app.get('apiSecret')
+  cloud_name: process.env.KAAM_CLOUDINARY_CLOUDNAME,
+  api_key: process.env.KAAM_CLOUDINARY_APIKEY,
+  api_secret: process.env.KAAM_CLOUDINARY_APISECRETKEY
 })
 
 // Register hooks that run on all service methods

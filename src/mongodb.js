@@ -2,7 +2,7 @@
 import { MongoClient } from 'mongodb'
 
 export const mongodb = (app) => {
-  const connection = app.get('kaam_mongodb')
+  const connection = process.env.KAAM_MONGODB_URI;
   console.log("connection", connection);
   const database = new URL(connection).pathname.substring(1)
   const mongoClient = MongoClient.connect(connection).then((client) => client.db(database))
