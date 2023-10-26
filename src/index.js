@@ -1,7 +1,7 @@
 import { app } from './app.js'
 import { logger } from './logger.js'
 
-const port = app.get('kaam_port')
+const port = process.env.KAAM_PORT
 const host = app.get('kaam_host')
 
 process.on('unhandledRejection', (reason) => logger.error('Unhandled Rejection %O', reason))
