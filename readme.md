@@ -1,6 +1,6 @@
 # kaam-feathers
 
-> The kaam backend app aims to provide better solutions to the job related problems and issues, this has APIs and Backend of Kaam App
+> 
 
 ## About
 

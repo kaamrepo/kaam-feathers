@@ -8,6 +8,7 @@ export const sendOTP = async (context) =>
     const accountSid = context.app.get('kaam_twilio_account_sid');
     const authToken = context.app.get('kaam_twilio_auth_token');
     const client = new Twilio(accountSid, authToken);
+    console.log(context.data.otp)
     try
     {
         const message = await client.messages.create({
@@ -18,7 +19,7 @@ export const sendOTP = async (context) =>
         console.log(message.sid);
     } catch (error)
     {
-        console.error(error);
+        console.log(JSON.stringify(error, null, 4));
         throw new BadRequest(error.message)
     }
     return context

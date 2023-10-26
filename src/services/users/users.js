@@ -1,7 +1,9 @@
 // For more information about this file see https://dove.feathersjs.com/guides/cli/service.html
 import { authenticate } from '@feathersjs/authentication'
+
 import { hooks as schemaHooks } from '@feathersjs/schema'
-import {
+import
+{
   userDataValidator,
   userPatchValidator,
   userQueryValidator,
@@ -10,22 +12,80 @@ import {
   userDataResolver,
   userPatchResolver,
   userQueryResolver,
-  loginPatchValidator,
-  loginPatchResolver
+  loginPatchResolver,
+  loginPatchValidator
 } from './users.schema.js'
 import { UserService, getOptions } from './users.class.js'
 import { userPath, userMethods, userLoginPath, userLoginMethods } from './users.shared.js'
 import { generateOTPandExpiryTime } from './hooks/create/generateOTPandExpiryTime.js'
+import { patchUserInfo } from './hooks/patch/patchUserInfo.js'
+import { BadRequest } from '@feathersjs/errors'
 import { duplicateKeyError } from './hooks/error/duplicateKeyError.js'
 import { sendOTP } from './hooks/create/sendOTP.js'
 import { checkUserExists } from './hooks/login/checkUserExists.js'
+import { checkUserAlreadyRegistered } from './hooks/create/checkUserAlreadyRegistered.js'
 
 export * from './users.class.js'
 export * from './users.schema.js'
+
+
+// multer implementation
+
+import multer from 'multer'
+const profilePhotosPath = 'uploads/profilepic'
+
+const storage = multer.diskStorage({
+  destination: (_req, _file, cb) => cb(null, profilePhotosPath), // where the files are being stored
+  filename: (_req, file, cb) => cb(null, `ProfilePic_${ Date.now() }-${ file.originalname }`) // getting the file name
+})
+
+const fileFilter = function (req, file, cb)
+{
+  const allowedTypes = ['image/jpg', 'image/jpeg', 'image/png', 'image/webp']
+  if (!allowedTypes.includes(file.mimetype))
+  {
+    const error = new Error('Wrong file type')
+    error.code = 'LIMIT_FILE_TYPES'
+    return cb(error, false)
+  }
+  cb(null, true)
+}
+const upload = multer({
+  storage: storage,
+  fileFilter: fileFilter
+})
+
+
 // A configure function that registers the service and its hooks via `app.configure`
-export const user = (app) => {
+export const user = (app) =>
+{
   // Register our service on the Feathers application
-  app.use(userPath, new UserService(getOptions(app)), {
+  app.use(userPath,
+    async (req, res, next) =>
+    {
+      // Check if the method is PATCH
+      if (req.method === 'PATCH')
+      {
+        await upload.single('profilepic')(req, res, (err) =>
+        {
+          if (err)
+          {
+            console.error('Multer error:', err)
+            throw new BadRequest('File upload failed.')
+          } else
+          {
+            if (req.file)
+            { req.body.profilepic = req.file.path }
+            next()
+          }
+        })
+      } else
+      {
+        // For other methods, skip the Multer middleware
+        next()
+      }
+    },
+    new UserService(getOptions(app)), {
     // A list of all methods this service exposes externally
     methods: userMethods,
     // You can add additional custom events to be sent to clients here
@@ -47,12 +107,13 @@ export const user = (app) => {
       find: [],
       get: [],
       create: [
+        checkUserAlreadyRegistered,
         generateOTPandExpiryTime,
         schemaHooks.validateData(userDataValidator),
         sendOTP,
         schemaHooks.resolveData(userDataResolver)
       ],
-      patch: [schemaHooks.validateData(userPatchValidator), schemaHooks.resolveData(userPatchResolver)],
+      patch: [patchUserInfo, schemaHooks.validateData(userPatchValidator), schemaHooks.resolveData(userPatchResolver)],
       remove: []
     },
     after: {
@@ -90,24 +151,8 @@ export const user = (app) => {
     }
   })
 
-  //// <- ******************************** LOGIN ROUTE *********************************** -> ////
 
-  app.use(userLoginPath, new UserService(getOptions(app)), {
-    methods: userLoginMethods,
-    events: []
-  })
-  app.service(userLoginPath).hooks({
-    before: {
-      all: [],
-      patch: [
-        checkUserExists,
-        generateOTPandExpiryTime,
-        schemaHooks.validateData(loginPatchValidator),
-        sendOTP,
-        schemaHooks.resolveData(loginPatchResolver)
-      ]
-    }
-  })
+
 
   //// <- ******************************** LOGIN ROUTE *********************************** -> ////
 
@@ -128,5 +173,5 @@ export const user = (app) => {
     }
   })
 
-  //// <- ******************************** LOGIN *********************************** -> ////
+  //// <- ******************************** LOGIN ROUTE *********************************** -> ////
 }

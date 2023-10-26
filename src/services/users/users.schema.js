@@ -1,106 +1,153 @@
-// // For more information about this file see https://dove.feathersjs.com/guides/cli/service.schemas.html
-import { resolve } from '@feathersjs/schema'
-import { Type, getValidator, querySyntax } from '@feathersjs/typebox'
-import { ObjectIdSchema } from '@feathersjs/typebox'
+// For more information about this file see https://dove.feathersjs.com/guides/cli/service.schemas.html
+import { resolve, getValidator, querySyntax } from '@feathersjs/schema'
+import { ObjectIdSchema } from '@feathersjs/schema'
 import { passwordHash } from '@feathersjs/authentication-local'
 import { dataValidator, queryValidator } from '../../validators.js'
 
 // Main data model schema
-export const userSchema = Type.Object(
-  {
+export const userSchema = {
+  $id: 'User',
+  type: 'object',
+  additionalProperties: false,
+  required: ['_id', 'email'],
+  properties: {
     _id: ObjectIdSchema(),
-    phone: Type.String({ minLength: 10, maxLength: 10 }),
-    dialcode: Type.String({ minLength: 1 }),
-    firstname: Type.String({ minLength: 1 }),
-    lastname: Type.String({ minLength: 1 }),
-    email: Type.Optional(Type.String({ format: 'email' })),
-    otp: Type.String({ minLength: 1 }),
-    otpexpiresat: Type.String({ format: 'date-time' }),
-    createdat: Type.String({ format: 'date-time' }),
-    updatedat: Type.String({ format: 'date-time' }),
-    googleId: Type.Optional(Type.String()),
-    facebookId: Type.Optional(Type.String()),
-    twitterId: Type.Optional(Type.String()),
-    githubId: Type.Optional(Type.String()),
-    auth0Id: Type.Optional(Type.String())
-  },
-  { $id: 'User', additionalProperties: false }
-)
+    phone: { type: 'string', minLength: 10, maxLength: 10 },
+    dialcode: { type: 'string', minLength: 1 },
+    firstname: { type: 'string', minLength: 1 },
+    lastname: { type: 'string', minLength: 1 },
+    email: { type: 'string', format: 'email' },
+    otp: { type: 'string', minLength: 1 },
+    otpexpiresat: { type: 'string', format: 'date-time' },
+    createdat: { type: 'string', format: 'date-time' },
+    updatedat: { type: 'string', format: 'date-time' },
+
+    isactive: { type: 'boolean', default: true },
+
+    aboutme: { type: 'string', minLength: 1, maxLength: 256 },
+    dateofbirth: { type: 'string', format: 'date' },
+    address: {
+      type: 'object',
+      properties: {
+        addressline: { type: 'string' },
+        pincode: { type: 'string' },
+        district: { type: 'string' },
+        city: { type: 'string' },
+        state: { type: 'string' },
+        country: { type: 'string' },
+      },
+      required: [],
+      additionalProperties: false
+    },
+
+
+    firebasetokens: { type: 'array', items: { type: 'string' } },
+    profilepic: { type: 'string' },
+
+    googleid: { type: 'string' },
+    facebookid: { type: 'string' },
+    twitterid: { type: 'string' },
+    githubid: { type: 'string' },
+    auth0id: { type: 'string' }
+  }
+}
 export const userValidator = getValidator(userSchema, dataValidator)
 export const userResolver = resolve({})
 
 export const userExternalResolver = resolve({
-  // The otp should never be visible externally
+  // The password should never be visible externally
   otp: async () => undefined
 })
 
-// Schema for creating new entries
-export const userDataSchema = Type.Pick(
-  userSchema,
-  ['phone', 'otp', 'dialcode', 'email', 'firstname', 'lastname', 'otpexpiresat'],
-  {
-    $id: 'UserData'
+// Schema for creating new data
+export const userDataSchema = {
+  $id: 'UserData',
+  type: 'object',
+  additionalProperties: false,
+  required: ['phone', 'otp', 'dialcode', 'firstname', 'lastname', 'otpexpiresat'],
+  properties: {
+    ...userSchema.properties
   }
-)
+}
 export const userDataValidator = getValidator(userDataSchema, dataValidator)
 export const userDataResolver = resolve({
   otp: passwordHash({ strategy: 'local' }),
+  isactive: async () => true,
   createdat: async (value, _, context) => new Date(),
   updatedat: async (value, _, context) => new Date(),
   otpexpiresat: async (value, user, context) =>
   {
-    const expiryTime = Number(context.app.get("kaam_otp_validity_time")) ?? 4
+    const expiryTime = Number(context.app.get('kaam_otp_validity_time')) ?? 4
     return value ? new Date(new Date(value).getTime() + expiryTime * 60000) : undefined
   }
 })
 
-// Schema for updating existing entries
-export const userPatchSchema = Type.Partial(userSchema, {
-  $id: 'UserPatch'
-})
+// Schema for updating existing data
+export const userPatchSchema = {
+  $id: 'UserPatch',
+  type: 'object',
+  additionalProperties: false,
+  required: [],
+  properties: {
+    ...userSchema.properties
+  }
+}
 export const userPatchValidator = getValidator(userPatchSchema, dataValidator)
 export const userPatchResolver = resolve({
   otp: passwordHash({ strategy: 'local' }),
   updatedat: async (value, _, context) => new Date(),
+  dateofbirth: async (value, _, context) =>
+  {
+    if (value) return new Date(value)
+  },
+  isactive: async (value, _data, context) =>
+  {
+    if (value === undefined)
+    {
+      return undefined;
+    }
+  }
 })
 
 // Schema for login user route
 
-export const loginPatchSchema = Type.Pick(
-  userSchema,
-  ['dialcode', 'phone', 'otp', 'otpexpiresat'],
-  {
-    $id: 'LoginPatch'
-  })
+export const loginPatchSchema = {
+  $id: 'LoginPatch',
+  type: 'object',
+  additionalProperties: false,
+  required: ['dialcode', 'phone', 'otp', 'otpexpiresat'],
+  properties: {
+    ...userSchema.properties
+  }
+}
 export const loginPatchValidator = getValidator(loginPatchSchema, dataValidator)
 export const loginPatchResolver = resolve({
   otp: passwordHash({ strategy: 'local' }),
   updatedat: async (value, _, context) => new Date(),
   otpexpiresat: async (value, user, context) =>
   {
-    const expiryTime = Number(context.app.get("kaam_otp_validity_time")) ?? 4
+    const expiryTime = Number(context.app.get('kaam_otp_validity_time')) ?? 4
     return value ? new Date(new Date(value).getTime() + expiryTime * 60000) : undefined
+  },
+  isactive: async (value, _data, context) =>
+  {
+    if (value === undefined)
+    {
+      return undefined;
+    }
   }
 })
 
 
-
 // Schema for allowed query properties
-export const userQueryProperties = Type.Pick(userSchema, [
-  '_id',
-  'email',
-  'phone',
-  'firstname',
-  'lastname'
-])
-export const userQuerySchema = Type.Intersect(
-  [
-    querySyntax(userQueryProperties),
-    // Add additional query properties here
-    Type.Object({}, { additionalProperties: false })
-  ],
-  { additionalProperties: false }
-)
+export const userQuerySchema = {
+  $id: 'UserQuery',
+  type: 'object',
+  additionalProperties: false,
+  properties: {
+    ...querySyntax(userSchema.properties)
+  }
+}
 export const userQueryValidator = getValidator(userQuerySchema, queryValidator)
 export const userQueryResolver = resolve({
   // If there is a user (e.g. with authentication), they are only allowed to see their own data

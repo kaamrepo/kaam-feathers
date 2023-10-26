@@ -15,12 +15,20 @@ import { configurationValidator } from './configuration.js'
 import { logger } from './logger.js'
 import { logError } from './hooks/log-error.js'
 import { mongodb } from './mongodb.js'
+
 import { authentication } from './authentication.js'
+
 import { services } from './services/index.js'
 import { channels } from './channels.js'
+
+// firebase notification imports:
 import admin from 'firebase-admin'
+
+// cloudinary image imports:
 import cloudinary from 'cloudinary'
+
 const app = express(feathers())
+
 // Load app configuration
 app.configure(configuration(configurationValidator))
 app.use(cors())
@@ -28,6 +36,7 @@ app.use(json())
 app.use(urlencoded({ extended: true }))
 // Host the public folder
 app.use('/', serveStatic(app.get('public')))
+
 // Configure services and real-time functionality
 app.configure(rest())
 app.configure(
@@ -76,12 +85,14 @@ admin
   .auth()
   .createCustomToken(uid, additionalClaims)
   .catch((error) => console.log(error))
+
 //cloudnary setup
 cloudinary.config({
   cloud_name: app.get('cloudName'),
   api_key: app.get('apiKey'),
   api_secret: app.get('apiSecret')
 })
+
 // Register hooks that run on all service methods
 app.hooks({
   around: {
