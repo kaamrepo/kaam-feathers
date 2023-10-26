@@ -57,13 +57,14 @@
     "@feathersjs/schema": "^5.0.6",
     "@feathersjs/socketio": "^5.0.6",
     "@feathersjs/transport-commons": "^5.0.6",
+    "cloudinary": "^1.37.1",
     "compression": "^1.7.4",
+    "dotenv": "^16.3.1",
+    "firebase-admin": "^11.9.0",
     "mongodb": "^5.6.0",
-    "winston": "^3.9.0",
     "multer": "^1.4.5-lts.1",
     "twilio": "^4.11.2",
-    "firebase-admin": "^11.9.0",
-    "cloudinary": "^1.37.1"
+    "winston": "^3.9.0"
   },
   "devDependencies": {
     "@feathersjs/cli": "^5.0.6",
