@@ -8,6 +8,7 @@ process.on('unhandledRejection', (reason) => logger.error('Unhandled Rejection %
 
 app.listen(port).then(() => {
   logger.info(`Feathers app listening on http://${ host }:${ port }`)
+  
   console.log("kaam_twilio_account_sid: -",app.get('kaam_twilio_account_sid'));
   console.log("kaam_twilio_auth_token: -",app.get('kaam_twilio_auth_token'));
   console.log("firebase_db_url: -",app.get('firebase_db_url'));
