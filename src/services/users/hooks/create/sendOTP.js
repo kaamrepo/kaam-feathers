@@ -9,7 +9,7 @@ export const sendOTP = async (context) =>
     const authToken = context.app.get('kaam_twilio_auth_token');
     const client = new Twilio(accountSid, authToken);
     console.log(context.data.otp)
-    try
+    /*try
     {
         const message = await client.messages.create({
             body: `${ context.data.otp } is your Verification Code.`,
@@ -21,6 +21,6 @@ export const sendOTP = async (context) =>
     {
         console.log(JSON.stringify(error, null, 4));
         throw new BadRequest(error.message)
-    }
+    }*/
     return context
 }   
