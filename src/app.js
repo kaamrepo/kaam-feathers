@@ -16,17 +16,11 @@ import { configurationValidator } from './configuration.js'
 import { logger } from './logger.js'
 import { logError } from './hooks/log-error.js'
 import { mongodb } from './mongodb.js'
-
 import { authentication } from './authentication.js'
-
 import { services } from './services/index.js'
 import { channels } from './channels.js'
-
-// firebase notification imports:
-import admin from 'firebase-admin'
-
-// cloudinary image imports:
-import cloudinary from 'cloudinary'
+import { CloudnarySetup } from "./utils/cloudnarySetup.js"
+import { FcmSetup } from "./utils/firebaseNotificationSetup.js"
 
 const app = express(feathers())
 
@@ -58,42 +52,9 @@ app.configure(channels)
 app.use(notFound())
 app.use(errorHandler({ logger }))
 
-// Fcm Notification
-const uid = 'some-uid'
-const additionalClaims = {
-  premiumAccount: true
-}
-function jsonConcat(o1, o2) {
-  for (let key in o2) {
-    o1[key] = o2[key]
-  }
-  return o1
-}
-let serviceAccountInfo = app.get('firebase_fcm_serive_account')
-let serviceAuthUrl = app.get('firebase_fcm_auth_url')
-let serviceAccount = {}
-if (serviceAuthUrl && Object.keys(serviceAuthUrl).length != 0) {
-  serviceAccount = jsonConcat(serviceAccount, JSON.parse(serviceAuthUrl))
-}
-serviceAccount = jsonConcat(serviceAccount, JSON.parse(serviceAccountInfo))
-let firbaseEmail = app.get('firebase_db_url')
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: firbaseEmail
-})
-app.set('FIREBASE', admin)
-admin
-  .auth()
-  .createCustomToken(uid, additionalClaims)
-  .catch((error) => console.log(error))
-
-//cloudnary setup
-cloudinary.config({
-  cloud_name: app.get('cloudName'),
-  api_key: app.get('apiKey'),
-  api_secret: app.get('apiSecret')
-})
-
+// fcm and cloudinary configuration
+FcmSetup(app)
+CloudnarySetup(app)
 // Register hooks that run on all service methods
 app.hooks({
   around: {
