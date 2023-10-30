@@ -28,9 +28,8 @@ import { checkUserAlreadyRegistered } from './hooks/create/checkUserAlreadyRegis
 export * from './users.class.js'
 export * from './users.schema.js'
 
-
 // multer implementation
-
+import fs from 'fs'
 import multer from 'multer'
 const profilePhotosPath = 'uploads/profilepic'
 
@@ -61,6 +60,17 @@ export const user = (app) =>
 {
   // Register our service on the Feathers application
   app.use(userPath,
+      async function (req, res, next) {
+      try {
+        if (!fs.existsSync(profilePhotosPath)) {
+          fs.mkdirSync(profilePhotosPath, { recursive: true })
+        }
+      } catch (err) {
+        console.log(err)
+        return err
+      }
+      next()
+    },
     async (req, res, next) =>
     {
       // Check if the method is PATCH
