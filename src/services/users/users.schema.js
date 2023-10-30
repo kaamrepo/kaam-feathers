@@ -25,7 +25,7 @@ export const userSchema = {
     isactive: { type: 'boolean', default: true },
 
     aboutme: { type: 'string', minLength: 1, maxLength: 256 },
-    dateofbirth: { type: 'string', format: 'date' },
+    dateofbirth: { type: 'string', format: 'date-time' },
     address: {
       type: 'object',
       properties: {

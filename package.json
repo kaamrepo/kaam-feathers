@@ -59,6 +59,7 @@
     "@feathersjs/transport-commons": "^5.0.6",
     "cloudinary": "^1.37.1",
     "compression": "^1.7.4",
+    "dayjs": "^1.11.10",
     "dotenv": "^16.3.1",
     "firebase-admin": "^11.9.0",
     "mongodb": "^5.6.0",
