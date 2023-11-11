@@ -26,6 +26,10 @@ export const configurationSchema = {
     kaam_host: { type: 'string' },
     kaam_port: { type: 'string' },
     kaam_mongodb: { type: 'string' },
+    kaam_s3_bucket_name: { type: 'string' },
+    kaam_aws_region: { type: 'string' },
+    kaam_aws_accesskey: { type: 'string' },
+    kaam_aws_secretaccessKey: { type: 'string' }
   }
 }
 

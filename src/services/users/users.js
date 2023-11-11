@@ -2,8 +2,7 @@
 import { authenticate } from '@feathersjs/authentication'
 
 import { hooks as schemaHooks } from '@feathersjs/schema'
-import
-{
+import {
   userDataValidator,
   userPatchValidator,
   userQueryValidator,
@@ -35,14 +34,14 @@ const profilePhotosPath = 'uploads/profilepic'
 
 const storage = multer.diskStorage({
   destination: (_req, _file, cb) => cb(null, profilePhotosPath), // where the files are being stored
-  filename: (_req, file, cb) => cb(null, `ProfilePic_${ Date.now() }-${ file.originalname }`) // getting the file name
+  filename: (_req, file, cb) => cb(null, `ProfilePic_${Date.now()}-${file.originalname}`) // getting the file name
 })
 
-const fileFilter = function (req, file, cb)
-{
+const memoryStorage = multer.memoryStorage()
+
+const fileFilter = function (req, file, cb) {
   const allowedTypes = ['image/jpg', 'image/jpeg', 'image/png', 'image/webp']
-  if (!allowedTypes.includes(file.mimetype))
-  {
+  if (!allowedTypes.includes(file.mimetype)) {
     const error = new Error('Wrong file type')
     error.code = 'LIMIT_FILE_TYPES'
     return cb(error, false)
@@ -50,17 +49,16 @@ const fileFilter = function (req, file, cb)
   cb(null, true)
 }
 const upload = multer({
-  storage: storage,
+  storage: memoryStorage,
   fileFilter: fileFilter
 })
 
-
 // A configure function that registers the service and its hooks via `app.configure`
-export const user = (app) =>
-{
+export const user = (app) => {
   // Register our service on the Feathers application
-  app.use(userPath,
-      async function (req, res, next) {
+  app.use(
+    userPath,
+    async function (req, res, next) {
       try {
         if (!fs.existsSync(profilePhotosPath)) {
           fs.mkdirSync(profilePhotosPath, { recursive: true })
@@ -71,36 +69,33 @@ export const user = (app) =>
       }
       next()
     },
-    async (req, res, next) =>
-    {
+    async (req, res, next) => {
       // Check if the method is PATCH
-      if (req.method === 'PATCH')
-      {
-        await upload.single('profilepic')(req, res, (err) =>
-        {
-          if (err)
-          {
+      if (req.method === 'PATCH') {
+        await upload.single('profilepic')(req, res, (err) => {
+          if (err) {
             console.error('Multer error:', err)
             throw new BadRequest('File upload failed.')
-          } else
-          {
-            if (req.file)
-            { req.body.profilepic = req.file.path }
+          } else {
+            if (req.file) {
+              req.body.profilepic = req.file
+            }
             next()
           }
         })
-      } else
-      {
+      } else {
         // For other methods, skip the Multer middleware
         next()
       }
     },
-    new UserService(getOptions(app)), {
-    // A list of all methods this service exposes externally
-    methods: userMethods,
-    // You can add additional custom events to be sent to clients here
-    events: []
-  })
+    new UserService(getOptions(app)),
+    {
+      // A list of all methods this service exposes externally
+      methods: userMethods,
+      // You can add additional custom events to be sent to clients here
+      events: []
+    }
+  )
   // Initialize hooks
   app.service(userPath).hooks({
     around: {
@@ -123,7 +118,11 @@ export const user = (app) =>
         sendOTP,
         schemaHooks.resolveData(userDataResolver)
       ],
-      patch: [patchUserInfo, schemaHooks.validateData(userPatchValidator), schemaHooks.resolveData(userPatchResolver)],
+      patch: [
+        patchUserInfo,
+        schemaHooks.validateData(userPatchValidator),
+        schemaHooks.resolveData(userPatchResolver)
+      ],
       remove: []
     },
     after: {
@@ -160,9 +159,6 @@ export const user = (app) =>
       create: [duplicateKeyError]
     }
   })
-
-
-
 
   //// <- ******************************** LOGIN ROUTE *********************************** -> ////
 

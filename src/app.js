@@ -19,11 +19,10 @@ import { mongodb } from './mongodb.js'
 import { authentication } from './authentication.js'
 import { services } from './services/index.js'
 import { channels } from './channels.js'
-import { CloudnarySetup } from "./utils/cloudnarySetup.js"
-import { FcmSetup } from "./utils/firebaseNotificationSetup.js"
-
+import { CloudnarySetup } from './utils/cloudnarySetup.js'
+import { FcmSetup } from './utils/firebaseNotificationSetup.js'
+import { amazonS3bucket } from './utils/amazonS3bucket.js'
 const app = express(feathers())
-
 // Load app configuration
 app.configure(configuration(configurationValidator))
 app.use(cors())
@@ -31,7 +30,6 @@ app.use(json())
 app.use(urlencoded({ extended: true }))
 // Host the public folder
 app.use('/', serveStatic(app.get('public')))
-
 // Configure services and real-time functionality
 app.configure(rest())
 app.configure(
@@ -42,19 +40,16 @@ app.configure(
   })
 )
 app.configure(mongodb)
-
 app.configure(authentication)
-
 app.configure(services)
 app.configure(channels)
-
 // Configure a middleware for 404s and the error handler
 app.use(notFound())
 app.use(errorHandler({ logger }))
-
 // fcm and cloudinary configuration
 FcmSetup(app)
 CloudnarySetup(app)
+amazonS3bucket(app)
 // Register hooks that run on all service methods
 app.hooks({
   around: {

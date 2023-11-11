@@ -1,11 +1,11 @@
 import { handleError } from './errorhandlingHelper.js'
 import cloudinary from 'cloudinary'
 import fs from 'fs'
-const saveCloudnaryImage = async function (imagePath) {
+const saveCloudnaryImage = async function (file) {
   try {
-    let image = await cloudinary.uploader.upload(imagePath)
+    let image = await cloudinary.uploader.upload(file.path)
     if (image && Object.keys(image).length !== 0 && image.url) {
-      await fs.unlink(imagePath, (error) => {
+      await fs.unlink(file.path, (error) => {
         if (error) {
           console.error('Error deleting file:', error)
         } else {
