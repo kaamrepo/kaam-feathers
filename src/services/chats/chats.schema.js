@@ -17,16 +17,18 @@ export const chatSchema = {
       items: {
         type: 'object',
         properties: {
+          _id: ObjectIdSchema(),
+          senderid: ObjectIdSchema(),
           type: { type: 'string', enum: ['initial', 'text'] },
           text: { type: 'string' },
           createdat: { type: 'string', format: 'date-time' },
-          isseen: { type: 'boolean' },
+          isseen: { type: 'boolean' }
         }
       }
     },
     createdat: { type: 'string', format: 'date-time' },
     updatedat: { type: 'string', format: 'date-time' },
-    isactive: { type: 'boolean' },
+    isactive: { type: 'boolean' }
   }
 }
 export const chatValidator = getValidator(chatSchema, dataValidator)
@@ -47,7 +49,7 @@ export const chatDataSchema = {
 export const chatDataValidator = getValidator(chatDataSchema, dataValidator)
 export const chatDataResolver = resolve({
   createdat: async () => new Date(),
-  isactive: async () => true,
+  isactive: async () => true
 })
 
 // Schema for updating existing data
@@ -62,7 +64,7 @@ export const chatPatchSchema = {
 }
 export const chatPatchValidator = getValidator(chatPatchSchema, dataValidator)
 export const chatPatchResolver = resolve({
-  updatedat: async () => new Date(),
+  updatedat: async () => new Date()
 })
 
 // Schema for allowed query properties
