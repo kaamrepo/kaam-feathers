@@ -18,7 +18,7 @@ export const createChatForAppliedJob = async (context) => {
             type: 'initial',
             senderid: user?._id,
             text: `${firstname} ${lastname} has applied for the job`,
-            createdat: new Date(),
+            createdat: new Date().toISOString(),
             isseen: false
           }
         ]
