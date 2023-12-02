@@ -21,7 +21,7 @@ const notificationHelper = async function (app, registrationTokens, message) {
       undefined,
       undefined,
       { value: undefined },
-      `Error occurred while sendnig in-app notification >>> ${error}`
+      `Error occurred while sending in-app notification >>> ${error}`
     )
   }
 }

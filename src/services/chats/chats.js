@@ -15,6 +15,8 @@ import {
 import { ChatService, getOptions } from './chats.class.js'
 import { chatPath, chatMethods } from './chats.shared.js'
 import { updateChatIdInJobApplication } from './hooks/updateChatIdInJobApplication.js'
+import { pushChatMessage } from './hooks/pushChatMessage.js'
+import { sendChatNotification } from './hooks/sendChatNotification.js'
 
 export * from './chats.class.js'
 export * from './chats.schema.js'
@@ -42,12 +44,17 @@ export const chat = (app) => {
       find: [],
       get: [],
       create: [schemaHooks.validateData(chatDataValidator), schemaHooks.resolveData(chatDataResolver)],
-      patch: [schemaHooks.validateData(chatPatchValidator), schemaHooks.resolveData(chatPatchResolver)],
+      patch: [
+        schemaHooks.validateData(chatPatchValidator),
+        pushChatMessage,
+        schemaHooks.resolveData(chatPatchResolver)
+      ],
       remove: []
     },
     after: {
       all: [],
-      create:[updateChatIdInJobApplication]
+      create: [updateChatIdInJobApplication],
+      patch: [sendChatNotification]
     },
     error: {
       all: []
