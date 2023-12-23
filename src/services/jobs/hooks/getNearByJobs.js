@@ -4,39 +4,45 @@ export const getNearByJobs = async (context) => {
 
   switch (query.type) {
     case 'nearby':
-      console.log('nearby query', query);
-      const { coordinates } = context.params.query;
+      const { coordinates,text } = context.params.query;
       delete context.params.query.coordinates;
+      delete context.params.query.text;
+      delete context.params.query.type;
       context.params.pipeline = [];
-        // Add search text logic if query.text is present
-        if (query.text) {
-          context.params.pipeline.push({
-            $match: {
-              $text: {
-                $search: query.text,
-                $caseSensitive: false,
-              }
-            }
-          });
-        }
 
-      if (coordinates) {
+      // if (coordinates) {
+      //   context.params.pipeline.push({
+      //     $geoNear: {
+      //       near: {
+      //         type: "Point",
+      //         coordinates: coordinates
+      //       },
+      //       distanceField: "distanceInMeter",
+      //       spherical: true,
+      //       maxDistance: 100000, // Set the maximum distance in meters (100km)
+      //     }
+      //   });
+      // }
+
+      if (text) {
+        const textSearchCondition = {
+          $or: [
+            // Case-insensitive text search condition
+            { position: { $regex: text, $options: 'i' } },
+            { requirements: { $regex: text, $options: 'i' } },
+            { description: { $regex: text, $options: 'i' } },
+            // Add other fields as needed for text search
+          ],
+        };
+
         context.params.pipeline.push({
-          $geoNear: {
-            near: {
-              type: "Point",
-              coordinates: coordinates
-            },
-            distanceField: "distanceInMeter",
-            spherical: true
-          }
+          $match: textSearchCondition,
         });
       }
-
       context.params.pipeline.push({
         $feathers: context.params.query
       });
-
+  console.log("context.params.pipeline",JSON.stringify(context.params.pipeline,null,4));
       if (context.params?.pipeline?.length <= 0) {
         delete context.params.pipeline;
       }
