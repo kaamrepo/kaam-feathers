@@ -10,19 +10,19 @@ export const getNearByJobs = async (context) => {
       delete context.params.query.type;
       context.params.pipeline = [];
 
-      // if (coordinates) {
-      //   context.params.pipeline.push({
-      //     $geoNear: {
-      //       near: {
-      //         type: "Point",
-      //         coordinates: coordinates
-      //       },
-      //       distanceField: "distanceInMeter",
-      //       spherical: true,
-      //       maxDistance: 100000, // Set the maximum distance in meters (100km)
-      //     }
-      //   });
-      // }
+      if (coordinates) {
+        context.params.pipeline.push({
+          $geoNear: {
+            near: {
+              type: "Point",
+              coordinates: coordinates
+            },
+            distanceField: "distanceInMeter",
+            spherical: true,
+            maxDistance: 100000, // Set the maximum distance in meters (100km)
+          }
+        });
+      }
 
       if (text) {
         const textSearchCondition = {

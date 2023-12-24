@@ -10,10 +10,10 @@ export const jobSchema = {
   $id: 'Job',
   type: 'object',
   additionalProperties: false,
-  required: ['_id',],
+  required: ['_id'],
   properties: {
     _id: ObjectIdSchema(),
-    position: { type: 'string', minLength: 1 },
+    jobtitle: { type: 'string', minLength: 1 },
     description: { type: 'string', minLength: 1 },
     requirements: { type: 'string', minLength: 1 },
     about: { type: 'string' },
@@ -32,34 +32,22 @@ export const jobSchema = {
       properties: {
         name: { type: 'string' },
         type: { type: 'string', default: 'Point' },
-        coordinates: { type: 'array', items: { type: 'number' } }
+        coordinates: { type: 'array', items: { type: 'number' } },
+        fulladdress: { type: 'string' }
       },
       required: ['coordinates'],
       additionalProperties: false
     },
-
-
-    styles: {
-      type: "object",
-      properties: {
-        bgcolor: { type: "string", default: "white" },
-        color: { type: "string", default: "black" }
-      },
-      required: ["bgcolor", "color"],
-      additionalProperties: false,
-    },
-
     createdat: { type: 'string', format: 'date-time' },
-    updatedat: { type: 'string', format: 'date-time' },
+    updatedat: { type: 'string', format: 'date-time' }
   }
 }
 export const jobValidator = getValidator(jobSchema, dataValidator)
 export const jobResolver = resolve({})
 
 export const jobExternalResolver = resolve({
-  employerDetails: virtual(async (job, context) =>
-  {
-    const $select = ["firstname", "lastname", "email", "_id", "profilepic"]
+  employerDetails: virtual(async (job, context) => {
+    const $select = ['firstname', 'lastname', 'email', '_id', 'profilepic']
     return context.app.service(userPath).get(job.createdby, { query: { $select } })
   })
 })
@@ -69,7 +57,7 @@ export const jobDataSchema = {
   $id: 'JobData',
   type: 'object',
   additionalProperties: false,
-  required: ['position', 'description', 'requirements', 'about', 'tags', 'salary', 'salarybasis', 'location'],
+  required: ['jobtitle', 'description', 'tags', 'salary', 'salarybasis', 'location'],
   properties: {
     ...jobSchema.properties
   }
@@ -77,10 +65,9 @@ export const jobDataSchema = {
 export const jobDataValidator = getValidator(jobDataSchema, dataValidator)
 export const jobDataResolver = resolve({
   createdat: async (value, _data, context) => new Date(),
-  createdby: async (value, _data, context) =>
-  {
-    const { user } = context.params;
-    return user?._id;
+  createdby: async (value, _data, context) => {
+    const { user } = context.params
+    return user?._id
   }
 })
 
@@ -96,7 +83,7 @@ export const jobPatchSchema = {
 }
 export const jobPatchValidator = getValidator(jobPatchSchema, dataValidator)
 export const jobPatchResolver = resolve({
-  updatedat: async (value, _data, context) => new Date(),
+  updatedat: async (value, _data, context) => new Date()
 })
 
 // Schema for allowed query properties
@@ -106,14 +93,14 @@ export const jobQuerySchema = {
   additionalProperties: true,
   properties: {
     ...querySyntax(jobSchema.properties, {
-      position: {
+      jobtitle: {
         $regex: { type: 'string' },
-        $options: { type: 'string' },
+        $options: { type: 'string' }
       },
-      coordinates: { type: 'array', items: { type: 'string' } },
+      coordinates: { type: 'array', items: { type: 'string' } }
       // location: {
       //   $geoNear: {
-      //     type: 'object',  
+      //     type: 'object',
       //     properties: {
       //       near: {
       //         type: 'object',
@@ -134,11 +121,9 @@ export const jobQueryValidator = getValidator(jobQuerySchema, queryValidator)
 export const jobQueryResolver = resolve({
   properties: {
     createdby: resolveQueryObjectId,
-    coordinates: async (value, _data, _context) =>
-    {
-      if (value)
-      {
-        return value?.map(n => Number(n))
+    coordinates: async (value, _data, _context) => {
+      if (value) {
+        return value?.map((n) => Number(n))
       }
     }
   }
