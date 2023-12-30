@@ -56,7 +56,9 @@ export const job = (app) =>
       remove: []
     },
     after: {
-      all: []
+      all: [(context)=>{
+        // console.log("aftere context", context.path);
+      }]
     },
     error: {
       all: []

@@ -14,7 +14,7 @@ export const jobSchema = {
   required: ['_id'],
   properties: {
     _id: ObjectIdSchema(),
-    position: { type: 'string', minLength: 1 },
+    jobtitle: { type: 'string', minLength: 1 },
     description: { type: 'string', minLength: 1 },
     tags: {
       type: 'array',
@@ -31,22 +31,12 @@ export const jobSchema = {
       properties: {
         name: { type: 'string' },
         type: { type: 'string', default: 'Point' },
-        coordinates: { type: 'array', items: { type: 'number' } }
+        coordinates: { type: 'array', items: { type: 'number' } },
+        fulladdress: { type: 'string' }
       },
       required: ['coordinates'],
       additionalProperties: false
     },
-
-    styles: {
-      type: 'object',
-      properties: {
-        bgcolor: { type: 'string', default: 'white' },
-        color: { type: 'string', default: 'black' }
-      },
-      required: ['bgcolor', 'color'],
-      additionalProperties: false
-    },
-
     createdat: { type: 'string', format: 'date-time' },
     updatedat: { type: 'string', format: 'date-time' }
   }
@@ -66,7 +56,7 @@ export const jobDataSchema = {
   $id: 'JobData',
   type: 'object',
   additionalProperties: false,
-  required: ['position', 'description', 'tags', 'salary', 'salarybasis', 'location'],
+  required: ['jobtitle', 'description', 'tags', 'salary', 'salarybasis', 'location'],
   properties: {
     ...jobSchema.properties
   }
@@ -102,7 +92,7 @@ export const jobQuerySchema = {
   additionalProperties: true,
   properties: {
     ...querySyntax(jobSchema.properties, {
-      position: {
+      jobtitle: {
         $regex: { type: 'string' },
         $options: { type: 'string' }
       },
