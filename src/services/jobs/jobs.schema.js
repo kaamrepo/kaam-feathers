@@ -4,6 +4,7 @@ import { resolveQueryObjectId } from '@feathersjs/mongodb'
 import { ObjectIdSchema } from '@feathersjs/schema'
 import { dataValidator, queryValidator } from '../../validators.js'
 import { userPath } from '../users/users.shared.js'
+import { salaryBasisEnum } from '../../constant/enums.js'
 
 // Main data model schema
 export const jobSchema = {
@@ -15,8 +16,6 @@ export const jobSchema = {
     _id: ObjectIdSchema(),
     jobtitle: { type: 'string', minLength: 1 },
     description: { type: 'string', minLength: 1 },
-    requirements: { type: 'string', minLength: 1 },
-    about: { type: 'string' },
     tags: {
       type: 'array',
       items: { type: 'string', minLength: 1 },
@@ -26,7 +25,7 @@ export const jobSchema = {
     },
     createdby: ObjectIdSchema(),
     salary: { type: 'number' },
-    salarybasis: { type: 'string', enum: ['year', 'month', 'week'] },
+    salarybasis: { type: 'string', enum: salaryBasisEnum },
     location: {
       type: 'object',
       properties: {
@@ -57,7 +56,7 @@ export const jobDataSchema = {
   $id: 'JobData',
   type: 'object',
   additionalProperties: false,
-  required: ['jobtitle', 'description', 'tags', 'salary', 'salarybasis', 'location'],
+  required: ['position', 'description', 'tags', 'salary', 'salarybasis', 'location'],
   properties: {
     ...jobSchema.properties
   }
