@@ -36,17 +36,6 @@ export const jobSchema = {
       required: ['coordinates'],
       additionalProperties: false
     },
-
-    styles: {
-      type: 'object',
-      properties: {
-        bgcolor: { type: 'string', default: 'white' },
-        color: { type: 'string', default: 'black' }
-      },
-      required: ['bgcolor', 'color'],
-      additionalProperties: false
-    },
-
     createdat: { type: 'string', format: 'date-time' },
     updatedat: { type: 'string', format: 'date-time' }
   }

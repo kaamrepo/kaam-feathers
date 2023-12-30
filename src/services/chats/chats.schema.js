@@ -2,6 +2,7 @@
 import { resolve, getValidator, querySyntax } from '@feathersjs/schema'
 import { ObjectIdSchema } from '@feathersjs/schema'
 import { dataValidator, queryValidator } from '../../validators.js'
+import { jobapplicationPath } from '../jobapplications/jobapplications.shared.js'
 
 // Main data model schema
 export const chatSchema = {
@@ -37,7 +38,11 @@ export const chatSchema = {
 export const chatValidator = getValidator(chatSchema, dataValidator)
 export const chatResolver = resolve({})
 
-export const chatExternalResolver = resolve({})
+export const chatExternalResolver = resolve({
+  applicationDetails: async (_data, chat, context) => {
+    return await context.app.service(jobapplicationPath).get(chat?.applicationid)
+  }
+})
 
 // Schema for creating new data
 export const chatDataSchema = {
