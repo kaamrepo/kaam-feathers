@@ -56,7 +56,7 @@ export const jobDataSchema = {
   $id: 'JobData',
   type: 'object',
   additionalProperties: false,
-  required: ['position', 'description', 'tags', 'salary', 'salarybasis', 'location'],
+  required: ['jobtitle', 'description', 'tags', 'salary', 'salarybasis', 'location'],
   properties: {
     ...jobSchema.properties
   }
