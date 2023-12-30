@@ -8,7 +8,7 @@ export const chatSchema = {
   $id: 'Chat',
   type: 'object',
   additionalProperties: false,
-  required: ['_id', 'text'],
+  required: ['_id'],
   properties: {
     _id: ObjectIdSchema(),
     applicationid: ObjectIdSchema(),
@@ -19,7 +19,10 @@ export const chatSchema = {
         properties: {
           _id: ObjectIdSchema(),
           senderid: ObjectIdSchema(),
-          type: { type: 'string', enum: ['initial', 'text'] },
+          messageType: {
+            type: 'string',
+            enum: ['initial', 'text']
+          },
           text: { type: 'string' },
           createdat: { type: 'string', format: 'date-time' },
           isseen: { type: 'boolean' }
@@ -56,7 +59,7 @@ export const chatDataResolver = resolve({
 export const chatPatchSchema = {
   $id: 'ChatPatch',
   type: 'object',
-  additionalProperties: false,
+  additionalProperties: true,
   required: [],
   properties: {
     ...chatSchema.properties

@@ -1,10 +1,17 @@
+import { ObjectId } from 'mongodb'
+import { resolveObjectId } from '@feathersjs/mongodb'
+
 export const pushChatMessage = async (context) => {
-  const { chat_message } = context.data
+  const chat_message = context.data
   if (chat_message && Object.keys(chat_message)?.length) {
-    delete context.data.chat_message
     context.data = {
-      ...context.data,
-      $push: { messages: chat_message }
+      $push: {
+        messages: {
+          _id: new ObjectId(),
+          senderid: context.params.user._id,
+          ...chat_message
+        }
+      }
     }
   }
   return context
