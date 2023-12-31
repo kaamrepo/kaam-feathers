@@ -1,5 +1,4 @@
 import { ObjectId } from 'mongodb'
-import { resolveObjectId } from '@feathersjs/mongodb'
 
 export const pushChatMessage = async (context) => {
   const chat_message = context.data

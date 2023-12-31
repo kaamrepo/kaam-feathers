@@ -2,8 +2,7 @@
 import { authenticate } from '@feathersjs/authentication'
 
 import { hooks as schemaHooks } from '@feathersjs/schema'
-import
-{
+import {
   jobDataValidator,
   jobPatchValidator,
   jobQueryValidator,
@@ -14,8 +13,7 @@ import
   jobQueryResolver
 } from './jobs.schema.js'
 import { JobService, getOptions } from './jobs.class.js'
-import
-{ jobPath, jobMethods } from './jobs.shared.js'
+import { jobPath, jobMethods } from './jobs.shared.js'
 import { commonHook } from '../../hooks/commonHook.js'
 import { getNearByJobs } from './hooks/getNearByJobs.js'
 
@@ -23,8 +21,7 @@ export * from './jobs.class.js'
 export * from './jobs.schema.js'
 
 // A configure function that registers the service and its hooks via `app.configure`
-export const job = (app) =>
-{
+export const job = (app) => {
   app.use(jobPath, new JobService(getOptions(app)), {
     // A list of all methods this service exposes externally
     methods: jobMethods,
@@ -44,19 +41,20 @@ export const job = (app) =>
       all: [
         commonHook,
         schemaHooks.validateQuery(jobQueryValidator),
-        schemaHooks.resolveQuery(jobQueryResolver),
-
+        schemaHooks.resolveQuery(jobQueryResolver)
       ],
-      find: [
-        getNearByJobs,
-      ],
+      find: [getNearByJobs],
       get: [],
       create: [schemaHooks.validateData(jobDataValidator), schemaHooks.resolveData(jobDataResolver)],
       patch: [schemaHooks.validateData(jobPatchValidator), schemaHooks.resolveData(jobPatchResolver)],
       remove: []
     },
     after: {
-      all: []
+      all: [
+        // (context) => {
+        //   console.log('aftere context', context.result)
+        // }
+      ]
     },
     error: {
       all: []
