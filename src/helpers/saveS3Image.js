@@ -4,7 +4,7 @@ import { amazonS3bucket } from '../utils/amazonS3bucket.js'
 const s3 = amazonS3bucket()
 const saveS3Image = async function (file) {
   try {
-    const key = `uploads/${Date.now()}-${Math.floor(Math.random() * 1000) - file.originalname}`
+    const key = `uploads/${Date.now()}-${Math.floor(Math.random() * 1000)}-${file.originalname}`
     const params = {
       Bucket: process.env.KAAM_S3_BUCKET_NAME,
       Key: key,

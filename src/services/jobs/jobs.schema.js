@@ -19,7 +19,7 @@ export const jobSchema = {
     tags: {
       type: 'array',
       items: { type: 'string', minLength: 1 },
-      minItems: 1,
+      minItems: 3,
       maxItems: 3,
       uniqueItems: true
     },

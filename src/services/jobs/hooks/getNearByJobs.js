@@ -1,6 +1,5 @@
 export const getNearByJobs = async (context) => {
   const { query } = context.params
-  console.log('entered in the hook')
 
   switch (query.type) {
     case 'nearby':
@@ -35,26 +34,26 @@ export const getNearByJobs = async (context) => {
       context.params.pipeline.push({
         $feathers: context.params.query
       })
-      console.log('context.params.pipeline', JSON.stringify(context.params.pipeline, null, 4))
       if (context.params?.pipeline?.length <= 0) {
         delete context.params.pipeline
       }
       break
 
     case 'recommended':
-      console.log('recommended query', query)
+      // console.log('recommended query', query)
       break
 
     case 'featured':
-      console.log('featured query', query)
+      // console.log('featured query', query)
       break
 
     default:
-      console.log('default', query)
+      // console.log('default', query)
       break
   }
 
   delete query.type
+  // console.log('context.params.pipeline', JSON.stringify(context.params.pipeline, null, 4))
 
   return context
 }
