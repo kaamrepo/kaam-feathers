@@ -50,11 +50,8 @@ export const job = (app) => {
       remove: []
     },
     after: {
-      all: [
-        // (context) => {
-        //   console.log('aftere context', context.result)
-        // }
-      ]
+      all: [],
+      get: []
     },
     error: {
       all: []

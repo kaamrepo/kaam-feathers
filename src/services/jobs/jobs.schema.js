@@ -5,6 +5,7 @@ import { ObjectIdSchema } from '@feathersjs/schema'
 import { dataValidator, queryValidator } from '../../validators.js'
 import { userPath } from '../users/users.shared.js'
 import { salaryBasisEnum } from '../../constant/enums.js'
+import { jobapplicationPath } from '../jobapplications/jobapplications.shared.js'
 
 // Main data model schema
 export const jobSchema = {
@@ -37,6 +38,7 @@ export const jobSchema = {
       required: ['coordinates'],
       additionalProperties: false
     },
+    isactive: { type: 'boolean', default: true },
     createdat: { type: 'string', format: 'date-time' },
     updatedat: { type: 'string', format: 'date-time' }
   }
@@ -47,7 +49,31 @@ export const jobResolver = resolve({})
 export const jobExternalResolver = resolve({
   employerDetails: virtual(async (job, context) => {
     const $select = ['firstname', 'lastname', 'email', '_id', 'profilepic']
-    return context.app.service(userPath).get(job.createdby, { query: { $select } })
+    return await context.app.service(userPath).get(job.createdby, { query: { $select } })
+  }),
+  jobAppliedDetails: virtual(async (job, context) => {
+    const authenticatedUser = context.params.user._id
+    if (context.method === 'get') {
+      const jobAppliedDetails = await context.app.service(jobapplicationPath).getByQueryParams({
+        query: {
+          jobid: context.result._id,
+          appliedby: authenticatedUser,
+          $limit: 1
+        }
+      })
+      return jobAppliedDetails
+    } else return undefined
+  }),
+  appliedCount: virtual(async (job, context) => {
+    if (['find', 'get'].includes(context.method)) {
+      const jobAppliedCount = await context.app.service(jobapplicationPath).find({
+        query: {
+          jobid: job._id,
+          $limit: 0
+        }
+      })
+      return jobAppliedCount.total
+    } else return undefined
   })
 })
 

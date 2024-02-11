@@ -1,9 +1,9 @@
 // For more information about this file see https://dove.feathersjs.com/guides/cli/service.schemas.html
-import { resolve, getValidator, querySyntax } from '@feathersjs/schema'
-import { ObjectIdSchema } from '@feathersjs/schema'
+import { resolve, getValidator, querySyntax, queryProperty, ObjectIdSchema } from '@feathersjs/schema'
 import { dataValidator, queryValidator } from '../../validators.js'
 import { userPath } from '../users/users.shared.js'
 import { jobPath } from '../jobs/jobs.shared.js'
+import { resolveQueryObjectId } from '@feathersjs/mongodb'
 
 // Main data model schema
 export const jobapplicationSchema = {
@@ -30,7 +30,7 @@ export const jobapplicationResolver = resolve({
     return user
   },
   jobDetails: async (value, data, context) => {
-    const user = await context.app.service(jobPath).get(data?.jobid)
+    const user = await context.app.service(jobPath)._get(data?.jobid)
     return user
   }
 })
@@ -74,10 +74,13 @@ export const jobapplicationPatchResolver = resolve({
 export const jobapplicationQuerySchema = {
   $id: 'JobapplicationQuery',
   type: 'object',
-  additionalProperties: false,
+  additionalProperties: true,
   properties: {
-    ...querySyntax(jobapplicationSchema.properties)
+    ...querySyntax(jobapplicationSchema.properties),
+    appliedby: queryProperty({ anyOf: [{ type: 'string' }, { type: 'object' }] })
   }
 }
 export const jobapplicationQueryValidator = getValidator(jobapplicationQuerySchema, queryValidator)
-export const jobapplicationQueryResolver = resolve({})
+export const jobapplicationQueryResolver = resolve({
+  appliedby: resolveQueryObjectId
+})

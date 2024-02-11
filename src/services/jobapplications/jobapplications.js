@@ -2,8 +2,7 @@
 import { authenticate } from '@feathersjs/authentication'
 
 import { hooks as schemaHooks } from '@feathersjs/schema'
-import
-{
+import {
   jobapplicationDataValidator,
   jobapplicationPatchValidator,
   jobapplicationQueryValidator,
@@ -16,13 +15,13 @@ import
 import { JobapplicationService, getOptions } from './jobapplications.class.js'
 import { jobapplicationPath, jobapplicationMethods } from './jobapplications.shared.js'
 import { createChatForAppliedJob } from './hooks/createChatForAppliedJob.js'
+import { commonHook } from '../../hooks/commonHook.js'
 
 export * from './jobapplications.class.js'
 export * from './jobapplications.schema.js'
 
 // A configure function that registers the service and its hooks via `app.configure`
-export const jobapplication = (app) =>
-{
+export const jobapplication = (app) => {
   // Register our service on the Feathers application
   app.use(jobapplicationPath, new JobapplicationService(getOptions(app)), {
     // A list of all methods this service exposes externally
@@ -41,6 +40,7 @@ export const jobapplication = (app) =>
     },
     before: {
       all: [
+        commonHook,
         schemaHooks.validateQuery(jobapplicationQueryValidator),
         schemaHooks.resolveQuery(jobapplicationQueryResolver)
       ],
@@ -58,9 +58,7 @@ export const jobapplication = (app) =>
     },
     after: {
       all: [],
-      create: [
-        createChatForAppliedJob,
-      ]
+      create: [createChatForAppliedJob]
     },
     error: {
       all: []

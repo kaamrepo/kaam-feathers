@@ -34,7 +34,7 @@ export const chat = (app) => {
   app.service(chatPath).hooks({
     around: {
       all: [
-        // authenticate('jwt'),
+        authenticate('jwt'),
         schemaHooks.resolveExternal(chatExternalResolver),
         schemaHooks.resolveResult(chatResolver)
       ]

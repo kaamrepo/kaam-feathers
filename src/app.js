@@ -36,7 +36,9 @@ app.configure(
   socketio({
     cors: {
       origin: app.get('origins')
-    }
+    },
+    pingInterval: 10000,
+    pingTimeout: 50000
   })
 )
 app.configure(mongodb)
