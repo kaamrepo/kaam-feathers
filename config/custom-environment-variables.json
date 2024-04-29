@@ -1,0 +1,29 @@
+{
+  "port": {
+    "__name": "PORT",
+    "__format": "number"
+  },
+  "host": "HOSTNAME",
+  "authentication": {
+    "secret": "FEATHERS_SECRET"
+  },
+  "kaam_otp_validity_time": "KAAM_OTP_VALIDITY_TIME",
+  "kaam_twilio_account_sid": "KAAM_TWILIO_ACCOUNT_SID",
+  "kaam_twilio_auth_token": "KAAM_TWILIO_AUTH_TOKEN",
+  "firebase_db_url": "KAAM_FIREBASE_EMAIL_ID",
+  "firebase_fcm_serive_account": "KAAM_FIREBASE_SERVICEACCOUNT",
+  "firebase_fcm_auth_url": "KAAM_FIREBASE_AUTH_URL",
+  "cloudName": "KAAM_CLOUDINARY_CLOUDNAME",
+  "apiKey": "KAAM_CLOUDINARY_APIKEY",
+  "apiSecret": "KAAM_CLOUDINARY_APISECRETKEY",
+  "url": "KAAM_CLOUDINARY_URL",
+  "kaam_otp_digits": "KAAM_OTP_DIGITS",
+  "kaam_port": "KAAM_PORT",
+  "kaam_host": "KAAM_HOST",
+  "kaam_mongodb": "KAAM_MONGODB_URI",
+  "kaam_s3_bucket_name":"KAAM_S3_BUCKET_NAME",
+  "kaam_aws_region":"KAAM_AWS_REGION",
+  "kaam_aws_accesskey":"KAAM_AWS_ACCESS_KEY",
+  "kaam_aws_secretaccessKey":"KAAM_AWS_SECRETACCESS_KEY",
+  "kaam_firebase_notification_file_path":"FIREBASE_NOTIFICATION_FILE_PATH"
+}
