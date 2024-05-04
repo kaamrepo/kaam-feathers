@@ -21,6 +21,7 @@ export const userSchema = {
     otpexpiresat: { type: 'string', format: 'date-time' },
     createdat: { type: 'string', format: 'date-time' },
     updatedat: { type: 'string', format: 'date-time' },
+    isFirstLogin: { type: 'boolean', default: true },
 
     isactive: { type: 'boolean', default: true },
 
@@ -34,12 +35,11 @@ export const userSchema = {
         district: { type: 'string' },
         city: { type: 'string' },
         state: { type: 'string' },
-        country: { type: 'string' },
+        country: { type: 'string' }
       },
       required: [],
       additionalProperties: false
     },
-
 
     firebasetokens: { type: 'array', items: { type: 'string' } },
     profilepic: { type: 'string' },
@@ -75,8 +75,7 @@ export const userDataResolver = resolve({
   isactive: async () => true,
   createdat: async (value, _, context) => new Date(),
   updatedat: async (value, _, context) => new Date(),
-  otpexpiresat: async (value, user, context) =>
-  {
+  otpexpiresat: async (value, user, context) => {
     const expiryTime = Number(context.app.get('kaam_otp_validity_time')) ?? 4
     return value ? new Date(new Date(value).getTime() + expiryTime * 60000) : undefined
   }
@@ -96,15 +95,12 @@ export const userPatchValidator = getValidator(userPatchSchema, dataValidator)
 export const userPatchResolver = resolve({
   otp: passwordHash({ strategy: 'local' }),
   updatedat: async (value, _, context) => new Date(),
-  dateofbirth: async (value, _, context) =>
-  {
+  dateofbirth: async (value, _, context) => {
     if (value) return new Date(value)
   },
-  isactive: async (value, _data, context) =>
-  {
-    if (value === undefined)
-    {
-      return undefined;
+  isactive: async (value, _data, context) => {
+    if (value === undefined) {
+      return undefined
     }
   }
 })
@@ -124,20 +120,16 @@ export const loginPatchValidator = getValidator(loginPatchSchema, dataValidator)
 export const loginPatchResolver = resolve({
   otp: passwordHash({ strategy: 'local' }),
   updatedat: async (value, _, context) => new Date(),
-  otpexpiresat: async (value, user, context) =>
-  {
+  otpexpiresat: async (value, user, context) => {
     const expiryTime = Number(context.app.get('kaam_otp_validity_time')) ?? 4
     return value ? new Date(new Date(value).getTime() + expiryTime * 60000) : undefined
   },
-  isactive: async (value, _data, context) =>
-  {
-    if (value === undefined)
-    {
-      return undefined;
+  isactive: async (value, _data, context) => {
+    if (value === undefined) {
+      return undefined
     }
   }
 })
-
 
 // Schema for allowed query properties
 export const userQuerySchema = {
@@ -151,10 +143,8 @@ export const userQuerySchema = {
 export const userQueryValidator = getValidator(userQuerySchema, queryValidator)
 export const userQueryResolver = resolve({
   // If there is a user (e.g. with authentication), they are only allowed to see their own data
-  _id: async (value, user, context) =>
-  {
-    if (context.params.user)
-    {
+  _id: async (value, user, context) => {
+    if (context.params.user) {
       return context.params.user._id
     }
 

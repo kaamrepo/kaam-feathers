@@ -10,7 +10,7 @@ export const checkUserExists = async (context) =>
         const user = await context.app.service(userPath).getByPhone(context.data.phone);
         if (!user)
         {
-            throw new NotFound("User does not exists");
+            throw new NotFound("Phone number not registered. Please try again.");
         }
         context.id = user._id
     }
