@@ -21,9 +21,8 @@ export const userSchema = {
     otpexpiresat: { type: 'string', format: 'date-time' },
     createdat: { type: 'string', format: 'date-time' },
     updatedat: { type: 'string', format: 'date-time' },
-    isFirstLogin: { type: 'boolean', default: true },
 
-    isactive: { type: 'boolean', default: true },
+    isactive: { type: 'boolean' },
 
     aboutme: { type: 'string', minLength: 1, maxLength: 256 },
     dateofbirth: { type: 'string', format: 'date-time' },
@@ -78,7 +77,7 @@ export const userDataResolver = resolve({
   otpexpiresat: async (value, user, context) => {
     const expiryTime = Number(context.app.get('kaam_otp_validity_time')) ?? 4
     return value ? new Date(new Date(value).getTime() + expiryTime * 60000) : undefined
-  }
+  },
 })
 
 // Schema for updating existing data
@@ -103,6 +102,12 @@ export const userPatchResolver = resolve({
       return undefined
     }
   }
+  // firebasetokens: async (value, _user, context) => {
+  //   console.log('value', value)
+  //   console.log(' user', _user)
+  //   console.log(' context', context.params.user)
+  //   return { $push: value[0] }
+  // }
 })
 
 // Schema for login user route

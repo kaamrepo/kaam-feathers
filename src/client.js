@@ -1,6 +1,8 @@
 // For more information about this file see https://dove.feathersjs.com/guides/cli/client.html
 import { feathers } from '@feathersjs/feathers'
 import authenticationClient from '@feathersjs/authentication-client'
+import { notificationsClient } from './services/notifications/notifications.shared.js'
+
 import { userJobPreferencesClient } from './services/user-job-preferences/user-job-preferences.shared.js'
 
 import { jobRolesClient } from './services/job-roles/job-roles.shared.js'
@@ -43,6 +45,8 @@ export const createClient = (connection, authenticationOptions = {}) => {
   client.configure(jobRolesClient)
 
   client.configure(userJobPreferencesClient)
+
+  client.configure(notificationsClient)
 
   return client
 }

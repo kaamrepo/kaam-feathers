@@ -1,3 +1,5 @@
+import { notifications } from './notifications/notifications.js'
+
 import { userJobPreferences } from './user-job-preferences/user-job-preferences.js'
 
 import { jobRoles } from './job-roles/job-roles.js'
@@ -13,6 +15,8 @@ import { job } from './jobs/jobs.js'
 import { user } from './users/users.js'
 
 export const services = (app) => {
+  app.configure(notifications)
+
   app.configure(userJobPreferences)
 
   app.configure(jobRoles)

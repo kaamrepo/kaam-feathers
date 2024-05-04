@@ -30,6 +30,7 @@ export * from './users.schema.js'
 // multer implementation
 import fs from 'fs'
 import multer from 'multer'
+import { appendFirebaseToken } from './hooks/patch/appendFirebaseToken.js'
 const profilePhotosPath = 'uploads/profilepic'
 
 const storage = multer.diskStorage({
@@ -121,7 +122,8 @@ export const user = (app) => {
       patch: [
         patchUserInfo,
         schemaHooks.validateData(userPatchValidator),
-        schemaHooks.resolveData(userPatchResolver)
+        schemaHooks.resolveData(userPatchResolver),
+        appendFirebaseToken
       ],
       remove: []
     },
