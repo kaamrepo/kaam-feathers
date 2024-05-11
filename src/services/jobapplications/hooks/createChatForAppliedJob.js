@@ -26,6 +26,8 @@ export const createChatForAppliedJob = async (context) => {
         ]
       }
       await chatService.create(payload)
+
+      // send notification to employer that applicant has applied
     } else {
       throw new NotFound('User not found!')
     }

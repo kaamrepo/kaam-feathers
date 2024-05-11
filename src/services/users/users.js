@@ -23,6 +23,7 @@ import { duplicateKeyError } from './hooks/error/duplicateKeyError.js'
 import { sendOTP } from './hooks/create/sendOTP.js'
 import { checkUserExists } from './hooks/login/checkUserExists.js'
 import { checkUserAlreadyRegistered } from './hooks/create/checkUserAlreadyRegistered.js'
+import { appendOrRemoveFirebaseToken } from './hooks/patch/appendOrRemoveFirebaseToken.js'
 
 export * from './users.class.js'
 export * from './users.schema.js'
@@ -30,7 +31,6 @@ export * from './users.schema.js'
 // multer implementation
 import fs from 'fs'
 import multer from 'multer'
-import { appendFirebaseToken } from './hooks/patch/appendFirebaseToken.js'
 const profilePhotosPath = 'uploads/profilepic'
 
 const storage = multer.diskStorage({
@@ -123,7 +123,7 @@ export const user = (app) => {
         patchUserInfo,
         schemaHooks.validateData(userPatchValidator),
         schemaHooks.resolveData(userPatchResolver),
-        appendFirebaseToken
+        appendOrRemoveFirebaseToken
       ],
       remove: []
     },

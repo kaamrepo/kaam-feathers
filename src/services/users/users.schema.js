@@ -77,7 +77,7 @@ export const userDataResolver = resolve({
   otpexpiresat: async (value, user, context) => {
     const expiryTime = Number(context.app.get('kaam_otp_validity_time')) ?? 4
     return value ? new Date(new Date(value).getTime() + expiryTime * 60000) : undefined
-  },
+  }
 })
 
 // Schema for updating existing data
@@ -87,7 +87,8 @@ export const userPatchSchema = {
   additionalProperties: false,
   required: [],
   properties: {
-    ...userSchema.properties
+    ...userSchema.properties,
+    isLogout: { type: 'boolean' }
   }
 }
 export const userPatchValidator = getValidator(userPatchSchema, dataValidator)

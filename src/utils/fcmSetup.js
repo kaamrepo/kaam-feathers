@@ -5,6 +5,7 @@ import { readFile } from 'fs/promises';
 export const firebaseSetup = async (app) => {
   try {
     const firebasePrivateKeyFilePath = app.get('kaam_firebase_notification_file_path')
+    console.log("FIREBASE_NOTIFICATION_FILE_PATH",firebasePrivateKeyFilePath )
     const buffer = await readFile(firebasePrivateKeyFilePath)
     const serviceAccount = JSON.parse(buffer.toString('utf8'))
     admin.initializeApp({

@@ -12,6 +12,7 @@ export const pushChatMessage = async (context) => {
         }
       }
     }
+    context.params.chat = true
   }
   return context
 }

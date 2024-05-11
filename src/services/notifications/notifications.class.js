@@ -1,5 +1,5 @@
 // This is a skeleton for a custom service class. Remove or add the methods you need here
-import { FCMNotification } from './strategy/fcm.strategy.js'
+import { sendPushNotification } from './strategy/fcm.push-notifications.js'
 
 export class NotificationsService {
   constructor(options) {
@@ -20,11 +20,17 @@ export class NotificationsService {
     if (Array.isArray(data)) {
       return Promise.all(data.map((current) => this.create(current, params)))
     }
+    const { type } = data
+    switch (type) {
+      case 'FCM':
+        sendPushNotification(data)
+        break
 
-    const notification = new FCMNotification()
-    notification.sendNotification(data)
+      default:
+        break
+    }
     return {
-     message: `${data.type} notification sent successfull`
+      message: `${data.type} notification initiated successfully`
     }
   }
 

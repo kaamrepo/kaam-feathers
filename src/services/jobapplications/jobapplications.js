@@ -16,6 +16,7 @@ import { JobapplicationService, getOptions } from './jobapplications.class.js'
 import { jobapplicationPath, jobapplicationMethods } from './jobapplications.shared.js'
 import { createChatForAppliedJob } from './hooks/createChatForAppliedJob.js'
 import { commonHook } from '../../hooks/commonHook.js'
+import { sendPushNotificationToEmployer } from './hooks/sendPushNotificationToEmployer.js'
 
 export * from './jobapplications.class.js'
 export * from './jobapplications.schema.js'
@@ -58,7 +59,7 @@ export const jobapplication = (app) => {
     },
     after: {
       all: [],
-      create: [createChatForAppliedJob]
+      create: [createChatForAppliedJob, sendPushNotificationToEmployer]
     },
     error: {
       all: []

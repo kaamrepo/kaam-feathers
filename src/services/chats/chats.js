@@ -16,7 +16,7 @@ import { ChatService, getOptions } from './chats.class.js'
 import { chatPath, chatMethods } from './chats.shared.js'
 import { updateChatIdInJobApplication } from './hooks/updateChatIdInJobApplication.js'
 import { pushChatMessage } from './hooks/pushChatMessage.js'
-import { sendChatNotification } from './hooks/sendChatNotification.js'
+import { sendChatPushNotification } from './hooks/sendChatPushNotification.js'
 
 export * from './chats.class.js'
 export * from './chats.schema.js'
@@ -54,9 +54,7 @@ export const chat = (app) => {
     after: {
       all: [],
       create: [updateChatIdInJobApplication],
-      patch: [
-        // sendChatNotification
-      ]
+      patch: [sendChatPushNotification]
     },
     error: {
       all: []

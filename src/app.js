@@ -20,7 +20,6 @@ import { authentication } from './authentication.js'
 import { services } from './services/index.js'
 import { channels } from './channels.js'
 import { CloudnarySetup } from './utils/cloudnarySetup.js'
-import { FcmSetup } from './utils/firebaseNotificationSetup.js'
 import { amazonS3bucket } from './utils/amazonS3bucket.js'
 import { firebaseSetup } from './utils/fcmSetup.js'
 const app = express(feathers())

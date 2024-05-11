@@ -18,6 +18,10 @@ export const notificationsSchema = {
         title: { type: 'string' },
         body: { type: 'string' }
       }
+    },
+    data: {
+      type: 'object',
+      additionalProperties: true
     }
   }
 }
