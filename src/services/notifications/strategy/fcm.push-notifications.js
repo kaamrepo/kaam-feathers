@@ -27,5 +27,5 @@ export async function sendPushNotification(payload) {
     }
   })
 
-  // console.log('notification response', JSON.stringify(response, null, 5))
+  console.log('notification response', JSON.stringify(response, null, 5))
 }

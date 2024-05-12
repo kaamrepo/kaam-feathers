@@ -17,13 +17,13 @@ export const jobSchema = {
     _id: ObjectIdSchema(),
     jobtitle: { type: 'string', minLength: 1 },
     description: { type: 'string', minLength: 1 },
-    tags: {
-      type: 'array',
-      items: { type: 'string', minLength: 1 },
-      minItems: 3,
-      maxItems: 3,
-      uniqueItems: true
-    },
+    // tags: {
+    //   type: 'array',
+    //   items: { type: 'string', minLength: 1 },
+    //   minItems: 3,
+    //   maxItems: 3,
+    //   uniqueItems: true
+    // },
     createdby: ObjectIdSchema(),
     salary: { type: 'number' },
     salarybasis: { type: 'string', enum: salaryBasisEnum },
@@ -82,7 +82,7 @@ export const jobDataSchema = {
   $id: 'JobData',
   type: 'object',
   additionalProperties: false,
-  required: ['jobtitle', 'description', 'tags', 'salary', 'salarybasis', 'location'],
+  required: ['jobtitle', 'description',  'salary', 'salarybasis', 'location'],
   properties: {
     ...jobSchema.properties
   }

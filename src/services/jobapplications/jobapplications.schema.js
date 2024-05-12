@@ -27,7 +27,8 @@ export const jobapplicationSchema = {
 export const jobapplicationValidator = getValidator(jobapplicationSchema, dataValidator)
 export const jobapplicationResolver = resolve({
   applicantDetails: async (_value, data, context) => {
-    const user = await context.app.service(userPath).get(data?.appliedby)
+    const $select = ['firstname', 'lastname', '_id', 'profilepic']
+    const user = await context.app.service(userPath).get(data?.appliedby, { query: { $select } })
     return user
   },
   jobDetails: async (_value, data, context) => {
@@ -39,7 +40,7 @@ export const jobapplicationResolver = resolve({
     return await context.app.service(userPath).get(data.employerid, { query: { $select } })
   },
   chatDetails: async (_value, data, context) => {
-    if (context.method === 'get' && data?.chatid) {
+    if (['get', 'find'].includes(context.method) && data?.chatid) {
       const chat = await context.app.service(chatPath)._get(data?.chatid)
       const unseenMessageCount = chat?.messages?.reduce((total, current) => {
         if (current?.isseen === false) total = total + 1
