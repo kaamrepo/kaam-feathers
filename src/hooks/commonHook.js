@@ -1,5 +1,6 @@
 import { ObjectId } from 'mongodb'
 export const commonHook = () => async (hook) => {
+  console.log("in the commonHook",hook.params);
   let query = hook.params.query
   if (query && query !== undefined) {
     query['$sort'] = !query.sortAsc && !query.sortDesc ? { createdAt: -1 } : {}

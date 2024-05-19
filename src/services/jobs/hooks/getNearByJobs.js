@@ -3,6 +3,7 @@ export const getNearByJobs = async (context) => {
 
   switch (query.type) {
     case 'nearby':
+      console.log("in the query with params",query);
       const { coordinates, text } = context.params.query
       delete context.params.query.coordinates
       delete context.params.query.text

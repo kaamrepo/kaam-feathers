@@ -32,9 +32,9 @@ export const job = (app) => {
   app.service(jobPath).hooks({
     around: {
       all: [
-        authenticate('jwt')
-        // schemaHooks.resolveExternal(jobExternalResolver),
-        // schemaHooks.resolveResult(jobResolver)
+        authenticate('jwt'),
+        schemaHooks.resolveExternal(jobExternalResolver),
+        schemaHooks.resolveResult(jobResolver)
       ]
     },
     before: {
@@ -50,7 +50,7 @@ export const job = (app) => {
       remove: []
     },
     after: {
-      all: [],
+      all: [(context)=>{console.log("context all",JSON.stringify(context.params.pipeline,null,4));}],
       get: []
     },
     error: {
