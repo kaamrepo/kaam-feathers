@@ -24,15 +24,12 @@ import { sendOTP } from './hooks/create/sendOTP.js'
 import { checkUserExists } from './hooks/login/checkUserExists.js'
 import { checkUserAlreadyRegistered } from './hooks/create/checkUserAlreadyRegistered.js'
 import { appendOrRemoveFirebaseToken } from './hooks/patch/appendOrRemoveFirebaseToken.js'
-
 export * from './users.class.js'
 export * from './users.schema.js'
-
 // multer implementation
 import fs from 'fs'
 import multer from 'multer'
 const profilePhotosPath = 'uploads/profilepic'
-
 const storage = multer.diskStorage({
   destination: (_req, _file, cb) => cb(null, profilePhotosPath), // where the files are being stored
   filename: (_req, file, cb) => cb(null, `ProfilePic_${Date.now()}-${file.originalname}`) // getting the file name

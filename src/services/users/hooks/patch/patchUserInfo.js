@@ -23,6 +23,25 @@ export const patchUserInfo = async (hook) => {
       console.log('error')
     }
   }
+  if (hook.data.source === 'updatelocation') {
+    const newCoordinates = { lat: hook.data.lat, long: hook.data.long }
+    const getOldUser = await hook.app.service('api/users').get(hook.id)
+    // Ensure coordinates is an array
+    if (!Array.isArray(getOldUser.coordinates)) {
+      getOldUser.coordinates = []
+    }
+    const lastCoordinates = getOldUser.coordinates[getOldUser.coordinates.length - 1]
+    const isSameCoordinates =
+      lastCoordinates &&
+      lastCoordinates.lat === newCoordinates.lat &&
+      lastCoordinates.long === newCoordinates.long
+    if (!isSameCoordinates) {
+      getOldUser.coordinates.push(newCoordinates)
+    }
+    hook.data.coordinates = getOldUser.coordinates
+    delete hook.data.lat
+    delete hook.data.long
+  }
   delete hook.data.source
   return hook
 }
