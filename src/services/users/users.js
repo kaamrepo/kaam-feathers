@@ -26,6 +26,8 @@ import { checkUserAlreadyRegistered } from './hooks/create/checkUserAlreadyRegis
 import { appendOrRemoveFirebaseToken } from './hooks/patch/appendOrRemoveFirebaseToken.js'
 export * from './users.class.js'
 export * from './users.schema.js'
+import { processQueryParams } from '../../utils/processQueryParams.js'
+import { userQueryfilters } from './hooks/filters/userQueryfilters.js'
 // multer implementation
 import fs from 'fs'
 import multer from 'multer'
@@ -104,14 +106,11 @@ export const user = (app) => {
       get: [authenticate('jwt')],
       create: [],
       update: [authenticate('jwt')],
-      patch: [
-        // authenticate('jwt')
-      ],
+      patch: [authenticate('jwt')],
       remove: [authenticate('jwt')]
     },
     before: {
-      all: [schemaHooks.validateQuery(userQueryValidator), schemaHooks.resolveQuery(userQueryResolver)],
-      find: [],
+      find: [processQueryParams(), userQueryfilters()],
       get: [],
       create: [
         checkUserAlreadyRegistered,
@@ -129,7 +128,7 @@ export const user = (app) => {
       remove: []
     },
     after: {
-      all: [],
+      all: [schemaHooks.validateQuery(userQueryValidator), schemaHooks.resolveQuery(userQueryResolver)],
       create: [
         // async (hook) => {
         //   try {
