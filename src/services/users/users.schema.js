@@ -44,8 +44,8 @@ export const userSchema = {
       items: {
         type: 'object',
         properties: {
-          lat: { type: 'string' },
-          long: { type: 'string' }
+          lat: { type: 'number' },
+          long: { type: 'number' }
         },
         required: ['lat', 'long']
       },
