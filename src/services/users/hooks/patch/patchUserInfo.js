@@ -24,7 +24,7 @@ export const patchUserInfo = async (hook) => {
     }
   }
   if (hook.data.source === 'updatelocation') {
-    const newCoordinates = [hook.data.lat, hook.data.long]
+    const newCoordinates = [hook.data.long,hook.data.lat]
     const getOldUser = await hook.app.service('api/users').get(hook.id)
     if (!Array.isArray(getOldUser.coordinates)) {
       getOldUser.coordinates = []
