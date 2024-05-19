@@ -32,9 +32,9 @@ export const job = (app) => {
   app.service(jobPath).hooks({
     around: {
       all: [
-        authenticate('jwt'),
-        schemaHooks.resolveExternal(jobExternalResolver),
-        schemaHooks.resolveResult(jobResolver)
+        authenticate('jwt')
+        // schemaHooks.resolveExternal(jobExternalResolver),
+        // schemaHooks.resolveResult(jobResolver)
       ]
     },
     before: {

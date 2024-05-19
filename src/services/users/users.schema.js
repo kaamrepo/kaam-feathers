@@ -46,7 +46,8 @@ export const userSchema = {
     facebookid: { type: 'string' },
     twitterid: { type: 'string' },
     githubid: { type: 'string' },
-    auth0id: { type: 'string' }
+    auth0id: { type: 'string' },
+    activeforjobs: { type: 'boolean', default: true }
   }
 }
 export const userValidator = getValidator(userSchema, dataValidator)

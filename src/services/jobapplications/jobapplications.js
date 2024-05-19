@@ -17,7 +17,7 @@ import { jobapplicationPath, jobapplicationMethods } from './jobapplications.sha
 import { createChatForAppliedJob } from './hooks/createChatForAppliedJob.js'
 import { commonHook } from '../../hooks/commonHook.js'
 import { sendPushNotificationToEmployer } from './hooks/sendPushNotificationToEmployer.js'
-
+import { changeJobApplicationStatus } from './hooks/changeJobApplicationStatus.js'
 export * from './jobapplications.class.js'
 export * from './jobapplications.schema.js'
 
@@ -34,7 +34,7 @@ export const jobapplication = (app) => {
   app.service(jobapplicationPath).hooks({
     around: {
       all: [
-        authenticate('jwt'),
+        // authenticate('jwt'),
         schemaHooks.resolveExternal(jobapplicationExternalResolver),
         schemaHooks.resolveResult(jobapplicationResolver)
       ]
@@ -52,6 +52,7 @@ export const jobapplication = (app) => {
         schemaHooks.resolveData(jobapplicationDataResolver)
       ],
       patch: [
+        changeJobApplicationStatus,
         schemaHooks.validateData(jobapplicationPatchValidator),
         schemaHooks.resolveData(jobapplicationPatchResolver)
       ],

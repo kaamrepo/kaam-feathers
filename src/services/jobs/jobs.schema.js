@@ -16,6 +16,7 @@ export const jobSchema = {
   properties: {
     _id: ObjectIdSchema(),
     jobtitle: { type: 'string', minLength: 1 },
+    numberofopenings: { type: 'number', default: 1 },
     description: { type: 'string', minLength: 1 },
     // tags: {
     //   type: 'array',
@@ -38,6 +39,7 @@ export const jobSchema = {
       required: ['coordinates'],
       additionalProperties: false
     },
+
     isactive: { type: 'boolean', default: true },
     createdat: { type: 'string', format: 'date-time' },
     updatedat: { type: 'string', format: 'date-time' }
@@ -82,7 +84,7 @@ export const jobDataSchema = {
   $id: 'JobData',
   type: 'object',
   additionalProperties: false,
-  required: ['jobtitle', 'description',  'salary', 'salarybasis', 'location'],
+  required: ['jobtitle', 'description', 'salary', 'salarybasis', 'location', 'numberofopenings'],
   properties: {
     ...jobSchema.properties
   }
