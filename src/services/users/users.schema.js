@@ -39,18 +39,7 @@ export const userSchema = {
       required: [],
       additionalProperties: false
     },
-    coordinates: {
-      type: 'array',
-      items: {
-        type: 'object',
-        properties: {
-          lat: { type: 'number' },
-          long: { type: 'number' }
-        },
-        required: ['lat', 'long']
-      },
-      default: []
-    },
+    coordinates: { type: 'array', items: { type: 'number' } },
     firebasetokens: { type: 'array', items: { type: 'string' } },
     profilepic: { type: 'string' },
     googleid: { type: 'string' },

@@ -3,43 +3,73 @@ export const userQueryfilters = () => async (hook) => {
   if (query && query !== undefined) {
     Object.keys(hook.params.query).forEach((key) => {
       switch (key) {
-        case 'name':
-          query.name = query.name.trim()
-          if (query.name.includes(' ')) {
-            let fullName = query.name.split(' ')
+        case 'nearBy':
+          if (query['nearBy'] && query['nearBy'].length === 2) {
+            hook.params.pipeline.push({
+              $geoNear: {
+                near: {
+                  type: 'Point',
+                  coordinates: query['nearBy']
+                },
+                distanceField: 'distanceInMeter',
+                spherical: true,
+                maxDistance: 10000 // (10km)
+              }
+            })
+            delete query['nearBy']
+          }
+          break
+
+        case 'wildString':
+          query.wildString = query.wildString.trim()
+          const words = query.wildString.split(' ')
+
+          if (words.length === 1) {
+            // Single word search
+            const regex = new RegExp(`^${query.wildString}`, 'i')
+            query['$or'] = [
+              { firstname: regex },
+              { lastname: regex },
+              { phone: regex },
+              { 'address.addressline': regex },
+              { 'address.pincode': regex },
+              { 'address.district': regex },
+              { 'address.country': regex },
+              { 'address.state': regex },
+              { 'address.city': regex }
+            ]
+          } else if (words.length === 2) {
+            // First name and last name search
+            const [firstName, lastName] = words
             query['$and'] = [
               {
                 $or: [
-                  {
-                    firstname: new RegExp(`^${fullName[0]}`, 'i') || ''
-                  },
-                  {
-                    lastname: new RegExp(`^${fullName[0]}`, 'i') || ''
-                  }
+                  { firstname: new RegExp(`^${firstName}`, 'i') },
+                  { lastname: new RegExp(`^${firstName}`, 'i') }
                 ]
               },
               {
                 $or: [
-                  {
-                    firstname: new RegExp(`^${fullName[1]}`, 'i') || ''
-                  },
-                  {
-                    lastname: new RegExp(`^${fullName[1]}`, 'i') || ''
-                  }
+                  { firstname: new RegExp(`^${lastName}`, 'i') },
+                  { lastname: new RegExp(`^${lastName}`, 'i') }
                 ]
               }
             ]
           } else {
+            // Address filter with all
             query['$or'] = [
-              {
-                firstname: new RegExp(`^${query.name}`, 'i') || ''
-              },
-              {
-                lastname: new RegExp(`^${query.name}`, 'i') || ''
-              }
+              { firstname: new RegExp(`^${query.wildString}`, 'i') },
+              { lastname: new RegExp(`^${query.wildString}`, 'i') },
+              { phone: new RegExp(`^${query.wildString}`, 'i') },
+              { 'address.addressline': new RegExp(`^${query.wildString}`, 'i') },
+              { 'address.pincode': new RegExp(`^${query.wildString}`, 'i') },
+              { 'address.district': new RegExp(`^${query.wildString}`, 'i') },
+              { 'address.country': new RegExp(`^${query.wildString}`, 'i') },
+              { 'address.state': new RegExp(`^${query.wildString}`, 'i') },
+              { 'address.city': new RegExp(`^${query.wildString}`, 'i') }
             ]
           }
-          delete query['name']
+          delete query['wildString']
           break
         case 'phone':
           query['phone'] = new RegExp(`^${query.phone}`, 'i') || ''

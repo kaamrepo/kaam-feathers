@@ -26,11 +26,11 @@ import { checkUserAlreadyRegistered } from './hooks/create/checkUserAlreadyRegis
 import { appendOrRemoveFirebaseToken } from './hooks/patch/appendOrRemoveFirebaseToken.js'
 export * from './users.class.js'
 export * from './users.schema.js'
-import { processQueryParams } from '../../utils/processQueryParams.js'
 import { userQueryfilters } from './hooks/filters/userQueryfilters.js'
 // multer implementation
 import fs from 'fs'
 import multer from 'multer'
+import { commonHook } from '../../hooks/commonHook.js'
 const profilePhotosPath = 'uploads/profilepic'
 const storage = multer.diskStorage({
   destination: (_req, _file, cb) => cb(null, profilePhotosPath), // where the files are being stored
@@ -106,11 +106,13 @@ export const user = (app) => {
       get: [authenticate('jwt')],
       create: [],
       update: [authenticate('jwt')],
-      patch: [authenticate('jwt')],
+      patch: [
+        // authenticate('jwt')
+      ],
       remove: [authenticate('jwt')]
     },
     before: {
-      find: [processQueryParams(), userQueryfilters()],
+      find: [commonHook(), userQueryfilters()],
       get: [],
       create: [
         checkUserAlreadyRegistered,
