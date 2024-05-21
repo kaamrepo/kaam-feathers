@@ -8,7 +8,7 @@ dayjs.extend(utc)
 dayjs.extend(timezone)
 
 export const patchUserInfo = async (hook) => {
-  if (hook.params.headers?.timezone && hook.data.dateofbirth) {
+  if (hook.params?.headers?.timezone && hook?.data?.dateofbirth) {
     hook.data.dateofbirth = new Date(hook.data.dateofbirth?.split('T')[0]).toISOString()
   }
   if (hook.data.source === 'uploadProfile') {
@@ -24,8 +24,8 @@ export const patchUserInfo = async (hook) => {
     }
   }
   if (hook.data.source === 'updatelocation') {
-    const newCoordinates = [hook.data.long,hook.data.lat]
-    const getOldUser = await hook.app.service('api/users').get(hook.id)
+    const newCoordinates = [hook?.data?.long,hook?.data?.lat]
+    const getOldUser = await hook.app.service('api/users').get(hook?.id)
     if (!Array.isArray(getOldUser.coordinates)) {
       getOldUser.coordinates = []
     }
