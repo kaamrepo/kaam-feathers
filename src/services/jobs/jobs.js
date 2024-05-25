@@ -15,7 +15,7 @@ import {
 import { JobService, getOptions } from './jobs.class.js'
 import { jobPath, jobMethods } from './jobs.shared.js'
 import { commonHook } from '../../hooks/commonHook.js'
-import { getNearByJobs } from './hooks/getNearByJobs.js'
+import { getJobsAsPerPreference } from './hooks/getJobsAsPerPreference.js'
 
 export * from './jobs.class.js'
 export * from './jobs.schema.js'
@@ -43,7 +43,7 @@ export const job = (app) => {
         schemaHooks.validateQuery(jobQueryValidator),
         schemaHooks.resolveQuery(jobQueryResolver)
       ],
-      find: [getNearByJobs],
+      find: [getJobsAsPerPreference],
       get: [],
       create: [schemaHooks.validateData(jobDataValidator), schemaHooks.resolveData(jobDataResolver)],
       patch: [schemaHooks.validateData(jobPatchValidator), schemaHooks.resolveData(jobPatchResolver)],
