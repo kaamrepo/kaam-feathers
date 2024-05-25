@@ -8,7 +8,6 @@ export const createChatForAppliedJob = async (context) => {
   if (result?._id) {
 
     const user = await context.app.service(userPath).get(result?.appliedby)
-
     if (user?._id) {
       const chatService = context.app.service(chatPath)
       const { firstname, lastname } = user

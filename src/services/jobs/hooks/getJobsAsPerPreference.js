@@ -157,11 +157,28 @@ export const getJobsAsPerPreference = async (context) => {
           }
           delete query['includeIds']
           break
+          case 'wildString':
+            query.wildString = query.wildString.trim()
+            const words = query.wildString.split(' ')
+              // Single word search
+              const regex = new RegExp(`^${query.wildString}`, 'i')
+              query['$or'] = [
+                { salarybasis: regex },
+                { salary: regex },
+                { description: regex },
+                { jobtitle: regex },
+                { 'location.fulladdress': regex },
+               
+              ]
+            delete query['wildString']
+            break
         default:
           break
       }
     })
     delete query['type']
+    //temperorily deleted the coordinate feature.
+    delete query['coordinates']
     console.log("in the getPreference hook last", context.params.query);
 
     return context

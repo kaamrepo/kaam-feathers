@@ -34,7 +34,7 @@ export const jobapplication = (app) => {
   app.service(jobapplicationPath).hooks({
     around: {
       all: [
-        // authenticate('jwt'),
+        authenticate('jwt'),
         schemaHooks.resolveExternal(jobapplicationExternalResolver),
         schemaHooks.resolveResult(jobapplicationResolver)
       ]
