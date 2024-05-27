@@ -21,7 +21,8 @@ export const jobapplicationSchema = {
     status: { type: 'string', enum: ['Applied', 'Approved', 'Rejected'] },
     updatedby: ObjectIdSchema(),
     employerid: ObjectIdSchema(),
-    chatid: ObjectIdSchema()
+    chatid: ObjectIdSchema(),
+    initiator:ObjectIdSchema(),
   }
 }
 export const jobapplicationValidator = getValidator(jobapplicationSchema, dataValidator)

@@ -1,6 +1,7 @@
 export const userQueryfilters = () => async (hook) => {
   let query = hook.params.query
   if (query && query !== undefined) {
+    console.log("int userQueryFileter",hook.params.query);
     Object.keys(hook.params.query).forEach((key) => {
       switch (key) {
         case 'nearBy':
@@ -31,12 +32,12 @@ export const userQueryfilters = () => async (hook) => {
               { firstname: regex },
               { lastname: regex },
               { phone: regex },
-              { 'address.addressline': regex },
-              { 'address.pincode': regex },
-              { 'address.district': regex },
-              { 'address.country': regex },
-              { 'address.state': regex },
-              { 'address.city': regex }
+              // { 'address.addressline': regex },
+              // { 'address.pincode': regex },
+              // { 'address.district': regex },
+              // { 'address.country': regex },
+              // { 'address.state': regex },
+              // { 'address.city': regex }
             ]
           } else if (words.length === 2) {
             // First name and last name search
@@ -61,12 +62,12 @@ export const userQueryfilters = () => async (hook) => {
               { firstname: new RegExp(`^${query.wildString}`, 'i') },
               { lastname: new RegExp(`^${query.wildString}`, 'i') },
               { phone: new RegExp(`^${query.wildString}`, 'i') },
-              { 'address.addressline': new RegExp(`^${query.wildString}`, 'i') },
-              { 'address.pincode': new RegExp(`^${query.wildString}`, 'i') },
-              { 'address.district': new RegExp(`^${query.wildString}`, 'i') },
-              { 'address.country': new RegExp(`^${query.wildString}`, 'i') },
-              { 'address.state': new RegExp(`^${query.wildString}`, 'i') },
-              { 'address.city': new RegExp(`^${query.wildString}`, 'i') }
+              // { 'address.addressline': new RegExp(`^${query.wildString}`, 'i') },
+              // { 'address.pincode': new RegExp(`^${query.wildString}`, 'i') },
+              // { 'address.district': new RegExp(`^${query.wildString}`, 'i') },
+              // { 'address.country': new RegExp(`^${query.wildString}`, 'i') },
+              // { 'address.state': new RegExp(`^${query.wildString}`, 'i') },
+              // { 'address.city': new RegExp(`^${query.wildString}`, 'i') }
             ]
           }
           delete query['wildString']
@@ -78,7 +79,8 @@ export const userQueryfilters = () => async (hook) => {
           break
       }
     })
-    hook.params.query = query
+    hook.params.query = query;
+    console.log("hooks.params.query finally",hook.params.query);
   }
   return hook
 }
