@@ -49,7 +49,7 @@ export const jobapplication = (app) => {
       get: [],
       create: [
         schemaHooks.validateData(jobapplicationDataValidator),
-        schemaHooks.resolveData(jobapplicationDataResolver)
+        schemaHooks.resolveData(jobapplicationDataResolver),
       ],
       patch: [
         changeJobApplicationStatus,

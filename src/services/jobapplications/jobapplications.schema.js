@@ -69,7 +69,7 @@ export const jobapplicationDataValidator = getValidator(jobapplicationDataSchema
 export const jobapplicationDataResolver = resolve({
   createdat: async () => new Date(),
   status: async () => 'Applied',
-  appliedby: async (_value, _data, _context) => _context?.params?.user?._id
+  // appliedby: async (_value, _data, _context) => _context?.params?.user?._id
 })
 
 // Schema for updating existing data
