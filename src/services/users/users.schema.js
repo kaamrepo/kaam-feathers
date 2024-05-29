@@ -3,6 +3,7 @@ import { resolve, getValidator, querySyntax } from '@feathersjs/schema'
 import { ObjectIdSchema } from '@feathersjs/schema'
 import { passwordHash } from '@feathersjs/authentication-local'
 import { dataValidator, queryValidator } from '../../validators.js'
+import { resolveObjectId } from '@feathersjs/mongodb'
 
 // Main data model schema
 export const userSchema = {
@@ -47,7 +48,14 @@ export const userSchema = {
     twitterid: { type: 'string' },
     githubid: { type: 'string' },
     auth0id: { type: 'string' },
-    activeforjobs: { type: 'boolean', default: true }
+    activeforjobs: { type: 'boolean', default: true },
+
+    tags: {
+      type: 'array',
+      items: { type: 'string', minLength: 1 },
+      minItems: 1,
+      uniqueItems: true
+    }
   }
 }
 export const userValidator = getValidator(userSchema, dataValidator)
@@ -102,13 +110,16 @@ export const userPatchResolver = resolve({
     if (value === undefined) {
       return undefined
     }
+  },
+  tags: async (value) => {
+    if (value) {
+      const ids = []
+      for (const id of value) {
+        ids.push(await resolveObjectId(id))
+      }
+      return ids
+    } else return undefined
   }
-  // firebasetokens: async (value, _user, context) => {
-  //   console.log('value', value)
-  //   console.log(' user', _user)
-  //   console.log(' context', context.params.user)
-  //   return { $push: value[0] }
-  // }
 })
 
 // Schema for login user route

@@ -13,7 +13,11 @@ import {
   categoriesQueryResolver
 } from './categories.schema.js'
 import { CategoriesService, getOptions } from './categories.class.js'
-import { categoriesPath, categoriesMethods } from './categories.shared.js'
+import {
+  categoriesPath,
+  categoriesMethods,
+} from './categories.shared.js'
+import { commonHook } from '../../hooks/commonHook.js'
 
 export * from './categories.class.js'
 export * from './categories.schema.js'
@@ -41,7 +45,7 @@ export const categories = (app) => {
         schemaHooks.validateQuery(categoriesQueryValidator),
         schemaHooks.resolveQuery(categoriesQueryResolver)
       ],
-      find: [],
+      find: [commonHook()],
       get: [],
       create: [
         schemaHooks.validateData(categoriesDataValidator),
