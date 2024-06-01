@@ -2,6 +2,7 @@
 import { resolve, getValidator, querySyntax } from '@feathersjs/schema';
 import { ObjectIdSchema } from '@feathersjs/schema';
 import { dataValidator, queryValidator } from '../../validators.js';
+import { userPath } from '../users/users.shared.js';
 
 // Main data model schema
 export const categoriesSchema = {
@@ -20,7 +21,15 @@ export const categoriesSchema = {
   }
 };
 export const categoriesValidator = getValidator(categoriesSchema, dataValidator);
-export const categoriesResolver = resolve({});
+export const categoriesResolver = resolve({
+  createdBy: async (value, category, context) => {
+    // Fetch user details based on the _id stored in createdBy
+    const $select = ['firstname', 'lastname', '_id', 'profilepic']
+    console.log("category",category);
+    const user = await context.app.service(userPath).get(category?.createdBy, { query: { $select } })
+    return user
+  }
+});
 
 export const categoriesExternalResolver = resolve({});
 
