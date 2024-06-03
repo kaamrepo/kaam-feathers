@@ -4,7 +4,7 @@ import { ObjectIdSchema } from '@feathersjs/schema'
 import { passwordHash } from '@feathersjs/authentication-local'
 import { dataValidator, queryValidator } from '../../validators.js'
 import { resolveObjectId } from '@feathersjs/mongodb'
-
+import { categoriesPath } from '../categories/categories.shared.js'
 // Main data model schema
 export const userSchema = {
   $id: 'User',
@@ -61,10 +61,36 @@ export const userSchema = {
 export const userValidator = getValidator(userSchema, dataValidator)
 export const userResolver = resolve({})
 
+// export const userExternalResolver = resolve({
+//   // The password should never be visible externally
+//   otp: async () => undefined,
+//   tagsDetails: async (_value, data, context) => {
+//     const $select = ['isActive', 'name', '_id',]
+//     console.log("data for",data)
+//     const category = await context.app.service(categoriesPath).get(data?._id, { query: { $select } })
+//     return user
+//   },
+// })
 export const userExternalResolver = resolve({
   // The password should never be visible externally
-  otp: async () => undefined
-})
+  otp: async () => undefined,
+  tagsDetails: async (_value, data, context) => {
+    const $select = ['isActive', 'name', '_id'];
+    const tags = data.tags || [];
+    const categoryPromises = tags.map(async tagId => {
+      try {
+        const category = await context.app.service(categoriesPath).get(tagId, { query: { $select } })
+        return category;
+      } catch (error) {
+        console.error(`Failed to fetch category for tagId: ${tagId}`, error);
+        return null;
+      }
+    });
+    const categories = await Promise.all(categoryPromises);
+    const activeCategories = categories.filter(category => category && category.isActive);
+    return activeCategories;
+  },
+});
 
 // Schema for creating new data
 export const userDataSchema = {
