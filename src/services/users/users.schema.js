@@ -5,6 +5,7 @@ import { passwordHash } from '@feathersjs/authentication-local'
 import { dataValidator, queryValidator } from '../../validators.js'
 import { resolveObjectId } from '@feathersjs/mongodb'
 import { categoriesPath } from '../categories/categories.shared.js'
+import { ObjectId } from 'mongodb'
 // Main data model schema
 export const userSchema = {
   $id: 'User',
@@ -52,10 +53,11 @@ export const userSchema = {
 
     tags: {
       type: 'array',
-      items: { type: 'string', minLength: 1 },
+      items: { type: 'string', pattern: '^\/.*\/i$' },
       minItems: 1,
       uniqueItems: true
     }
+    
   }
 }
 export const userValidator = getValidator(userSchema, dataValidator)

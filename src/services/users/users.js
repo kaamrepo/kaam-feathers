@@ -26,7 +26,7 @@ import { checkUserAlreadyRegistered } from './hooks/create/checkUserAlreadyRegis
 import { appendOrRemoveFirebaseToken } from './hooks/patch/appendOrRemoveFirebaseToken.js'
 export * from './users.class.js'
 export * from './users.schema.js'
-import { userQueryfilters } from './hooks/filters/userQueryfilters.js'
+import { userQueryfilters } from './hooks/filters/customUserSearchHook.js'
 // multer implementation
 import fs from 'fs'
 import multer from 'multer'
