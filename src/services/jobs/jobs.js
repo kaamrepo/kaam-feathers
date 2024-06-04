@@ -39,18 +39,17 @@ export const job = (app) => {
     },
     before: {
       all: [
-        commonHook,
         schemaHooks.validateQuery(jobQueryValidator),
         schemaHooks.resolveQuery(jobQueryResolver)
       ],
-      find: [],
+      find: [commonHook()],
       get: [],
       create: [schemaHooks.validateData(jobDataValidator), schemaHooks.resolveData(jobDataResolver)],
       patch: [schemaHooks.validateData(jobPatchValidator), schemaHooks.resolveData(jobPatchResolver)],
       remove: []
     },
     after: {
-      all: [(context)=>{console.log("context all",JSON.stringify(context.params.pipeline,null,4));}],
+      all: [],
       get: []
     },
     error: {
