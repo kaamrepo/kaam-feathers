@@ -60,22 +60,17 @@ export const commonHook = (hook) => async (hook) => {
               })()
           delete query['isNotExists']
           break
-        case 'paginate':
-          if (query['paginate'] == 'false') {
-            hook.params.paginate = false
-          } else if (query['paginate'] === false) {
-            hook.params.paginate = false
-          }
-          delete hook.params.query['paginate']
-          break
-        case 'excludeIds':
-          if (Array.isArray(query['excludeIds'])) {
-            query['_id'] = { $nin: query['excludeIds'].map((id) => new ObjectId(id)) }
-          } else if (query['excludeIds']) {
-            query['_id'] = { $nin: [new ObjectId(query['excludeIds'])] }
-          }
-          delete query['excludeIds']
-          break
+          case 'excludeIds':
+            const exclude = query.exclude;
+            if (Array.isArray(query['excludeIds']) && exclude) {
+              query[exclude] = { $nin: query['excludeIds'].map((id) => new ObjectId(id)) }
+            } else if (query['excludeIds']) {
+              query['exclude'] = { $nin: [new ObjectId(query['excludeIds'])] }
+            }
+            delete query['excludeIds']
+            delete query['exclude']
+            break
+            break;
         case 'includeIds':
           if (Array.isArray(query['includeIds'])) {
             query['_id'] = { $in: query['includeIds'].map((id) => new ObjectId(id)) }
@@ -90,6 +85,7 @@ export const commonHook = (hook) => async (hook) => {
     })
     delete query['type']
     hook.params.query = query
+    console.log("hoook.params.query",hook.params.query);
   }
   return hook
 }

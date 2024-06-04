@@ -43,7 +43,7 @@ export const job = (app) => {
         schemaHooks.validateQuery(jobQueryValidator),
         schemaHooks.resolveQuery(jobQueryResolver)
       ],
-      find: [getJobsAsPerPreference],
+      find: [],
       get: [],
       create: [schemaHooks.validateData(jobDataValidator), schemaHooks.resolveData(jobDataResolver)],
       patch: [schemaHooks.validateData(jobPatchValidator), schemaHooks.resolveData(jobPatchResolver)],
