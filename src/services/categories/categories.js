@@ -42,10 +42,11 @@ export const categories = (app) => {
     },
     before: {
       all: [
+        commonHook(),
         schemaHooks.validateQuery(categoriesQueryValidator),
         schemaHooks.resolveQuery(categoriesQueryResolver)
       ],
-      find: [commonHook()],
+      find: [],
       get: [],
       create: [
         schemaHooks.validateData(categoriesDataValidator),

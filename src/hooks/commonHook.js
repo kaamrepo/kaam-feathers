@@ -1,7 +1,7 @@
 import { ObjectId } from 'mongodb'
 export const commonHook = (hook) => async (hook) => {
   let query = hook.params.query
-  console.log("in the common hook query Entered",query);
+  console.log('in the common hook query Entered', query)
   if (query && query !== undefined) {
     query['$sort'] = !query.sortAsc && !query.sortDesc ? { createdAt: -1 } : {}
     Object.keys(hook.params.query).forEach((key) => {
@@ -60,17 +60,16 @@ export const commonHook = (hook) => async (hook) => {
               })()
           delete query['isNotExists']
           break
-          case 'excludeIds':
-            const exclude = query.exclude;
-            if (Array.isArray(query['excludeIds']) && exclude) {
-              query[exclude] = { $nin: query['excludeIds'].map((id) => new ObjectId(id)) }
-            } else if (query['excludeIds']) {
-              query['exclude'] = { $nin: [new ObjectId(query['excludeIds'])] }
-            }
-            delete query['excludeIds']
-            delete query['exclude']
-            break
-            break;
+        case 'excludeIds':
+          const exclude = query.exclude
+          if (Array.isArray(query['excludeIds']) && exclude) {
+            query[exclude] = { $nin: query['excludeIds'].map((id) => new ObjectId(id)) }
+          } else if (query['excludeIds']) {
+            query['exclude'] = { $nin: [new ObjectId(query['excludeIds'])] }
+          }
+          delete query['excludeIds']
+          delete query['exclude']
+          break
         case 'includeIds':
           if (Array.isArray(query['includeIds'])) {
             query['_id'] = { $in: query['includeIds'].map((id) => new ObjectId(id)) }
@@ -79,24 +78,33 @@ export const commonHook = (hook) => async (hook) => {
           }
           delete query['includeIds']
           break
-          case 'categories':
-            if (Array.isArray(query['categories'])) {
-              const categoryRegexes = query['categories'].map(category => new RegExp(category, 'i'));
-              query['tags'] = { $in: categoryRegexes };
-            } else if (query['categories']) {
-              const categoryRegex = new RegExp(query['categories'], 'i');
-              query['tags'] = { $in: categoryRegex };
-            }
-            delete query['categories'];
-            break;
-          
+
+        case 'paginate':
+          if (query['paginate'] == 'false') {
+            hook.params.paginate = false
+          } else if (query['paginate'] === false) {
+            hook.params.paginate = false
+          } else {
+          }
+          delete hook.params.query['paginate']
+        case 'categories':
+          if (Array.isArray(query['categories'])) {
+            const categoryRegexes = query['categories'].map((category) => new RegExp(category, 'i'))
+            query['tags'] = { $in: categoryRegexes }
+          } else if (query['categories']) {
+            const categoryRegex = new RegExp(query['categories'], 'i')
+            query['tags'] = { $in: categoryRegex }
+          }
+          delete query['categories']
+          break
+
         default:
           break
       }
     })
     delete query['type']
     hook.params.query = query
-    console.log("hoook.params.query",hook.params.query);
+    console.log('hoook.params.query', hook.params.query)
   }
   return hook
 }
