@@ -18,7 +18,7 @@ export const searchHook = (hook) => async (hook) => {
       }
     })
     hook.params.query = query
-    console.log('hoook.params.query at LAST in search', hook.params.query)
+    console.log('hoook.params.query at LAST', hook.params.query)
   }
   return hook
 }

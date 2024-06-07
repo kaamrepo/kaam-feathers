@@ -51,9 +51,10 @@ export const userSchema = {
     auth0id: { type: 'string' },
     activeforjobs: { type: 'boolean', default: true },
 
+  
     tags: {
       type: 'array',
-      items: { type: 'string', pattern: '^\/.*\/i$' },
+      items: ObjectIdSchema(),
       minItems: 1,
       uniqueItems: true
     }
@@ -176,7 +177,6 @@ export const loginPatchResolver = resolve({
   }
 })
 
-// Schema for allowed query properties
 export const userQuerySchema = {
   $id: 'UserQuery',
   type: 'object',
@@ -185,21 +185,21 @@ export const userQuerySchema = {
     ...querySyntax(userSchema.properties),
     tags: {
       anyOf: [
-        { type: 'array', items: { type: 'string' } },
+        { type: 'array', items: { type: 'string', pattern: '^[0-9a-fA-F]{24}$' } }, // Pattern for ObjectId hex string
         {
           type: 'object',
           properties: {
             $in: {
               type: 'array',
-              items: { type: 'string' }
             }
           },
-          additionalProperties: false
+          additionalProperties: true
         }
       ]
     }
   }
 }
+
 
 export const userQueryValidator = getValidator(userQuerySchema, queryValidator)
 export const userQueryResolver = resolve({
