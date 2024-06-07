@@ -182,9 +182,25 @@ export const userQuerySchema = {
   type: 'object',
   additionalProperties: false,
   properties: {
-    ...querySyntax(userSchema.properties)
+    ...querySyntax(userSchema.properties),
+    tags: {
+      anyOf: [
+        { type: 'array', items: { type: 'string' } },
+        {
+          type: 'object',
+          properties: {
+            $in: {
+              type: 'array',
+              items: { type: 'string' }
+            }
+          },
+          additionalProperties: false
+        }
+      ]
+    }
   }
 }
+
 export const userQueryValidator = getValidator(userQuerySchema, queryValidator)
 export const userQueryResolver = resolve({
   // If there is a user (e.g. with authentication), they are only allowed to see their own data
