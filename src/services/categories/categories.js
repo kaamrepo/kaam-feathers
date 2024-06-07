@@ -13,10 +13,7 @@ import {
   categoriesQueryResolver
 } from './categories.schema.js'
 import { CategoriesService, getOptions } from './categories.class.js'
-import {
-  categoriesPath,
-  categoriesMethods,
-} from './categories.shared.js'
+import { categoriesPath, categoriesMethods } from './categories.shared.js'
 import { commonHook } from '../../hooks/commonHook.js'
 
 export * from './categories.class.js'
@@ -26,7 +23,7 @@ export * from './categories.schema.js'
 export const categories = (app) => {
   // Register our service on the Feathers application
   app.use(categoriesPath, new CategoriesService(getOptions(app)), {
-    // A list of all methods this service exposes externally
+    // A list of all methods thi service exposes externally
     methods: categoriesMethods,
     // You can add additional custom events to be sent to clients here
     events: []
