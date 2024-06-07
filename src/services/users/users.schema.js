@@ -50,9 +50,10 @@ export const userSchema = {
     githubid: { type: 'string' },
     auth0id: { type: 'string' },
     activeforjobs: { type: 'boolean', default: true },
+
     tags: {
       type: 'array',
-      items: { type: 'string', },
+      items: ObjectIdSchema(),
       minItems: 1,
       uniqueItems: true
     },
@@ -187,15 +188,30 @@ export const loginPatchResolver = resolve({
   }
 })
 
-// Schema for allowed query properties
 export const userQuerySchema = {
   $id: 'UserQuery',
   type: 'object',
   additionalProperties: false,
   properties: {
-    ...querySyntax(userSchema.properties)
+    ...querySyntax(userSchema.properties),
+    tags: {
+      anyOf: [
+        { type: 'array', items: { type: 'string', pattern: '^[0-9a-fA-F]{24}$' } }, // Pattern for ObjectId hex string
+        {
+          type: 'object',
+          properties: {
+            $in: {
+              type: 'array',
+            }
+          },
+          additionalProperties: true
+        }
+      ]
+    }
   }
 }
+
+
 export const userQueryValidator = getValidator(userQuerySchema, queryValidator)
 export const userQueryResolver = resolve({
   // If there is a user (e.g. with authentication), they are only allowed to see their own data

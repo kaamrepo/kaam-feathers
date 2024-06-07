@@ -87,17 +87,6 @@ export const commonHook = (hook) => async (hook) => {
           } else {
           }
           delete hook.params.query['paginate']
-        case 'categories':
-          if (Array.isArray(query['categories'])) {
-            const categoryRegexes = query['categories'].map((category) => new RegExp(category, 'i'))
-            query['tags'] = { $in: categoryRegexes }
-          } else if (query['categories']) {
-            const categoryRegex = new RegExp(query['categories'], 'i')
-            query['tags'] = { $in: categoryRegex }
-          }
-          delete query['categories']
-          break
-
         default:
           break
       }
