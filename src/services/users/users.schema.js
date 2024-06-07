@@ -5,6 +5,7 @@ import { passwordHash } from '@feathersjs/authentication-local'
 import { dataValidator, queryValidator } from '../../validators.js'
 import { resolveObjectId } from '@feathersjs/mongodb'
 import { categoriesPath } from '../categories/categories.shared.js'
+import { ObjectId } from 'mongodb'
 // Main data model schema
 export const userSchema = {
   $id: 'User',
@@ -25,7 +26,7 @@ export const userSchema = {
 
     isactive: { type: 'boolean' },
 
-    aboutme: { type: 'string', minLength: 1, maxLength: 256 },
+    aboutme: { type: 'string', minLength: 0, maxLength: 256 },
     dateofbirth: { type: 'string', format: 'date-time' },
     address: {
       type: 'object',
@@ -52,9 +53,22 @@ export const userSchema = {
 
     tags: {
       type: 'array',
-      items: { type: 'string', minLength: 1 },
+      items: ObjectIdSchema(),
       minItems: 1,
       uniqueItems: true
+    },
+    experience: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          about: { type: 'string' },
+          employer: { type: 'string' },
+          year: { type: 'string' }
+        },
+        required: ['about', 'year'],
+        additionalProperties: false
+      }
     }
   }
 }
@@ -75,22 +89,22 @@ export const userExternalResolver = resolve({
   // The password should never be visible externally
   otp: async () => undefined,
   tagsDetails: async (_value, data, context) => {
-    const $select = ['isActive', 'name', '_id'];
-    const tags = data.tags || [];
-    const categoryPromises = tags.map(async tagId => {
+    const $select = ['isActive', 'name', '_id']
+    const tags = data.tags || []
+    const categoryPromises = tags.map(async (tagId) => {
       try {
         const category = await context.app.service(categoriesPath).get(tagId, { query: { $select } })
-        return category;
+        return category
       } catch (error) {
-        console.error(`Failed to fetch category for tagId: ${tagId}`, error);
-        return null;
+        console.error(`Failed to fetch category for tagId: ${tagId}`, error)
+        return null
       }
-    });
-    const categories = await Promise.all(categoryPromises);
-    const activeCategories = categories.filter(category => category && category.isActive);
-    return activeCategories;
-  },
-});
+    })
+    const categories = await Promise.all(categoryPromises)
+    const activeCategories = categories.filter((category) => category && category.isActive)
+    return activeCategories
+  }
+})
 
 // Schema for creating new data
 export const userDataSchema = {
@@ -174,15 +188,30 @@ export const loginPatchResolver = resolve({
   }
 })
 
-// Schema for allowed query properties
 export const userQuerySchema = {
   $id: 'UserQuery',
   type: 'object',
   additionalProperties: false,
   properties: {
-    ...querySyntax(userSchema.properties)
+    ...querySyntax(userSchema.properties),
+    tags: {
+      anyOf: [
+        { type: 'array', items: { type: 'string', pattern: '^[0-9a-fA-F]{24}$' } }, // Pattern for ObjectId hex string
+        {
+          type: 'object',
+          properties: {
+            $in: {
+              type: 'array',
+            }
+          },
+          additionalProperties: true
+        }
+      ]
+    }
   }
 }
+
+
 export const userQueryValidator = getValidator(userQuerySchema, queryValidator)
 export const userQueryResolver = resolve({
   // If there is a user (e.g. with authentication), they are only allowed to see their own data

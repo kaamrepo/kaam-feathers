@@ -1,7 +1,6 @@
 export const userQueryfilters = () => async (hook) => {
   let query = hook.params.query
   if (query && query !== undefined) {
-    console.log("int userQueryFileter",hook.params.query);
     Object.keys(hook.params.query).forEach((key) => {
       switch (key) {
         case 'nearBy':
@@ -80,7 +79,6 @@ export const userQueryfilters = () => async (hook) => {
       }
     })
     hook.params.query = query;
-    console.log("hooks.params.query finally",hook.params.query);
   }
   return hook
 }

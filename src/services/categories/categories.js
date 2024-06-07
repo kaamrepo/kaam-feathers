@@ -38,8 +38,12 @@ export const categories = (app) => {
       ]
     },
     before: {
-      all: [schemaHooks.resolveQuery(categoriesQueryResolver)],
-      find: [commonHook()],
+      all: [
+        commonHook(),
+        schemaHooks.validateQuery(categoriesQueryValidator),
+        schemaHooks.resolveQuery(categoriesQueryResolver)
+      ],
+      find: [],
       get: [],
       create: [
         schemaHooks.validateData(categoriesDataValidator),

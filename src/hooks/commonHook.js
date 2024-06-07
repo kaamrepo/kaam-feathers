@@ -1,7 +1,7 @@
 import { ObjectId } from 'mongodb'
 export const commonHook = (hook) => async (hook) => {
   let query = hook.params.query
-  console.log('in the common hook query', query)
+  console.log('in the common hook query Entered', query)
   if (query && query !== undefined) {
     query['$sort'] = !query.sortAsc && !query.sortDesc ? { createdAt: -1 } : {}
     Object.keys(hook.params.query).forEach((key) => {
@@ -60,21 +60,15 @@ export const commonHook = (hook) => async (hook) => {
               })()
           delete query['isNotExists']
           break
-        case 'paginate':
-          if (query['paginate'] == 'false') {
-            hook.params.paginate = false
-          } else if (query['paginate'] === false) {
-            hook.params.paginate = false
-          }
-          delete hook.params.query['paginate']
-          break
         case 'excludeIds':
-          if (Array.isArray(query['excludeIds'])) {
-            query['_id'] = { $nin: query['excludeIds'].map((id) => new ObjectId(id)) }
+          const exclude = query.exclude
+          if (Array.isArray(query['excludeIds']) && exclude) {
+            query[exclude] = { $nin: query['excludeIds'].map((id) => new ObjectId(id)) }
           } else if (query['excludeIds']) {
-            query['_id'] = { $nin: [new ObjectId(query['excludeIds'])] }
+            query['exclude'] = { $nin: [new ObjectId(query['excludeIds'])] }
           }
           delete query['excludeIds']
+          delete query['exclude']
           break
         case 'includeIds':
           if (Array.isArray(query['includeIds'])) {
@@ -92,12 +86,22 @@ export const commonHook = (hook) => async (hook) => {
           }
           delete hook.params.query['isActive']
           break
+
+        case 'paginate':
+          if (query['paginate'] == 'false') {
+            hook.params.paginate = false
+          } else if (query['paginate'] === false) {
+            hook.params.paginate = false
+          } else {
+          }
+          delete hook.params.query['paginate']
         default:
           break
       }
     })
     delete query['type']
     hook.params.query = query
+    console.log('hoook.params.query', hook.params.query)
   }
   return hook
 }

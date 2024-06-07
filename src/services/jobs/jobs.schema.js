@@ -18,13 +18,12 @@ export const jobSchema = {
     jobtitle: { type: 'string', minLength: 1 },
     numberofopenings: { type: 'number', default: 1 },
     description: { type: 'string', minLength: 1 },
-    // tags: {
-    //   type: 'array',
-    //   items: { type: 'string', minLength: 1 },
-    //   minItems: 3,
-    //   maxItems: 3,
-    //   uniqueItems: true
-    // },
+    tags: {
+      type: 'array',
+      items: { type: 'string', minLength: 1 },
+      minItems: 1,
+      uniqueItems: true
+    },
     createdby: ObjectIdSchema(),
     salary: { type: 'number' },
     salarybasis: { type: 'string', enum: salaryBasisEnum },
@@ -33,10 +32,16 @@ export const jobSchema = {
       properties: {
         name: { type: 'string' },
         type: { type: 'string', default: 'Point' },
-        coordinates: { type: 'array', items: { type: 'number' } },
-        fulladdress: { type: 'string' }
+        coordinates: { type: 'array', items: { type: 'number'|| null } },
+        fulladdress: { type: 'string' },
+        addressline: { type: 'string' },
+        pincode: { type: 'string' },
+        district: { type: 'string' },
+        city: { type: 'string' },
+        state: { type: 'string' },
+        country: { type: 'string' }
       },
-      required: ['coordinates'],
+      // required: ['coordinates'],
       additionalProperties: false
     },
 
