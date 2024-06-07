@@ -1,7 +1,7 @@
 import { ObjectId } from 'mongodb'
 export const commonHook = (hook) => async (hook) => {
   let query = hook.params.query
-  console.log("in the common hook query",query);
+  console.log('in the common hook query', query)
   if (query && query !== undefined) {
     query['$sort'] = !query.sortAsc && !query.sortDesc ? { createdAt: -1 } : {}
     Object.keys(hook.params.query).forEach((key) => {
@@ -83,6 +83,14 @@ export const commonHook = (hook) => async (hook) => {
             query['_id'] = { $in: [ObjectId(query['includeIds'])] }
           }
           delete query['includeIds']
+          break
+        case 'isActive':
+          if (query['isActive'] == 'false') {
+            hook.params.isActive = false
+          } else if (query['isActive'] === false) {
+            hook.params.isActive = false
+          }
+          delete hook.params.query['isActive']
           break
         default:
           break
