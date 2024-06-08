@@ -78,6 +78,14 @@ export const commonHook = (hook) => async (hook) => {
           }
           delete query['includeIds']
           break
+        case 'isActive':
+          if (query['isActive'] == 'false') {
+            hook.params.isActive = false
+          } else if (query['isActive'] === false) {
+            hook.params.isActive = false
+          }
+          delete hook.params.query['isActive']
+          break
 
         case 'paginate':
           if (query['paginate'] == 'false') {
