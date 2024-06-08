@@ -12,7 +12,19 @@ export const searchHook = (hook) => async (hook) => {
             query['tags'] = { $in: [ObjectId(query['categories'])] }
           }
           delete query['categories']
-          break;
+          break
+        case 'wildString':
+          query.wildString = query.wildString.trim()
+          const words = query.wildString.split(' ')
+          // Single word search
+          const regex = new RegExp(`^${query.wildString}`, 'i')
+          query['$or'] = [
+            { firstname: regex },
+            { lastname: regex },
+            { aboutme: regex },
+          ]
+          delete query['wildString']
+          break
         default:
           break
       }
