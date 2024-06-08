@@ -41,7 +41,7 @@ export const jobapplication = (app) => {
     },
     before: {
       all: [
-        commonHook,
+        commonHook(),
         schemaHooks.validateQuery(jobapplicationQueryValidator),
         schemaHooks.resolveQuery(jobapplicationQueryResolver)
       ],
