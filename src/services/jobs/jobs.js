@@ -1,6 +1,6 @@
 // For more information about this file see https://dove.feathersjs.com/guides/cli/service.html
 import { authenticate } from '@feathersjs/authentication'
-
+import { searchHook } from '../../hooks/searchHook.js'
 import { hooks as schemaHooks } from '@feathersjs/schema'
 import {
   jobDataValidator,
@@ -42,7 +42,7 @@ export const job = (app) => {
         schemaHooks.validateQuery(jobQueryValidator),
         schemaHooks.resolveQuery(jobQueryResolver)
       ],
-      find: [commonHook()],
+      find: [commonHook(),searchHook()],
       get: [],
       create: [schemaHooks.validateData(jobDataValidator), schemaHooks.resolveData(jobDataResolver)],
       patch: [schemaHooks.validateData(jobPatchValidator), schemaHooks.resolveData(jobPatchResolver)],
