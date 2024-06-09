@@ -18,9 +18,9 @@ export const jobSchema = {
     jobtitle: { type: 'string', minLength: 1 },
     numberofopenings: { type: 'number', default: 1 },
     description: { type: 'string', minLength: 1 },
-    tags: {
+   tags: {
       type: 'array',
-      items: { type: 'string', minLength: 1 },
+      items: ObjectIdSchema(),
       minItems: 1,
       uniqueItems: true
     },
