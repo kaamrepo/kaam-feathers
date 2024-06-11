@@ -81,10 +81,17 @@ export const commonHook = (hook) => async (hook) => {
         case 'isActive':
           if (query['isActive'] == 'false') {
             hook.params.isActive = false
-          } else if (query['isActive'] === false) {
-            hook.params.isActive = false
+          } else if (query['isActive'] === 'true') {
+            hook.params.isActive = true
           }
           delete hook.params.query['isActive']
+          break
+        case 'activeforjobs':
+          if (query['activeforjobs'] == 'false') {
+            hook.params.query.activeforjobs = false
+          } else if (query['activeforjobs'] === 'true') {
+            hook.params.query.activeforjobs = true
+          }
           break
 
         case 'paginate':
