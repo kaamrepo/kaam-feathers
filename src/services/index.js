@@ -1,3 +1,5 @@
+import { appconfig } from './appconfig/appconfig.js'
+
 import { categories } from './categories/categories.js'
 
 import { notifications } from './notifications/notifications.js'
@@ -17,6 +19,8 @@ import { job } from './jobs/jobs.js'
 import { user } from './users/users.js'
 
 export const services = (app) => {
+  app.configure(appconfig)
+
   app.configure(categories)
 
   app.configure(notifications)
