@@ -1,7 +1,6 @@
 import { ObjectId } from 'mongodb'
 export const commonHook = (hook) => async (hook) => {
   let query = hook.params.query
-  console.log('in the common hook query Entered', query)
   if (query && query !== undefined) {
     query['$sort'] = !query.sortAsc && !query.sortDesc ? { createdAt: -1 } : {}
     Object.keys(hook.params.query).forEach((key) => {
@@ -92,6 +91,7 @@ export const commonHook = (hook) => async (hook) => {
           } else if (query['activeforjobs'] === 'true') {
             hook.params.query.activeforjobs = true
           }
+          delete hook.params.query['activeforjobs']
           break
 
         case 'paginate':
@@ -108,7 +108,7 @@ export const commonHook = (hook) => async (hook) => {
     })
     delete query['type']
     hook.params.query = query
-    console.log('hoook.params.query', hook.params.query)
+    console.log('hoook.params.query AT LAST', hook.params.query)
   }
   return hook
 }

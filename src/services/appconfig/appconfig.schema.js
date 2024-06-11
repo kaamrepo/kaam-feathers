@@ -11,14 +11,27 @@ export const appconfigSchema = {
   required: ['_id'],
   properties: {
     _id: ObjectIdSchema(),
-    allowedjobapplication:{type:'number', default: 1},
-    allowedjobposting:{type:'number', default: 1},
-    isActive:{type:'boolean', default: true},
+    allowedjobapplication: { type: 'number', default: 1 },
+    allowedjobposting: { type: 'number', default: 1 },
+    isActive: { type: 'boolean', default: true },
     superadminotp: {
       type: 'array',
       items: {
         type: 'string',
-        pattern: '^[0-9]{10}$'  // Adjust the regex pattern based on your phone number format
+        pattern: '^[0-9]{10}$'
+      }
+    },
+    supportphone: {
+      type: 'array',
+      items: {
+        type: 'string',
+        pattern: '^[0-9]{10}$' 
+      }
+    },
+    supportemail: {
+      type: 'array',
+      items: {
+        type: 'string',
       }
     }
   }
