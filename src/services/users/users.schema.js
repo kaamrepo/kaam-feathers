@@ -25,7 +25,7 @@ export const userSchema = {
     updatedat: { type: 'string', format: 'date-time' },
 
     isactive: { type: 'boolean' },
-
+    
     aboutme: { type: 'string', minLength: 0, maxLength: 256 },
     dateofbirth: { type: 'string', format: 'date-time' },
     address: {
@@ -41,7 +41,20 @@ export const userSchema = {
       required: [],
       additionalProperties: false
     },
-    coordinates: { type: 'array', items: { type: 'number' } },
+    location: {
+      type: 'object',
+      properties: {
+        type: { type: 'string', default: 'Point' },
+        coordinates: { type: 'array', items: { type: 'number'|| null } },
+        fulladdress: { type: 'string' },
+        pincode: { type: 'string' },
+        district: { type: 'string' },
+        city: { type: 'string' },
+        state: { type: 'string' },
+        country: { type: 'string' }
+      },
+      additionalProperties: false
+    },
     firebasetokens: { type: 'array', items: { type: 'string' } },
     profilepic: { type: 'string' },
     googleid: { type: 'string' },

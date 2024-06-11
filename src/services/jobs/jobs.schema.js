@@ -30,18 +30,15 @@ export const jobSchema = {
     location: {
       type: 'object',
       properties: {
-        name: { type: 'string' },
         type: { type: 'string', default: 'Point' },
         coordinates: { type: 'array', items: { type: 'number'|| null } },
         fulladdress: { type: 'string' },
-        addressline: { type: 'string' },
         pincode: { type: 'string' },
         district: { type: 'string' },
         city: { type: 'string' },
         state: { type: 'string' },
         country: { type: 'string' }
       },
-      // required: ['coordinates'],
       additionalProperties: false
     },
 
