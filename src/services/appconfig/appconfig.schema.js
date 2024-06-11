@@ -11,8 +11,9 @@ export const appconfigSchema = {
   required: ['_id'],
   properties: {
     _id: ObjectIdSchema(),
-    allowedjobapplicaiton:{type:'number', default: 1},
+    allowedjobapplication:{type:'number', default: 1},
     allowedjobposting:{type:'number', default: 1},
+    isActive:{type:'boolean', default: true},
     superadminotp: {
       type: 'array',
       items: {

@@ -1,5 +1,5 @@
-// import { COMMON_ENDPOINT } from "../../constant/endpoints";
-export const appconfigPath = `/api/appconfig`
+import { COMMON_ENDPOINT } from "../../constant/endpoints.js";
+export const appconfigPath = `${COMMON_ENDPOINT}appconfig`
 
 export const appconfigMethods = ['find', 'get', 'create', 'patch', 'remove']
 
