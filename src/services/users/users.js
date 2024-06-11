@@ -1,6 +1,5 @@
 // For more information about this file see https://dove.feathersjs.com/guides/cli/service.html
 import { authenticate } from '@feathersjs/authentication'
-
 import { hooks as schemaHooks } from '@feathersjs/schema'
 import {
   userDataValidator,
@@ -24,6 +23,7 @@ import { sendOTP } from './hooks/create/sendOTP.js'
 import { checkUserExists } from './hooks/login/checkUserExists.js'
 import { checkUserAlreadyRegistered } from './hooks/create/checkUserAlreadyRegistered.js'
 import { appendOrRemoveFirebaseToken } from './hooks/patch/appendOrRemoveFirebaseToken.js'
+import { addDefaultValuesToUser } from './hooks/create/addDefaultValues.js'
 export * from './users.class.js'
 export * from './users.schema.js'
 import { userQueryfilters } from './hooks/filters/customUserSearchHook.js'
@@ -120,6 +120,7 @@ export const user = (app) => {
         generateOTPandExpiryTime,
         schemaHooks.validateData(userDataValidator),
         sendOTP,
+        addDefaultValuesToUser,
         schemaHooks.resolveData(userDataResolver)
       ],
       patch: [

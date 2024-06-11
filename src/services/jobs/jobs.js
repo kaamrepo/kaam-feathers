@@ -15,7 +15,6 @@ import {
 import { JobService, getOptions } from './jobs.class.js'
 import { jobPath, jobMethods } from './jobs.shared.js'
 import { commonHook } from '../../hooks/commonHook.js'
-import { getJobsAsPerPreference } from './hooks/getJobsAsPerPreference.js'
 
 export * from './jobs.class.js'
 export * from './jobs.schema.js'
