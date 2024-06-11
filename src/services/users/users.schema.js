@@ -172,6 +172,11 @@ export const userPatchResolver = resolve({
       }
       return ids
     } else return undefined
+  },
+  activeforjobs: async (value, data, context) => {
+    if (typeof value === 'boolean' && !data?.isLogout) {
+      return value
+    } else return undefined
   }
 })
 
