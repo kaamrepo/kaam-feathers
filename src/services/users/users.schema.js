@@ -62,7 +62,7 @@ export const userSchema = {
     twitterid: { type: 'string' },
     githubid: { type: 'string' },
     auth0id: { type: 'string' },
-    activeforjobs: { type: 'boolean', default: true },
+    activeforjobs: { type: 'boolean' },
 
     tags: {
       type: 'array',
@@ -88,16 +88,6 @@ export const userSchema = {
 export const userValidator = getValidator(userSchema, dataValidator)
 export const userResolver = resolve({})
 
-// export const userExternalResolver = resolve({
-//   // The password should never be visible externally
-//   otp: async () => undefined,
-//   tagsDetails: async (_value, data, context) => {
-//     const $select = ['isActive', 'name', '_id',]
-//     console.log("data for",data)
-//     const category = await context.app.service(categoriesPath).get(data?._id, { query: { $select } })
-//     return user
-//   },
-// })
 export const userExternalResolver = resolve({
   // The password should never be visible externally
   otp: async () => undefined,
@@ -174,6 +164,8 @@ export const userPatchResolver = resolve({
     } else return undefined
   },
   activeforjobs: async (value, data, context) => {
+    console.log("in the active for jobs resolvers",value);
+    console.log("in the active for jobs data",data);
     if (typeof value === 'boolean' && !data?.isLogout) {
       return value
     } else return undefined
