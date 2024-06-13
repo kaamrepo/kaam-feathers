@@ -28,7 +28,7 @@ export const jobapplicationSchema = {
 export const jobapplicationValidator = getValidator(jobapplicationSchema, dataValidator)
 export const jobapplicationResolver = resolve({
   applicantDetails: async (_value, data, context) => {
-    const $select = ['firstname', 'lastname', '_id', 'profilepic']
+    const $select = ['firstname', 'lastname', '_id', 'profilepic','allowedjobposting','allowedjobapplication']
     const user = await context.app.service(userPath).get(data?.appliedby, { query: { $select } })
     return user
   },
@@ -37,7 +37,7 @@ export const jobapplicationResolver = resolve({
     return user
   },
   employerDetails: async (_value, data, context) => {
-    const $select = ['firstname', 'lastname', '_id', 'profilepic']
+    const $select = ['firstname', 'lastname', '_id', 'profilepic','allowedjobposting','allowedjobapplication']
     return await context.app.service(userPath).get(data.employerid, { query: { $select } })
   },
   chatDetails: async (_value, data, context) => {

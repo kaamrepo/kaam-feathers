@@ -63,7 +63,8 @@ export const userSchema = {
     githubid: { type: 'string' },
     auth0id: { type: 'string' },
     activeforjobs: { type: 'boolean' },
-
+    allowedjobposting:{type:'number'},
+    allowedjobapplication:{type:'number'},
     tags: {
       type: 'array',
       items: ObjectIdSchema(),
