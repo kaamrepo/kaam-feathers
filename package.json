@@ -59,6 +59,7 @@
     "@feathersjs/schema": "^5.0.6",
     "@feathersjs/socketio": "^5.0.6",
     "@feathersjs/transport-commons": "^5.0.6",
+    "aws-sdk": "^2.1641.0",
     "cloudinary": "^1.37.1",
     "compression": "^1.7.4",
     "dayjs": "^1.11.10",
