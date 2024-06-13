@@ -1,3 +1,4 @@
+
 {
   "port": {
     "__name": "PORT",
@@ -21,9 +22,10 @@
   "kaam_port": "KAAM_PORT",
   "kaam_host": "KAAM_HOST",
   "kaam_mongodb": "KAAM_MONGODB_URI",
-  "kaam_s3_bucket_name":"KAAM_S3_BUCKET_NAME",
-  "kaam_aws_region":"KAAM_AWS_REGION",
-  "kaam_aws_accesskey":"KAAM_AWS_ACCESS_KEY",
-  "kaam_aws_secretaccessKey":"KAAM_AWS_SECRETACCESS_KEY",
-  "kaam_firebase_notification_file_path":"FIREBASE_NOTIFICATION_FILE_PATH"
+  "kaam_s3_bucket_name": "KAAM_S3_BUCKET_NAME",
+  "kaam_aws_region": "KAAM_AWS_REGION",
+  "kaam_aws_accesskey": "KAAM_AWS_ACCESS_KEY",
+  "kaam_aws_secretaccessKey": "KAAM_AWS_SECRETACCESS_KEY",
+  "kaam_firebase_notification_file_path": "FIREBASE_NOTIFICATION_FILE_PATH",
+  "kaam_file_upload_type": "FILE_UPLOAD_TYPE"
 }
