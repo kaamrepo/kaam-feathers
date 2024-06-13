@@ -56,7 +56,7 @@ export const jobExternalResolver = resolve({
     return await context.app.service(userPath).get(job.createdby, { query: { $select } })
   }),
   jobAppliedDetails: virtual(async (job, context) => {
-    console.log("context.params.user",context.params.user);
+    console.log("context.params.user",context.method);
     const authenticatedUser = context.params.user._id
     if (context.method === 'get') {
       const jobAppliedDetails = await context.app.service(jobapplicationPath).getByQueryParams({
@@ -109,8 +109,6 @@ export const jobPatchSchema = {
   required: [],
   properties: {
     ...jobSchema.properties,
-    numberofopenings:{type:'number'}
-
   }
 }
 export const jobPatchValidator = getValidator(jobPatchSchema, dataValidator)

@@ -16,15 +16,9 @@ export const changeJobApplicationStatus = async (hook) => {
 
       const employerId = jobApplication?.employerid;
       const numberOfOpenings = jobApplication?.jobDetails?.numberofopenings;
-      const jobId = jobApplication.jobDetails._id.toString(); // Ensure jobId is a string
+      const jobId = jobApplication.jobDetails._id; // Ensure jobId is a string
       const allowedJobPostingForEmployer = jobApplication?.employerDetails?.allowedjobposting;
       const allowedJobApplicationForEmployee = jobApplication?.applicantDetails?.allowedjobapplication;
-
-      console.log("employerid", employerId);
-      console.log("numberOfOpenings", numberOfOpenings);
-      console.log("jobid", jobId);
-      console.log("allowedJobPostingForEmployer", allowedJobPostingForEmployer);
-      console.log("allowedJobApplicationForEmployee", allowedJobApplicationForEmployee);
 
       // Validate essential data presence before proceeding
       if (!employerId) {
@@ -57,13 +51,9 @@ export const changeJobApplicationStatus = async (hook) => {
           }
 
           const updatedNumberOfOpening = numberOfOpenings - 1;
-          const updatedAllowedJobPostingForEmployer = allowedJobPostingForEmployer - 1;
-
-          const updateJobResponse = await hook.app.service(jobPath).patch(jobApplication.jobDetails, {
+          const updateJobResponse = await hook.app.service(jobPath)._patch(jobId, {
             numberofopenings: updatedNumberOfOpening
           });
-          console.log("updateJobResponse", updateJobResponse);
-
           break;
         case 'Rejected':
           console.log('JOB Rejected');
@@ -74,6 +64,7 @@ export const changeJobApplicationStatus = async (hook) => {
       }
     } catch (error) {
       console.error('Error changing job application status:', error.message);
+      console.log("------",hook.data);
       throw new BadRequest(error.message);
     }
   }
