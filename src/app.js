@@ -52,7 +52,6 @@ app.use(errorHandler({ logger }))
 // FcmSetup(app)
 firebaseSetup(app)
 CloudnarySetup(app)
-amazonS3bucket(app)
 // Register hooks that run on all service methods
 app.hooks({
   around: {
