@@ -35,6 +35,10 @@ export const searchHook = (hook) => async (hook) => {
           ]
           delete query['wildString']
           break
+        case 'location':
+         
+          delete query['location']
+          break
        
         default:
           break
