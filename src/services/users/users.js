@@ -69,7 +69,9 @@ export const user = (app) => {
     around: {
       all: [
         authenticate('jwt'),
-        schemaHooks.resolveExternal(userExternalResolver), schemaHooks.resolveResult(userResolver)],
+        schemaHooks.resolveExternal(userExternalResolver),
+        schemaHooks.resolveResult(userResolver)
+      ],
       find: [authenticate('jwt')],
       get: [],
       create: [],
@@ -84,7 +86,8 @@ export const user = (app) => {
         checkUserAlreadyRegistered,
         generateOTPandExpiryTime,
         schemaHooks.validateData(userDataValidator),
-        sendOTP,addDefaultValuesToUser,
+        sendOTP,
+        addDefaultValuesToUser,
         schemaHooks.resolveData(userDataResolver)
       ],
       patch: [

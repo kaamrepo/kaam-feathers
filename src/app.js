@@ -20,8 +20,8 @@ import { authentication } from './authentication.js'
 import { services } from './services/index.js'
 import { channels } from './channels.js'
 import { CloudnarySetup } from './utils/cloudnarySetup.js'
-import { amazonS3bucket } from './utils/amazonS3bucket.js'
 import { firebaseSetup } from './utils/fcmSetup.js'
+import path from 'path'
 const app = express(feathers())
 // Load app configuration
 app.configure(configuration(configurationValidator))
@@ -30,6 +30,8 @@ app.use(json())
 app.use(urlencoded({ extended: true }))
 // Host the public folder
 app.use('/', serveStatic(app.get('public')))
+// public url for images
+app.use('/api/images/', express.static(path.join('public/images/')))
 // Configure services and real-time functionality
 app.configure(rest())
 app.configure(

@@ -51,13 +51,16 @@ export default function commonUploadHandler(options = {}) {
           if (err) {
             return next(err)
           }
+          const hostUrl = `${process.env.SERVER_ENDPOINT}/api/images`
           // Upload to local
           if (req.files && Object.keys(req.files).length > 0) {
             const uploadedFiles = {}
             options.fields.forEach((file) => {
               const uploadedFile = req.files[file.name]
               if (Array.isArray(uploadedFile)) {
-                uploadedFiles[file.name] = uploadedFile.map((elem) => elem.filename)
+                uploadedFiles[file.name] = uploadedFile.map((elem) => {
+                  return `${hostUrl}/${elem.fieldname}/${elem.filename}`
+                })
               }
             })
             req.files = uploadedFiles
@@ -147,6 +150,6 @@ export default function commonUploadHandler(options = {}) {
   }
 }
 function getFolderName(req, file, options) {
-  const folderName = `uploads/${file.fieldname}`
+  const folderName = `public/images/${file.fieldname}`
   return folderName
 }
