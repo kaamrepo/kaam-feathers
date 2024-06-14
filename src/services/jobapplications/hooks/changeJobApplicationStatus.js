@@ -1,24 +1,25 @@
 import { BadRequest } from '@feathersjs/errors'
 import { jobPath } from '../../jobs/jobs.shared.js'
 import { jobapplicationPath } from '../jobapplications.shared.js'
+import { userPath } from '../../users/users.shared.js'
 
 export const changeJobApplicationStatus = async (hook) => {
-  if (!hook.data || !hook.data.status) {
+  const { data, id, app } = hook
+
+  if (!data || !data.status) {
     return hook
   }
 
-  const { status } = hook.data
-  const { id, app } = hook
+  const { status } = data
 
   try {
     const jobApplication = await app.service(jobapplicationPath).get(id)
     validateJobApplication(jobApplication)
-
     const {
       employerid: employerId,
       jobDetails: { numberofopenings: numberOfOpenings, _id: jobId },
       employerDetails: { allowedjobposting: allowedJobPostingForEmployer },
-      applicantDetails: { allowedjobapplication: allowedJobApplicationForEmployee }
+      applicantDetails: { allowedjobapplication: allowedJobApplicationForEmployee, _id: employeeId }
     } = jobApplication
 
     await validateFields({
@@ -26,7 +27,8 @@ export const changeJobApplicationStatus = async (hook) => {
       numberOfOpenings,
       jobId,
       allowedJobPostingForEmployer,
-      allowedJobApplicationForEmployee
+      allowedJobApplicationForEmployee,
+      employeeId
     })
 
     if (status === 'Approved') {
@@ -35,10 +37,11 @@ export const changeJobApplicationStatus = async (hook) => {
         jobId,
         numberOfOpenings,
         allowedJobPostingForEmployer,
-        allowedJobApplicationForEmployee
+        allowedJobApplicationForEmployee,
+        employeeId
       })
-    } else if (status === 'Rejected') {
-      console.log('JOB Rejected')
+    } else if (status === 'Completed') {
+      console.log('JOB Completed')
       // Perform any additional actions for rejected status if needed
     } else {
       throw new BadRequest('Invalid status')
@@ -65,7 +68,8 @@ const validateFields = async ({
   numberOfOpenings,
   jobId,
   allowedJobPostingForEmployer,
-  allowedJobApplicationForEmployee
+  allowedJobApplicationForEmployee,
+  employeeId
 }) => {
   if (!employerId) {
     throw new BadRequest('Employer ID not found')
@@ -82,6 +86,9 @@ const validateFields = async ({
   if (allowedJobApplicationForEmployee === undefined) {
     throw new BadRequest('Allowed job applications for employee not found')
   }
+  if (!employeeId) {
+    throw new BadRequest('Employee ID not found')
+  }
 }
 
 const handleApproval = async ({
@@ -89,11 +96,11 @@ const handleApproval = async ({
   jobId,
   numberOfOpenings,
   allowedJobPostingForEmployer,
-  allowedJobApplicationForEmployee
+  allowedJobApplicationForEmployee,
+  employeeId
 }) => {
   if (numberOfOpenings <= 0) {
-    console.log('In the number of opening===', numberOfOpenings)
-    throw new BadRequest('No job openings available')
+    throw new BadRequest('Job openings full, increase openings')
   }
   if (allowedJobPostingForEmployer <= 0) {
     throw new BadRequest('Employer allowed job posting expired')
@@ -102,8 +109,10 @@ const handleApproval = async ({
     throw new BadRequest('Employee allowed job application expired')
   }
 
-  const updatedNumberOfOpening = numberOfOpenings - 1
   await app.service(jobPath)._patch(jobId, {
-    numberofopenings: updatedNumberOfOpening
+    numberofopenings: numberOfOpenings - 1
+  })
+  await app.service(userPath)._patch(employeeId, {
+    allowedjobapplication: allowedJobApplicationForEmployee - 1
   })
 }
