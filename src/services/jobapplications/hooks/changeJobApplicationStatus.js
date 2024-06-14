@@ -40,10 +40,18 @@ export const changeJobApplicationStatus = async (hook) => {
         allowedJobApplicationForEmployee,
         employeeId
       })
-    } else if (status === 'Completed') {
+    } 
+    else if (status === 'Completed') {
+      console.log('JOB Completed');
+      
+      // Perform any additional actions for rejected status if needed
+    } 
+    else if (status === 'Rejected') {
       console.log('JOB Completed')
       // Perform any additional actions for rejected status if needed
-    } else {
+    } 
+    
+    else {
       throw new BadRequest('Invalid status')
     }
   } catch (error) {

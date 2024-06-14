@@ -18,7 +18,7 @@ export const jobapplicationSchema = {
     appliedby: ObjectIdSchema(),
     createdat: { type: 'string', format: 'date-time' },
     updatedat: { type: 'string', format: 'date-time' },
-    status: { type: 'string', enum: ['Applied', 'Approved', 'Rejected'] },
+    status: { type: 'string', enum: ['Applied', 'Approved', 'Rejected','Completed'] },
     updatedby: ObjectIdSchema(),
     employerid: ObjectIdSchema(),
     chatid: ObjectIdSchema(),
