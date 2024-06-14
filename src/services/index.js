@@ -1,3 +1,5 @@
+import { incrementalRequest } from './incrementalrequest/incrementalrequest.js'
+
 import { appconfig } from './appconfig/appconfig.js'
 
 import { categories } from './categories/categories.js'
@@ -19,6 +21,8 @@ import { job } from './jobs/jobs.js'
 import { user } from './users/users.js'
 
 export const services = (app) => {
+  app.configure(incrementalRequest)
+
   app.configure(appconfig)
 
   app.configure(categories)
