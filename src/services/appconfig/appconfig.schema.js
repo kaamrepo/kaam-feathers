@@ -33,6 +33,13 @@ export const appconfigSchema = {
       items: {
         type: 'string',
       }
+    },
+    roles:{
+      type:'array',
+      items:{
+        type:'string',
+        default:['employee','employer','superadmin','admin']
+      }
     }
   }
 }
