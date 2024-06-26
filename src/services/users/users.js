@@ -133,7 +133,6 @@ export const user = (app) => {
     }
   })
 
-  //// <- ******************************** LOGIN ROUTE *********************************** -> ////
 
   app.use(userLoginPath, new UserService(getOptions(app)), {
     methods: userLoginMethods,

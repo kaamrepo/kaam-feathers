@@ -1,8 +1,8 @@
+import 'dotenv/config'
 import { MongoClient } from 'mongodb';
-
 // Connection URL
-const url = 'mongodb://localhost:27017'; // Change this to your MongoDB server URL
-const dbName = 'kaamdb'; // Change this to your database name
+const url = process.env.KAAM_MONGODB_URI; // Change this to your MongoDB server URL
+  const dbName = new URL(url).pathname.substring(1)
 
 async function main() {
   // Create a new MongoClient
@@ -31,6 +31,7 @@ async function main() {
       supportemail: ['mailmepeter2@gmail.com', 'peterkhalko1122@gamil.com'],
       roles: ['admin', 'employee', 'employer', 'superadmin'],
       isActive:true
+      
     };
 
     await collection.insertOne(data);
