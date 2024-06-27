@@ -27,5 +27,6 @@
   "kaam_aws_secretaccessKey": "KAAM_AWS_SECRETACCESS_KEY",
   "kaam_firebase_notification_file_path": "FIREBASE_NOTIFICATION_FILE_PATH",
   "kaam_file_upload_type": "FILE_UPLOAD_TYPE",
-  "kaam_server_endpoint": "SERVER_ENDPOINT"
+  "kaam_server_endpoint": "SERVER_ENDPOINT",
+  "kaam_notification_service_type": "NOTIFICATION_SERVICE_TYPE"
 }

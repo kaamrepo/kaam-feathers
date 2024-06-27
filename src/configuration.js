@@ -32,7 +32,8 @@ export const configurationSchema = {
     kaam_aws_secretaccessKey: { type: 'string' },
     kaam_firebase_notification_file_path: { type: 'string' },
     kaam_file_upload_type: { type: 'string' },
-    kaam_server_endpoint: { type: 'string' }
+    kaam_server_endpoint: { type: 'string' },
+    kaam_notification_service_type: { type: 'string' }
   }
 }
 

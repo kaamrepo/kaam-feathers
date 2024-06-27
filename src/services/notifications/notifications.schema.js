@@ -7,21 +7,46 @@ export const notificationsSchema = {
   $id: 'Notifications',
   type: 'object',
   additionalProperties: false,
-  required: ['id', 'type'],
+  required: ['templateName', 'payload'],
   properties: {
-    id: { type: 'number' },
-    type: { type: 'string', enum: ['FCM', 'EMAIL', 'SMS'] },
-    recepient: { type: 'array', items: { type: 'string' } },
-    notification: {
+    templateName: { type: 'string' },
+    payload: {
       type: 'object',
       properties: {
-        title: { type: 'string' },
-        body: { type: 'string' }
+        PUSH: {
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              recipient: { type: 'array', items: { type: 'string' } },
+              variables: { type: 'object', additionalProperties: true }
+            },
+            required: ['recipient']
+          }
+        },
+        SMS: {
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              recipient: { type: 'string' },
+              variables: { type: 'object', additionalProperties: true }
+            },
+            required: ['recipient']
+          }
+        },
+        EMAIL: {
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              recipient: { type: 'string' },
+              variables: { type: 'object', additionalProperties: true }
+            },
+            required: ['recipient']
+          }
+        }
       }
-    },
-    data: {
-      type: 'object',
-      additionalProperties: true
     }
   }
 }
@@ -35,26 +60,13 @@ export const notificationsDataSchema = {
   $id: 'NotificationsData',
   type: 'object',
   additionalProperties: false,
-  required: ['type'],
+  required: ['templateName', 'payload'],
   properties: {
     ...notificationsSchema.properties
   }
 }
 export const notificationsDataValidator = getValidator(notificationsDataSchema, dataValidator)
 export const notificationsDataResolver = resolve({})
-
-// Schema for updating existing data
-export const notificationsPatchSchema = {
-  $id: 'NotificationsPatch',
-  type: 'object',
-  additionalProperties: false,
-  required: [],
-  properties: {
-    ...notificationsSchema.properties
-  }
-}
-export const notificationsPatchValidator = getValidator(notificationsPatchSchema, dataValidator)
-export const notificationsPatchResolver = resolve({})
 
 // Schema for allowed query properties
 export const notificationsQuerySchema = {

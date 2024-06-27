@@ -3,19 +3,17 @@
 import { hooks as schemaHooks } from '@feathersjs/schema'
 import {
   notificationsDataValidator,
-  notificationsPatchValidator,
-  notificationsQueryValidator,
   notificationsResolver,
   notificationsExternalResolver,
   notificationsDataResolver,
-  notificationsPatchResolver,
+  notificationsQueryValidator,
   notificationsQueryResolver
 } from './notifications.schema.js'
 import { NotificationsService, getOptions } from './notifications.class.js'
 import { notificationsPath, notificationsMethods } from './notifications.shared.js'
-
 export * from './notifications.class.js'
 export * from './notifications.schema.js'
+import { MethodNotAllowed } from '@feathersjs/errors'
 
 // A configure function that registers the service and its hooks via `app.configure`
 export const notifications = (app) => {
@@ -36,20 +34,18 @@ export const notifications = (app) => {
     },
     before: {
       all: [
+        (hook) => {
+          if (hook.method !== 'create') {
+            throw new MethodNotAllowed()
+          }
+        },
         schemaHooks.validateQuery(notificationsQueryValidator),
         schemaHooks.resolveQuery(notificationsQueryResolver)
       ],
-      find: [],
-      get: [],
       create: [
         schemaHooks.validateData(notificationsDataValidator),
         schemaHooks.resolveData(notificationsDataResolver)
-      ],
-      patch: [
-        schemaHooks.validateData(notificationsPatchValidator),
-        schemaHooks.resolveData(notificationsPatchResolver)
-      ],
-      remove: []
+      ]
     },
     after: {
       all: []

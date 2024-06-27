@@ -22,16 +22,22 @@ import { job } from './jobs/jobs.js'
 
 import { user } from './users/users.js'
 
+import { notificationTemplates } from './notification-templates/notification-templates.js'
+
+
 export const services = (app) => {
+
   app.configure(approval)
+
+  app.configure(notificationTemplates)
+
+  app.configure(notifications)
 
   app.configure(incrementalRequest)
 
   app.configure(appconfig)
 
   app.configure(categories)
-
-  app.configure(notifications)
 
   app.configure(userJobPreferences)
 

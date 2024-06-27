@@ -10,6 +10,7 @@ export async function sendPushNotification(payload) {
     notification: notification
   }
 
+  
   const response = await admin.messaging().sendEachForMulticast({
     tokens: recepient,
     priority: 'high',

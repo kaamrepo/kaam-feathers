@@ -25,6 +25,9 @@ import { jobClient } from './services/jobs/jobs.shared.js'
 
 import { userClient } from './services/users/users.shared.js'
 
+import { notificationTemplatesClient } from './services/notification-templates/notification-templates.shared.js'
+
+
 /**
  * Returns a  client for the kaam-feathers app.
  *
@@ -63,6 +66,10 @@ export const createClient = (connection, authenticationOptions = {}) => {
   client.configure(incrementalRequestClient)
 
   client.configure(approvalClient)
+
+  client.configure(notificationTemplatesClient)
+  
+
 
   return client
 }
