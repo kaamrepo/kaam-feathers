@@ -12,7 +12,6 @@ export class AnalyticsService {
     const jobsService = this.app.service(jobPath);
     const jobApplicationsService = this.app.service(jobapplicationPath);
     const usersService = this.app.service(userPath);
-
     const jobsCount = await jobsService.find({query:{$limit:0}});
     const jobApplicationsCount = await jobApplicationsService.find({query:{$limit:0}});
     const usersCount = await usersService.find({query:{$limit:0}});;
@@ -27,6 +26,7 @@ export class AnalyticsService {
       ],
       paginate: false
     })
+    console.log("options",_params);
     return {
       jobsCount,
       jobApplicationsCount,
