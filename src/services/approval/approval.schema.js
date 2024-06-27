@@ -1,7 +1,7 @@
 // For more information about this file see https://dove.feathersjs.com/guides/cli/service.schemas.html
-import { resolve, getValidator, querySyntax,ObjectIdSchema } from '@feathersjs/schema'
+import { resolve, getValidator, querySyntax,ObjectIdSchema,virtual } from '@feathersjs/schema'
 import { dataValidator, queryValidator } from '../../validators.js'
-
+import { userPath } from '../users/users.shared.js'
 // Main data model schema
 export const approvalSchema = {
   $id: 'Approval',
@@ -25,7 +25,12 @@ export const approvalSchema = {
 export const approvalValidator = getValidator(approvalSchema, dataValidator)
 export const approvalResolver = resolve({})
 
-export const approvalExternalResolver = resolve({})
+export const approvalExternalResolver = resolve({
+  userDetails: virtual(async (data, context) => {
+    const $select = ['firstname', 'lastname', 'phone','allowedjobapplication','allowedjobposting']
+    return await context.app.service(userPath).get(data.requestor, { query: { $select } })
+  }),
+})
 
 // Schema for creating new data
 export const approvalDataSchema = {
