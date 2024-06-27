@@ -3,13 +3,10 @@ import { authenticate } from '@feathersjs/authentication'
 
 import { hooks as schemaHooks } from '@feathersjs/schema'
 import {
-  analyticsDataValidator,
-  analyticsPatchValidator,
+
   analyticsQueryValidator,
   analyticsResolver,
   analyticsExternalResolver,
-  analyticsDataResolver,
-  analyticsPatchResolver,
   analyticsQueryResolver
 } from './analytics.schema.js'
 import { AnalyticsService, getOptions } from './analytics.class.js'
@@ -42,16 +39,7 @@ export const analytics = (app) => {
         schemaHooks.resolveQuery(analyticsQueryResolver)
       ],
       find: [],
-      get: [],
-      create: [
-        schemaHooks.validateData(analyticsDataValidator),
-        schemaHooks.resolveData(analyticsDataResolver)
-      ],
-      patch: [
-        schemaHooks.validateData(analyticsPatchValidator),
-        schemaHooks.resolveData(analyticsPatchResolver)
-      ],
-      remove: []
+    
     },
     after: {
       all: []

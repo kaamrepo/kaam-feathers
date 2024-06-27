@@ -1,52 +1,40 @@
-// This is a skeleton for a custom service class. Remove or add the methods you need here
+// src/services/analytics/analytics.class.js
+import { jobPath } from "../jobs/jobs.shared.js";
+import { jobapplicationPath } from "../jobapplications/jobapplications.shared.js";
+import { userPath } from "../users/users.shared.js";
 export class AnalyticsService {
   constructor(options) {
     this.options = options
+    this.app = options.app;
   }
 
   async find(_params) {
-    return []
+    const jobsService = this.app.service(jobPath);
+    const jobApplicationsService = this.app.service(jobapplicationPath);
+    const usersService = this.app.service(userPath);
+
+    const jobsCount = await jobsService.find({query:{$limit:0}});
+    const jobApplicationsCount = await jobApplicationsService.find({query:{$limit:0}});
+    const usersCount = await usersService.find({query:{$limit:0}});;
+    // const usersCount2 = await usersService.find({pipeline:[{$match:{"firstname":"Peter"}}]});
+    const usersCount2 = await usersService.find({
+      pipeline: [
+        {
+          $match: {
+            "firstname":"Peter"
+          }
+        },
+      ],
+      paginate: false
+    })
+    return {
+      jobsCount,
+      jobApplicationsCount,
+      usersCount2
+    };
   }
 
-  async get(id, _params) {
-    return {
-      id: 0,
-      text: `A new message with ID: ${id}!`
-    }
-  }
-  async create(data, params) {
-    if (Array.isArray(data)) {
-      return Promise.all(data.map((current) => this.create(current, params)))
-    }
 
-    return {
-      id: 0,
-      ...data
-    }
-  }
-
-  // This method has to be added to the 'methods' option to make it available to clients
-  async update(id, data, _params) {
-    return {
-      id: 0,
-      ...data
-    }
-  }
-
-  async patch(id, data, _params) {
-    return {
-      id: 0,
-      text: `Fallback for ${id}`,
-      ...data
-    }
-  }
-
-  async remove(id, _params) {
-    return {
-      id: 0,
-      text: 'removed'
-    }
-  }
 }
 
 export const getOptions = (app) => {
