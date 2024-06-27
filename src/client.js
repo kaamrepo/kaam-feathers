@@ -1,6 +1,8 @@
 // For more information about this file see https://dove.feathersjs.com/guides/cli/client.html
 import { feathers } from '@feathersjs/feathers'
 import authenticationClient from '@feathersjs/authentication-client'
+import { approvalClient } from './services/approval/approval.shared.js'
+
 import { incrementalRequestClient } from './services/incrementalrequest/incrementalrequest.shared.js'
 
 import { appconfigClient } from './services/appconfig/appconfig.shared.js'
@@ -59,6 +61,8 @@ export const createClient = (connection, authenticationOptions = {}) => {
   client.configure(appconfigClient)
 
   client.configure(incrementalRequestClient)
+
+  client.configure(approvalClient)
 
   return client
 }
