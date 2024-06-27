@@ -1,6 +1,5 @@
 // For more information about this file see https://dove.feathersjs.com/guides/cli/service.html
 import { authenticate } from '@feathersjs/authentication'
-
 import { hooks as schemaHooks } from '@feathersjs/schema'
 import {
   userDataValidator,
@@ -29,6 +28,7 @@ export * from './users.schema.js'
 import { userQueryfilters } from './hooks/filters/customUserSearchHook.js'
 import { commonHook } from '../../hooks/commonHook.js'
 import { searchHook } from '../../hooks/searchHook.js'
+import { analytics } from './hooks/analytics/analytics.js'
 import commonUploadHandler from '../../helpers/commonUploadHandler.js'
 const profilePhotosPath = 'uploads/profilepic'
 // A configure function that registers the service and its hooks via `app.configure`
@@ -80,7 +80,7 @@ export const user = (app) => {
       remove: []
     },
     before: {
-      find: [commonHook(), searchHook()],
+      find: [commonHook(), searchHook(),analytics()],
       get: [],
       create: [
         checkUserAlreadyRegistered,
