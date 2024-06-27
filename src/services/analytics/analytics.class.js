@@ -24,18 +24,9 @@ export class AnalyticsService {
             const jobsCount = await jobsService.find({ query: { $limit: 0 } });
             const jobApplicationsCount = await jobApplicationsService.find({ query: { $limit: 0 } });
             const usersCount = await usersService.find({ query: { $limit: 0 } });
-            const usersCount2 = await usersService.find({
-              pipeline: [
-                {
-                  $match: {
-                    "firstname": "Peter"
-                  }
-                },
-              ],
-              paginate: false
-            });
-            data = { jobsCount, jobApplicationsCount, usersCount, usersCount2 };
-            console.log("data", data);
+            data.totaljobcount = jobsCount.total;
+            data.totaljobapplicationscount = jobApplicationsCount.total;
+            data.totaluser = usersCount.total;
             delete query['analyticscount'];
             break;
           default:
