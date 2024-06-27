@@ -1,3 +1,5 @@
+import { analytics } from './analytics/analytics.js'
+
 import { approval } from './approval/approval.js'
 
 import { incrementalRequest } from './incrementalrequest/incrementalrequest.js'
@@ -24,8 +26,8 @@ import { user } from './users/users.js'
 
 import { notificationTemplates } from './notification-templates/notification-templates.js'
 
-
 export const services = (app) => {
+  app.configure(analytics)
 
   app.configure(approval)
 

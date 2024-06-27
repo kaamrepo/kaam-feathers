@@ -1,6 +1,8 @@
 // For more information about this file see https://dove.feathersjs.com/guides/cli/client.html
 import { feathers } from '@feathersjs/feathers'
 import authenticationClient from '@feathersjs/authentication-client'
+import { analyticsClient } from './services/analytics/analytics.shared.js'
+
 import { approvalClient } from './services/approval/approval.shared.js'
 
 import { incrementalRequestClient } from './services/incrementalrequest/incrementalrequest.shared.js'
@@ -26,7 +28,6 @@ import { jobClient } from './services/jobs/jobs.shared.js'
 import { userClient } from './services/users/users.shared.js'
 
 import { notificationTemplatesClient } from './services/notification-templates/notification-templates.shared.js'
-
 
 /**
  * Returns a  client for the kaam-feathers app.
@@ -68,8 +69,8 @@ export const createClient = (connection, authenticationOptions = {}) => {
   client.configure(approvalClient)
 
   client.configure(notificationTemplatesClient)
-  
 
+  client.configure(analyticsClient)
 
   return client
 }
