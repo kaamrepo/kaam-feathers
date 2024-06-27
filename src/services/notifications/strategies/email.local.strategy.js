@@ -2,12 +2,21 @@ import 'dotenv/config'
 import { NotificationStrategy } from './notification-strategy.js'
 import { logger } from '../../../logger.js'
 import { notificationChannelTypes } from '../factories/notification.factory.js'
-// import sgMail from '@sendgrid/mail'
+import fs from 'fs'
+import path from 'path'
+import ejs from 'ejs'
+import formData from 'form-data'
+import Mailgun from 'mailgun.js'
 
-// sgMail.setApiKey(process.env.SENDGRID_SECRET_KEY)
+const mailgun = new Mailgun(formData)
+
+const mg = mailgun.client({
+  username: 'api',
+  key: process.env.MAILGUN_SECRET_KEY
+})
 
 export class EmailLocalStrategy extends NotificationStrategy {
-  sendNotification(template, data) {
+  async sendNotification(template, data) {
     logger.debug('inside', EmailLocalStrategy.name)
     if (!template.channelType.includes(notificationChannelTypes.EMAIL)) {
       logger.error(
@@ -15,28 +24,39 @@ export class EmailLocalStrategy extends NotificationStrategy {
       )
       return
     }
-    const { content, variables, service } = template.channels.EMAIL
+    const { content, variables: templateVariables } = template.channels.EMAIL
 
-    console.log('\n------------------->>>>template', JSON.stringify(template, null, 4))
-    console.log('\n------------------->>>> data', JSON.stringify(data, null, 4))
+    const templatepath = path.join('src/emails', content.templateName)
+    const ejstemplate = fs.readFileSync(templatepath, 'utf-8')
+    const compiledTemplate = ejs.compile(ejstemplate)
 
-    const { EMAIL } = template.channels
-    // const sendData = data.map(() => {})
-    const msg = {
-      to: 'sidheshparab34@gmail.com',
-      from: 'vastbeacon@gmail.com',
-      subject: EMAIL.content.subject,
-      html: EMAIL.content.body
+    const sendEmail = (recipient, variables) => {
+      logger.debug(`sendEmail recipient ${recipient} variables ${JSON.stringify(variables)}`)
+      const missingVariables = findMissingKeys(templateVariables, variables)
+      if (!missingVariables?.length)
+        return mg.messages.create(process.env.MAILGUN_DOMAIN, {
+          from: 'KaamPe <mailgun@sandbox-123.mailgun.org>',
+          to: [recipient],
+          subject: fillTemplate(content.subject, variables),
+          html: compiledTemplate(variables)
+        })
+      else {
+        logger.debug(`missing variables found ${missingVariables} for recipient ${recipient}`)
+      }
     }
-    console.log(
-      '🚀 ~ EmailLocalStrategy ~ sendNotification ~ msg.template.EMAIL.content:',
-      template.channels.EMAIL.content
-    )
-    // Implement the logic to send Email using local service
-    // console.log(
-    //   `Sending Email to ${receiverDetails.email} with subject: ${template.channels.EMAIL.content.subject}`
-    // )
-    // Replace variables in template.content with attributes
+
+    const promises = data.map((email) => sendEmail(email.recipient, email.variables))
+
+    const results = await Promise.allSettled(promises)
+
+    results.forEach((result, idx) => {
+      if (result.status === 'fulfilled') {
+        logger.debug(`result ${JSON.stringify(result)}`)
+        logger.debug(`Email to ${data[idx].recipient} was sent successfully.`)
+      } else {
+        logger.error(`Email to ${data[idx].recipient} failed:`, result.reason)
+      }
+    })
   }
 }
 
@@ -45,7 +65,7 @@ function findMissingKeys(obj1, obj2) {
   let missingKeys = []
 
   // Loop through each key in obj1
-  for (let key in obj1) {
+  for (let key of obj1) {
     // Check if the key is not present in obj2
     if (!(key in obj2)) {
       // Add the missing key to the array
@@ -55,4 +75,8 @@ function findMissingKeys(obj1, obj2) {
 
   // Return the array of missing keys
   return missingKeys
+}
+
+function fillTemplate(string, data) {
+  return string.replace(/{{(.*?)}}/g, (match, p1) => data[p1.trim()] || '')
 }

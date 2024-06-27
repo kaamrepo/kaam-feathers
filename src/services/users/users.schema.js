@@ -20,6 +20,8 @@ export const userSchema = {
     lastname: { type: 'string', minLength: 1 },
     email: { type: 'string', format: 'email' },
     otp: { type: 'string', minLength: 1 },
+    username: { type: 'string' },
+    password: { type: 'string' },
     otpexpiresat: { type: 'string', format: 'date-time' },
     createdat: { type: 'string', format: 'date-time' },
     updatedat: { type: 'string', format: 'date-time' },
@@ -45,7 +47,7 @@ export const userSchema = {
       type: 'object',
       properties: {
         type: { type: 'string', default: 'Point' },
-        coordinates: { type: 'array', items: { type: 'number'|| null } },
+        coordinates: { type: 'array', items: { type: 'number' || null } },
         fulladdress: { type: 'string' },
         pincode: { type: 'string' },
         district: { type: 'string' },
@@ -63,8 +65,8 @@ export const userSchema = {
     githubid: { type: 'string' },
     auth0id: { type: 'string' },
     activeforjobs: { type: 'boolean' },
-    allowedjobposting:{type:'number'},
-    allowedjobapplication:{type:'number'},
+    allowedjobposting: { type: 'number' },
+    allowedjobapplication: { type: 'number' },
     tags: {
       type: 'array',
       items: ObjectIdSchema(),
@@ -165,8 +167,8 @@ export const userPatchResolver = resolve({
     } else return undefined
   },
   activeforjobs: async (value, data, context) => {
-    console.log("in the active for jobs resolvers",value);
-    console.log("in the active for jobs data",data);
+    console.log('in the active for jobs resolvers', value)
+    console.log('in the active for jobs data', data)
     if (typeof value === 'boolean' && !data?.isLogout) {
       return value
     } else return undefined
@@ -212,7 +214,7 @@ export const userQuerySchema = {
           type: 'object',
           properties: {
             $in: {
-              type: 'array',
+              type: 'array'
             }
           },
           additionalProperties: true
@@ -221,7 +223,6 @@ export const userQuerySchema = {
     }
   }
 }
-
 
 export const userQueryValidator = getValidator(userQuerySchema, queryValidator)
 export const userQueryResolver = resolve({

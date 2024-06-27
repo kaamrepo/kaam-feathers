@@ -3,7 +3,7 @@ import { logger } from '../../../logger.js'
 import { notificationChannelTypes } from '../factories/notification.factory.js'
 
 export class PushLocalStrategy extends NotificationStrategy {
-  sendNotification(template, data) {
+  async sendNotification(template, data) {
     logger.debug('inside', PushLocalStrategy.name)
     if (!template.channelType.includes(notificationChannelTypes.PUSH)) {
       logger.error(

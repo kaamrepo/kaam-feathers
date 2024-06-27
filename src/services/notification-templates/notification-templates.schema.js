@@ -77,7 +77,7 @@ export const notificationTemplatesSchema = {
               properties: {
                 subject: { type: 'string' },
                 body: { type: 'string' },
-                templateFilePath: { type: 'string' }
+                templateName: { type: 'string' }
               }
             },
             variables: {
