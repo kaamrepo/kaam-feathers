@@ -6,7 +6,7 @@ import { dataValidator, queryValidator } from '../../validators.js'
 export const analyticsSchema = {
   $id: 'Analytics',
   type: 'object',
-  additionalProperties: false,
+  additionalProperties: true,
 
   properties: {
   }
@@ -23,7 +23,7 @@ export const analyticsExternalResolver = resolve({})
 export const analyticsQuerySchema = {
   $id: 'AnalyticsQuery',
   type: 'object',
-  additionalProperties: false,
+  additionalProperties: true,
   properties: {
     ...querySyntax(analyticsSchema.properties)
   }
