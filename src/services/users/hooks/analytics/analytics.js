@@ -20,10 +20,10 @@ export const analytics = () => async (context) => {
       ];
 
       // Execute aggregation pipeline
-      const jobapplicaitonCount = await jobApplicationModel.aggregate(pipeline).toArray();
+      const jobApplicationCount = await jobApplicationModel.aggregate(pipeline).count('count').exec();
 
       // Attach result to context
-      context.result = jobapplicaitonCount;
+      context.result = { jobApplicationCount };
 
       // Remove the analytics query parameter
       delete context.params.query.analytics;
