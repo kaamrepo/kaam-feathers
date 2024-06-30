@@ -43,7 +43,7 @@ export const authentication = (app) => {
       create: [
         async (context) => {
           const { strategy } = context.data
-          if (strategy !== 'basic') {
+          if (strategy === 'local') {
             const { user } = context.result
             await context.app.service(userPath)._patch(user._id, {
               $unset: { otpexpiresat: '' }

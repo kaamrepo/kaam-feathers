@@ -14,6 +14,5 @@ export const checkUserAlreadyRegistered = async (context) => {
   if (user) {
     throw new BadRequest('User already exists')
   }
-  console.log('---------------------------------------->called query', user)
   return context
 }

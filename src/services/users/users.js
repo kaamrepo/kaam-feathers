@@ -37,6 +37,7 @@ export * from './users.schema.js'
 import { commonHook } from '../../hooks/commonHook.js'
 import { searchHook } from '../../hooks/searchHook.js'
 import commonUploadHandler from '../../helpers/commonUploadHandler.js'
+import { sentPasswordEmailNotification } from './hooks/create/sentPasswordEmailNotification.js'
 
 // A configure function that registers the service and its hooks via `app.configure`
 export const user = (app) => {
@@ -175,7 +176,7 @@ export const user = (app) => {
     after: {
       create: [
         // sent email passwordString
-        
+        sentPasswordEmailNotification
       ]
     }
   })
