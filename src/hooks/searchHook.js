@@ -12,33 +12,24 @@ export const searchHook = (hook) => async (hook) => {
           }
           delete query['categories']
           break
-          case 'wildStringForJobs':
-            query.wildStringForJobs = query.wildStringForJobs.trim()
-            const regexForJobs = new RegExp(`^${query.wildStringForJobs}`, 'i')
-            query['$or'] = [
-             
-              { jobtitle: regexForJobs },
-              { description: regexForJobs },
-            ]
-            delete query['wildStringForJobs']
-            break
+        case 'wildStringForJobs':
+          query.wildStringForJobs = query.wildStringForJobs.trim()
+          const regexForJobs = new RegExp(`^${query.wildStringForJobs}`, 'i')
+          query['$or'] = [{ jobtitle: regexForJobs }, { description: regexForJobs }]
+          delete query['wildStringForJobs']
+          break
         case 'wildString':
           query.wildString = query.wildString.trim()
           const words = query.wildString.split(' ')
           // Single word search
           const regex = new RegExp(`^${query.wildString}`, 'i')
-          query['$or'] = [
-            { firstname: regex },
-            { lastname: regex },
-            { aboutme: regex }
-          ]
+          query['$or'] = [{ firstname: regex }, { lastname: regex }, { aboutme: regex }]
           delete query['wildString']
           break
         case 'location':
-         
           delete query['location']
           break
-       
+
         default:
           break
       }
