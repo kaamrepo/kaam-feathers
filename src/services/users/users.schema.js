@@ -20,7 +20,6 @@ export const userSchema = {
     lastname: { type: 'string', minLength: 1 },
     email: { type: 'string', format: 'email' },
     otp: { type: 'string', minLength: 1 },
-    username: { type: 'string' },
     password: { type: 'string' },
     otpexpiresat: { type: 'string', format: 'date-time' },
     createdat: { type: 'string', format: 'date-time' },
@@ -94,6 +93,7 @@ export const userResolver = resolve({})
 export const userExternalResolver = resolve({
   // The password should never be visible externally
   otp: async () => undefined,
+  password: async () => undefined,
   tagsDetails: async (_value, data, context) => {
     const $select = ['isActive', 'name', '_id']
     const tags = data.tags || []
@@ -127,6 +127,7 @@ export const userDataValidator = getValidator(userDataSchema, dataValidator)
 
 export const userDataResolver = resolve({
   otp: passwordHash({ strategy: 'local' }),
+  password: passwordHash({ strategy: 'local' }),
   isactive: async () => true,
   createdat: async (value, _, context) => new Date(),
   updatedat: async (value, _, context) => new Date(),

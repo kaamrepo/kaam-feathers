@@ -16,7 +16,8 @@
     "secret": "ei7pchAeHkrmn/wDArpySJBPWRzStoZM",
     "authStrategies": [
       "jwt",
-      "local"
+      "local",
+      "basic"
     ],
     "jwtOptions": {
       "header": {
@@ -28,6 +29,10 @@
     "local": {
       "usernameField": "phone",
       "passwordField": "otp"
+    },
+    "basic": {
+      "usernameField": "email",
+      "passwordField": "password"
     },
     "oauth": {
       "google": {
