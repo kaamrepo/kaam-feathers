@@ -5,7 +5,7 @@ import { passwordHash } from '@feathersjs/authentication-local'
 import { dataValidator, queryValidator } from '../../validators.js'
 import { resolveObjectId } from '@feathersjs/mongodb'
 import { categoriesPath } from '../categories/categories.shared.js'
-import { ObjectId } from 'mongodb'
+
 // Main data model schema
 export const userSchema = {
   $id: 'User',
@@ -26,7 +26,7 @@ export const userSchema = {
     updatedat: { type: 'string', format: 'date-time' },
 
     isactive: { type: 'boolean' },
-    
+
     aboutme: { type: 'string', minLength: 0, maxLength: 256 },
     dateofbirth: { type: 'string', format: 'date-time' },
     address: {
@@ -122,7 +122,9 @@ export const userDataSchema = {
     ...userSchema.properties
   }
 }
+
 export const userDataValidator = getValidator(userDataSchema, dataValidator)
+
 export const userDataResolver = resolve({
   otp: passwordHash({ strategy: 'local' }),
   password: passwordHash({ strategy: 'local' }),
@@ -135,6 +137,12 @@ export const userDataResolver = resolve({
   }
 })
 
+export const userCreateStaffDataResolver = resolve({
+  password: passwordHash({ strategy: 'local' }),
+  isactive: async () => true,
+  createdat: async (value, _, context) => new Date(),
+  updatedat: async (value, _, context) => new Date()
+})
 // Schema for updating existing data
 export const userPatchSchema = {
   $id: 'UserPatch',

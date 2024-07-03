@@ -1,9 +1,12 @@
 import 'dotenv/config'
 import { MongoClient } from 'mongodb';
 // Connection URL
-const url = process.env.KAAM_MONGODB_URI; // Change this to your MongoDB server URL
+console.log("process.env.KAAM_MONGODB_URI",process.env.KAAM_MONGODB_URI);
+// const url = process.env.KAAM_MONGODB_URI; // Change this to your MongoDB server URL
+const url = 'mongodb://127.0.0.1:27017/kaamdb' // Change this to your MongoDB server URL
   const dbName = new URL(url).pathname.substring(1)
-
+console.log("url",url);
+console.log("dbName",dbName);
 async function main() {
   // Create a new MongoClient
   const client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true });

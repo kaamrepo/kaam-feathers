@@ -18,7 +18,7 @@ const mg = mailgun.client({
 
 export class EmailLocalStrategy extends NotificationStrategy {
   async sendNotification(template, data) {
-    logger.debug('inside', EmailLocalStrategy.name)
+    logger.debug(`inside ${EmailLocalStrategy.name}`)
     if (!template.channelType.includes(notificationChannelTypes.EMAIL)) {
       logger.error(
         `this channelType:${notificationChannelTypes.EMAIL} does not supported by the provided template`
@@ -28,6 +28,7 @@ export class EmailLocalStrategy extends NotificationStrategy {
     const { content, variables: templateVariables } = template.channels.EMAIL
 
     const templatepath = path.join('src/emails', content.templateName)
+    logger.debug('templatepath', templatepath)
     const ejstemplate = fs.readFileSync(templatepath, 'utf-8')
     const compiledTemplate = ejs.compile(ejstemplate)
 

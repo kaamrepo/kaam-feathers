@@ -7,6 +7,18 @@ export class UserService extends MongoDBService {
     if (user.total) return user.data[0]
     else return undefined
   }
+  async findUserByPhoneOrEmail(phone, email) {
+    let query = {}
+    if (phone) {
+      query.phone = phone
+    }
+    if (email) {
+      query.email = email
+    }
+    const user = await super.find({ query })
+    if (user.total) return user.data[0]
+    else return undefined
+  }
 }
 
 export const getOptions = (app) => {
@@ -16,7 +28,8 @@ export const getOptions = (app) => {
       .get('mongodbClient')
       .then((db) => db.collection('users'))
       .then((collection) => {
-        collection.createIndex({ phone: 1 }, { unique: true })
+        collection.createIndex({ phone: 1 }, { unique: true, sparse: true })
+        collection.createIndex({ email: 1 }, { unique: true, sparse: true })
         collection.createIndex({ coordinates: '2dsphere' })
         return collection
       })

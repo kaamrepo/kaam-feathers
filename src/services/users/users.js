@@ -11,25 +11,34 @@ import {
   userPatchResolver,
   userQueryResolver,
   loginPatchResolver,
-  loginPatchValidator
+  loginPatchValidator,
+  userCreateStaffDataResolver
 } from './users.schema.js'
 import { UserService, getOptions } from './users.class.js'
-import { userPath, userMethods, userLoginPath, userLoginMethods } from './users.shared.js'
+import {
+  userPath,
+  userMethods,
+  userLoginPath,
+  userLoginMethods,
+  userCreateStaffPath,
+  userCreateStaffMethods
+} from './users.shared.js'
 import { generateOTPandExpiryTime } from './hooks/create/generateOTPandExpiryTime.js'
 import { patchUserInfo } from './hooks/patch/patchUserInfo.js'
 import { duplicateKeyError } from './hooks/error/duplicateKeyError.js'
 import { sendOTP } from './hooks/create/sendOTP.js'
+import { appendPassword } from './hooks/create/appendPassword.js'
 import { checkUserExists } from './hooks/login/checkUserExists.js'
 import { checkUserAlreadyRegistered } from './hooks/create/checkUserAlreadyRegistered.js'
 import { appendOrRemoveFirebaseToken } from './hooks/patch/appendOrRemoveFirebaseToken.js'
 import { addDefaultValuesToUser } from './hooks/create/addDefaultValues.js'
 export * from './users.class.js'
 export * from './users.schema.js'
-import { userQueryfilters } from './hooks/filters/customUserSearchHook.js'
 import { commonHook } from '../../hooks/commonHook.js'
 import { searchHook } from '../../hooks/searchHook.js'
 import commonUploadHandler from '../../helpers/commonUploadHandler.js'
-const profilePhotosPath = 'uploads/profilepic'
+import { sentPasswordEmailNotification } from './hooks/create/sentPasswordEmailNotification.js'
+
 // A configure function that registers the service and its hooks via `app.configure`
 export const user = (app) => {
   const upload = commonUploadHandler({
@@ -67,7 +76,7 @@ export const user = (app) => {
   app.service(userPath).hooks({
     around: {
       all: [
-        authenticate('jwt'),
+        // authenticate('jwt'),
         schemaHooks.resolveExternal(userExternalResolver),
         schemaHooks.resolveResult(userResolver)
       ],
@@ -132,7 +141,6 @@ export const user = (app) => {
     }
   })
 
-
   app.use(userLoginPath, new UserService(getOptions(app)), {
     methods: userLoginMethods,
     events: []
@@ -146,6 +154,29 @@ export const user = (app) => {
         schemaHooks.validateData(loginPatchValidator),
         sendOTP,
         schemaHooks.resolveData(loginPatchResolver)
+      ]
+    }
+  })
+
+  // on board users
+  app.use(userCreateStaffPath, new UserService(getOptions(app)), {
+    methods: userCreateStaffMethods,
+    events: []
+  })
+  app.service(userCreateStaffPath).hooks({
+    before: {
+      all: [],
+      create: [
+        checkUserAlreadyRegistered,
+        appendPassword,
+        addDefaultValuesToUser,
+        schemaHooks.resolveData(userCreateStaffDataResolver)
+      ]
+    },
+    after: {
+      create: [
+        // sent email passwordString
+        sentPasswordEmailNotification
       ]
     }
   })

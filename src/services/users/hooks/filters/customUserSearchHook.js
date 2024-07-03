@@ -23,24 +23,10 @@ export const userQueryfilters = () => async (hook) => {
         case 'wildString':
           query.wildString = query.wildString.trim()
           const words = query.wildString.split(' ')
-
           if (words.length === 1) {
-            // Single word search
             const regex = new RegExp(`^${query.wildString}`, 'i')
-            query['$or'] = [
-              { firstname: regex },
-              { lastname: regex },
-              { phone: regex },
-              // { 'address.addressline': regex },
-              // { 'address.pincode': regex },
-              // { 'address.district': regex },
-              // { 'address.country': regex },
-              // { 'address.state': regex },
-              // { 'address.city': regex }
-            ]
+            query['$or'] = [{ firstname: regex }, { lastname: regex }, { phone: regex }]
           } else if (words.length === 2) {
-            // First name and last name search
-            const [firstName, lastName] = words
             query['$and'] = [
               {
                 $or: [
@@ -56,17 +42,10 @@ export const userQueryfilters = () => async (hook) => {
               }
             ]
           } else {
-            // Address filter with all
             query['$or'] = [
               { firstname: new RegExp(`^${query.wildString}`, 'i') },
               { lastname: new RegExp(`^${query.wildString}`, 'i') },
-              { phone: new RegExp(`^${query.wildString}`, 'i') },
-              // { 'address.addressline': new RegExp(`^${query.wildString}`, 'i') },
-              // { 'address.pincode': new RegExp(`^${query.wildString}`, 'i') },
-              // { 'address.district': new RegExp(`^${query.wildString}`, 'i') },
-              // { 'address.country': new RegExp(`^${query.wildString}`, 'i') },
-              // { 'address.state': new RegExp(`^${query.wildString}`, 'i') },
-              // { 'address.city': new RegExp(`^${query.wildString}`, 'i') }
+              { phone: new RegExp(`^${query.wildString}`, 'i') }
             ]
           }
           delete query['wildString']
@@ -78,7 +57,7 @@ export const userQueryfilters = () => async (hook) => {
           break
       }
     })
-    hook.params.query = query;
+    hook.params.query = query
   }
   return hook
 }

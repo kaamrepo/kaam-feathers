@@ -1,4 +1,3 @@
-// src/services/analytics/analytics.class.js
 import { jobPath } from '../jobs/jobs.shared.js';
 import { jobapplicationPath } from '../jobapplications/jobapplications.shared.js';
 import { userPath } from '../users/users.shared.js';
@@ -40,7 +39,6 @@ export class AnalyticsService {
           case 'locationanalytics':
             console.log('in the location analytics case');
             const result = await usersService.find({
-              // query: { $limit: 0 },
               pipeline: [
                 {
                   $group: {
@@ -99,17 +97,143 @@ export class AnalyticsService {
             delete query['locationanalytics'];
             break;
 
-          default:
+          case 'userbifercationanalytics':
+            const userbifercationresult = await usersService.find({
+              pipeline: [
+                {
+                  $unwind: "$roles"
+                },
+                {
+                  $match: {
+                    roles: { $in: ["employee", "employer"] }
+                  }
+                },
+                {
+                  $group: {
+                    _id: "$_id",
+                    roles: { $addToSet: "$roles" }
+                  }
+                },
+                {
+                  $group: {
+                    _id: null,
+                    employeeCount: {
+                      $sum: {
+                        $cond: { if: { $in: ["employee", "$roles"] }, then: 1, else: 0 }
+                      }
+                    },
+                    employerCount: {
+                      $sum: {
+                        $cond: { if: { $in: ["employer", "$roles"] }, then: 1, else: 0 }
+                      }
+                    },
+                    mixedRolesCount: {
+                      $sum: {
+                        $cond: {
+                          if: {
+                            $and: [
+                              { $in: ["employee", "$roles"] },
+                              { $in: ["employer", "$roles"] }
+                            ]
+                          },
+                          then: 1,
+                          else: 0
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            });
+
+            // Assuming the userbifercationresult contains only one document
+            const rawData = userbifercationresult.data[0];
+            console.log("rawData", rawData);
+
+            // Calculate the total count for normalization
+            const totalCount = rawData.employeeCount + rawData.employerCount + rawData.mixedRolesCount;
+
+            // Normalize the counts to percentages
+            data.employee = (rawData.employeeCount / totalCount) * 100;
+            data.employer = (rawData.employerCount / totalCount) * 100;
+            data.mixed = (rawData.mixedRolesCount / totalCount) * 100;
+
+            delete query['userbifercationanalytics'];
             break;
+
+            case 'registrationanalytics':
+              console.log('in the registration analytics case');
+  
+              let dateFormat;
+              switch (query.timeframe) {
+                case 'Day':
+                  dateFormat = '%Y-%m-%d';
+                  break;
+                case 'Week':
+                  dateFormat = '%Y-%W';  // Week format
+                  break;
+                case 'Month':
+                  dateFormat = '%Y-%m';
+                  break;
+                case 'Year':
+                  dateFormat = '%Y';
+                  break;
+                default:
+                  dateFormat = '%Y-%m-%d';
+                  break;
+              }
+  
+              const registrationData = await usersService.find({
+                query: {
+                  $group: {
+                    _id: {
+                      $dateToString: { format: dateFormat, date: '$createdat' }
+                    },
+                    count: { $sum: 1 }
+                  }
+                },
+                pipeline: [
+                  {
+                    $group: {
+                      _id: {
+                        $dateToString: { format: dateFormat, date: '$createdat' }
+                      },
+                      count: { $sum: 1 }
+                    }
+                  },
+                  {
+                    $project: {
+                      _id: 0,
+                      timeframe: '$_id',
+                      count: '$count'
+                    }
+                  }
+                ]
+              });
+  
+              // Flatten and sort the data
+              data = registrationData.data.sort((a, b) => new Date(a.timeframe) - new Date(b.timeframe));
+  
+              // Make sure we have a default structure if no data is returned
+              if (!data.length) {
+                data = [{ timeframe: moment().format(dateFormat), count: 0 }];
+              }
+  
+              console.log('registrationanalytics data', data);
+  
+              delete query['registrationanalytics'];
+              break;
+  
+            default:
+              break;
+          }
         }
       }
+  
+      return data;
     }
-
-    // Return the data
-    return data;
   }
-}
-
-export const getOptions = (app) => {
-  return { app };
-};
+  
+  export const getOptions = (app) => {
+    return { app };
+  };
