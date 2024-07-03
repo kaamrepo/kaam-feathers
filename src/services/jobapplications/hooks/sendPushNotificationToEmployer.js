@@ -1,3 +1,4 @@
+import { NotificationTemplates } from '../../notification-templates/notification-template-names.js'
 import { notificationsPath } from '../../notifications/notifications.shared.js'
 import { userPath } from '../../users/users.shared.js'
 
@@ -13,18 +14,21 @@ export const sendPushNotificationToEmployer = async (context) => {
       const { firebasetokens } = employer
 
       if (firebasetokens?.length) {
-        const notificationPayload = {
-          type: 'FCM',
-          recepient: firebasetokens,
-          notification: {
-            title: 'New job application',
-            body: `${firstname} ${lastname} has applied for the job`
+        const payload = {
+          templateName: NotificationTemplates.NEW_JOB_APPLICATION_NOTIFICATION,
+          payload: {
+            PUSH: [
+              {
+                recipient: firebasetokens,
+                variables: {
+                  fullName: `${firstname} ${lastname}`
+                }
+              }
+            ]
           }
         }
-
-        notificationsService.create(notificationPayload)
+        notificationsService.create(payload)
       }
-
     } else {
       throw new NotFound('User not found!')
     }
