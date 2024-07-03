@@ -7,6 +7,7 @@ import path from 'path'
 import ejs from 'ejs'
 import formData from 'form-data'
 import Mailgun from 'mailgun.js'
+import { Utility } from '../utils/utility.js'
 
 const mailgun = new Mailgun(formData)
 
@@ -32,12 +33,12 @@ export class EmailLocalStrategy extends NotificationStrategy {
 
     const sendEmail = (recipient, variables) => {
       logger.debug(`sendEmail recipient ${recipient} variables ${JSON.stringify(variables)}`)
-      const missingVariables = findMissingKeys(templateVariables, variables)
+      const missingVariables = Utility.findMissingKeys(templateVariables, variables)
       if (!missingVariables?.length)
         return mg.messages.create(process.env.MAILGUN_DOMAIN, {
           from: 'KaamPe <mailgun@sandbox-123.mailgun.org>',
           to: [recipient],
-          subject: fillTemplate(content.subject, variables),
+          subject: Utility.fillTemplate(content.subject, variables),
           html: compiledTemplate(variables)
         })
       else {
@@ -58,25 +59,4 @@ export class EmailLocalStrategy extends NotificationStrategy {
       }
     })
   }
-}
-
-function findMissingKeys(obj1, obj2) {
-  // Initialize an empty array to store missing keys
-  let missingKeys = []
-
-  // Loop through each key in obj1
-  for (let key of obj1) {
-    // Check if the key is not present in obj2
-    if (!(key in obj2)) {
-      // Add the missing key to the array
-      missingKeys.push(key)
-    }
-  }
-
-  // Return the array of missing keys
-  return missingKeys
-}
-
-function fillTemplate(string, data) {
-  return string.replace(/{{(.*?)}}/g, (match, p1) => data[p1.trim()] || '')
 }

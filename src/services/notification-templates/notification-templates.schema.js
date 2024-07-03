@@ -46,7 +46,8 @@ export const notificationTemplatesSchema = {
             },
             isActive: { type: 'boolean', default: true }
           },
-          required: ['content']
+          required: ['content'],
+          additionalProperties: false
         },
         PUSH: {
           type: 'object',
@@ -56,7 +57,8 @@ export const notificationTemplatesSchema = {
               properties: {
                 title: { type: 'string' },
                 subTitle: { type: 'string' }
-              }
+              },
+              additionalProperties: false
             },
             variables: {
               type: 'array',
@@ -67,7 +69,8 @@ export const notificationTemplatesSchema = {
             },
             isActive: { type: 'boolean', default: true }
           },
-          required: ['content']
+          required: ['content'],
+          additionalProperties: false
         },
         EMAIL: {
           type: 'object',
@@ -78,7 +81,9 @@ export const notificationTemplatesSchema = {
                 subject: { type: 'string' },
                 body: { type: 'string' },
                 templateName: { type: 'string' }
-              }
+              },
+              required: ['subject', 'templateName'],
+              additionalProperties: false
             },
             variables: {
               type: 'array',
