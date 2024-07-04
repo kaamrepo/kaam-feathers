@@ -25,6 +25,11 @@ export const sendChatPushNotification = async (context) => {
       let recipient = []
       let fullName = ''
       let message = ''
+      let data = {
+        type: NotificationTemplates.NEW_CHAT_NOTIFICATION,
+        appliedJobId: applicationid,
+        chatid: result?._id
+      }
       if (lastMessage.senderid.toString() == appliedby.toString()) {
         console.log('message sent by applicant, notification should be sent to employer')
         //  get employer's fcm tokens and send a push notification
@@ -35,6 +40,7 @@ export const sendChatPushNotification = async (context) => {
           recipient = firebasetokens
           fullName = `${firstname} ${lastname}`
           message = lastMessage.text
+          data['name'] = fullName
         }
       } else if (lastMessage.senderid.toString() == employerid.toString()) {
         //  get applicant's fcm tokens and send a push notification
@@ -46,6 +52,7 @@ export const sendChatPushNotification = async (context) => {
           recipient = firebasetokens
           fullName = `${firstname} ${lastname}`
           message = lastMessage.text
+          data['name'] = fullName
         }
       }
 
@@ -60,7 +67,28 @@ export const sendChatPushNotification = async (context) => {
                 recipient,
                 variables: {
                   fullName,
-                  message
+                  message,
+                  data,
+                  actions: [
+                    {
+                      title: 'Open',
+                      icon: 'https://images.unsplash.com/photo-1718916913219-0ebc462f91f2',
+                      pressAction: {
+                        id: 'open-chat',
+                        launchActivity: 'default'
+                      }
+                    },
+                    {
+                      title: 'Reply',
+                      icon: 'https://images.unsplash.com/photo-1720065527129-e50696c384a9',
+                      pressAction: {
+                        id: 'reply'
+                      },
+                      input: {
+                        placeholder: `Reply to ${fullName}...`
+                      } // enable free text input
+                    }
+                  ]
                 }
               }
             ]

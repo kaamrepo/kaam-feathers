@@ -49,6 +49,8 @@ export class PushLocalStrategy extends NotificationStrategy {
       if (variables?.imgUrl) {
         notification['imgUrl'] = variables?.imgUrl
       }
+      const actions = variables?.actions ?? []
+      delete variables?.actions;
       notification['data'] = variables ?? {}
       logger.debug(`sendFcmNotification ~ notification: ${JSON.stringify(notification, null, 4)}`)
 
@@ -62,7 +64,8 @@ export class PushLocalStrategy extends NotificationStrategy {
             android: {
               channelId: 'default',
               smallIcon: 'ic_notification',
-              color: '#000000'
+              color: '#000000',
+              actions
             }
           })
         }
