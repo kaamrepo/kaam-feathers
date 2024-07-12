@@ -3,6 +3,7 @@ import { resolve, getValidator, querySyntax } from '@feathersjs/schema'
 import { ObjectIdSchema } from '@feathersjs/schema'
 import { dataValidator, queryValidator } from '../../validators.js'
 import { getQuerySchemaProperties } from '../../utils/query-schema-properties.js'
+import { permissionsPath } from '../permissions/permissions.shared.js'
 
 // Main data model schema
 export const rolesSchema = {
@@ -25,7 +26,27 @@ export const rolesSchema = {
   }
 }
 export const rolesValidator = getValidator(rolesSchema, dataValidator)
-export const rolesResolver = resolve({})
+export const rolesResolver = resolve({
+  scopes: async (_, role, context) => {
+    const allScopes = { apiScopes: [], feScopes: [] }
+    if (!role) {
+      return allScopes
+    }
+    const { total, data } = await context.app
+      .service(permissionsPath)
+      .find({ query: { permissionId: { $in: role?.permissionIds ?? [] } } })
+
+    if (total) {
+      const scopes = data.reduce((scopes, currentItem) => {
+        scopes.apiScopes.push(...currentItem.apiScopes)
+        scopes.feScopes.push(...currentItem.feModules)
+        return scopes
+      }, allScopes)
+      return scopes
+    }
+    return allScopes
+  }
+})
 
 export const rolesExternalResolver = resolve({})
 

@@ -17,12 +17,15 @@ class MyAuthService extends AuthenticationService {
     const userRole = await this.app
       .service(userRolesPath)
       .findOneByQuery({ query: { userId: user._id, isActive: true } })
-    console.log('userRole', userRole)
-    console.log('🚀 ~ MyAuthService ~ getPayload ~ userRole:', userRole)
 
-    if (user) {
-      // payload["role"] = "admin";
-      // payload["role"] = user.role;
+    if (user && userRole?.role?.permissionIds) {
+      const {
+        permissionIds,
+        scopes: { apiScopes, feScopes }
+      } = userRole.role
+      payload['permissionIds'] = permissionIds ?? []
+      payload['apiScopes'] = apiScopes ?? []
+      payload['feScopes'] = feScopes
     }
     return payload
   }

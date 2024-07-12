@@ -6,7 +6,7 @@ export const userMethods = ['find', 'get', 'create', 'patch', 'remove']
 export const userLoginPath = `${COMMON_ENDPOINT}login`
 export const userLoginMethods = ['patch']
 
-export const userCreateStaffPath = `${COMMON_ENDPOINT}create-staff`
+export const userCreateStaffPath = `${COMMON_ENDPOINT}staff`
 export const userCreateStaffMethods = ['create']
 
 export const userClient = (client) => {

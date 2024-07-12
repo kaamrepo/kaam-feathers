@@ -25,12 +25,13 @@ export const userRolesSchema = {
 }
 export const userRolesValidator = getValidator(userRolesSchema, dataValidator)
 export const userRolesResolver = resolve({
-  role: async (userRole, context) => {
-    console.log('step-1')
-    console.log('userRole', userRole)
-    console.log('context', context.params)
-    const role = await context.app.service(rolesPath).findOneByQuery({ query: { roleId: userRole.roleId } })
-    return role
+  role: async (_, userRole, context) => {
+    try {
+      const role = await context.app.service(rolesPath).findOneByQuery({ query: { roleId: userRole.roleId } })
+      return role ?? undefined
+    } catch (error) {
+      console.log('🚀 ~ role: ~ error:', error)
+    }
   }
 })
 

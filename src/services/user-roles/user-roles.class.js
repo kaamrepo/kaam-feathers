@@ -3,8 +3,8 @@ import { MongoDBService } from '@feathersjs/mongodb'
 // By default calls the standard MongoDB adapter service methods but can be customized with your own functionality.
 export class UserRolesService extends MongoDBService {
   async findOneByQuery(params) {
-    const result = await super.find(params) 
-    return result.data.at(0)
+    const result = await super.find(params)
+    return result?.data?.at(0) ?? null
   }
 }
 

@@ -51,7 +51,8 @@ export const permissions = (app) => {
         schemaHooks.validateData(permissionsPatchValidator),
         schemaHooks.resolveData(permissionsPatchResolver)
       ],
-      remove: []
+      remove: [],
+      findOneByQuery: []
     },
     after: {
       all: []
