@@ -19,7 +19,9 @@ export const rolesSchema = {
       items: { type: 'string' }
     },
     isActive: { type: 'boolean' },
-    isDefault: { type: 'boolean' }
+    isDefault: { type: 'boolean' },
+    createdBy: ObjectIdSchema(),
+    updatedBy: ObjectIdSchema()
   }
 }
 export const rolesValidator = getValidator(rolesSchema, dataValidator)
@@ -39,7 +41,9 @@ export const rolesDataSchema = {
 }
 export const rolesDataValidator = getValidator(rolesDataSchema, dataValidator)
 export const rolesDataResolver = resolve({
-  isActive: async () => true
+  isActive: async () => true,
+  createdBy: async (_, _, context) => context.params.user._id,
+  updatedBy: async (_, _, context) => context.params.user._id
 })
 
 // Schema for updating existing data
@@ -53,7 +57,9 @@ export const rolesPatchSchema = {
   }
 }
 export const rolesPatchValidator = getValidator(rolesPatchSchema, dataValidator)
-export const rolesPatchResolver = resolve({})
+export const rolesPatchResolver = resolve({
+  updatedBy: async (_, _, context) => context.params.user._id
+})
 
 // Schema for allowed query properties
 export const rolesQuerySchema = {

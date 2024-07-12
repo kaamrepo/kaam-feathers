@@ -16,7 +16,9 @@ export const userRolesSchema = {
     roleId: { type: 'string' },
     createdAt: { type: 'string', format: 'date-time' },
     updatedAt: { type: 'string', format: 'date-time' },
-    isActive: { type: 'boolean' }
+    isActive: { type: 'boolean' },
+    createdBy: ObjectIdSchema(),
+    updatedBy: ObjectIdSchema()
   }
 }
 export const userRolesValidator = getValidator(userRolesSchema, dataValidator)
@@ -38,7 +40,9 @@ export const userRolesDataValidator = getValidator(userRolesDataSchema, dataVali
 export const userRolesDataResolver = resolve({
   createdAt: async () => new Date(),
   updatedAt: async () => new Date(),
-  isActive: async () => true
+  isActive: async () => true,
+  createdBy: async (_, _, context) => context.params.user._id,
+  updatedBy: async (_, _, context) => context.params.user._id
 })
 
 // Schema for updating existing data
@@ -53,7 +57,8 @@ export const userRolesPatchSchema = {
 }
 export const userRolesPatchValidator = getValidator(userRolesPatchSchema, dataValidator)
 export const userRolesPatchResolver = resolve({
-  updatedAt: async () => new Date()
+  updatedAt: async () => new Date(),
+  updatedBy: async (_, _, context) => context.params.user._id
 })
 
 // Schema for allowed query properties
