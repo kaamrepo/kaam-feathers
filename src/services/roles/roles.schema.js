@@ -42,8 +42,8 @@ export const rolesDataSchema = {
 export const rolesDataValidator = getValidator(rolesDataSchema, dataValidator)
 export const rolesDataResolver = resolve({
   isActive: async () => true,
-  createdBy: async (_, _, context) => context.params.user._id,
-  updatedBy: async (_, _, context) => context.params.user._id
+  createdBy: async (_, __, context) => context.params.user._id,
+  updatedBy: async (_, __, context) => context.params.user._id
 })
 
 // Schema for updating existing data
@@ -58,7 +58,7 @@ export const rolesPatchSchema = {
 }
 export const rolesPatchValidator = getValidator(rolesPatchSchema, dataValidator)
 export const rolesPatchResolver = resolve({
-  updatedBy: async (_, _, context) => context.params.user._id
+  updatedBy: async (_, __, context) => context.params.user._id
 })
 
 // Schema for allowed query properties

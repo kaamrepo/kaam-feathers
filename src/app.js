@@ -21,7 +21,8 @@ import { services } from './services/index.js'
 import { channels } from './channels.js'
 import { CloudnarySetup } from './utils/cloudnarySetup.js'
 import { firebaseSetup } from './utils/fcmSetup.js'
-import { addHttpMethodToFeathersContext } from './hooks/add-http-method-to-feathers-context.js'
+// import { addHttpMethodToFeathersContext } from './hooks/add-http-method-to-feathers-context.js'
+
 import path from 'path'
 const app = express(feathers())
 // Load app configuration
@@ -58,7 +59,10 @@ CloudnarySetup(app)
 // Register hooks that run on all service methods
 app.hooks({
   around: {
-    all: [logError, addHttpMethodToFeathersContext]
+    all: [
+      logError
+      // addHttpMethodToFeathersContext
+    ]
   },
   before: {},
   after: {},

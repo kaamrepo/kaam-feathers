@@ -7,12 +7,15 @@ import { COMMON_ENDPOINT } from './constant/endpoints.js'
 import { auth } from './hooks/auth.js'
 import { userPath } from './services/users/users.shared.js'
 import { EmailPasswordStrategy } from './authentication/email-password.strategy.js'
+import { userRolesPath } from './services/user-roles/user-roles.shared.js'
 export const authenticationPath = `${COMMON_ENDPOINT}authentication`
 
 class MyAuthService extends AuthenticationService {
   async getPayload(authResult, params) {
     let payload = await super.getPayload(authResult, params)
     const { user } = authResult
+    const userRole = await this.app.service(userRolesPath).find(null, { query: { userId: user._id } })
+    console.log('🚀 ~ MyAuthService ~ getPayload ~ userRole:', userRole)
 
     if (user) {
       // payload["role"] = "admin";

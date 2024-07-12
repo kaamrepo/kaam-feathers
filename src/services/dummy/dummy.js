@@ -13,7 +13,6 @@ import {
 } from './dummy.schema.js'
 import { DummyService, getOptions } from './dummy.class.js'
 import { dummyPath, dummyMethods } from './dummy.shared.js'
-import { checkIsInternalService } from '../../hooks/internal-service-check.js'
 
 export * from './dummy.class.js'
 export * from './dummy.schema.js'
@@ -30,15 +29,11 @@ export const dummy = (app) => {
   // Initialize hooks
   app.service(dummyPath).hooks({
     around: {
-      all: [
-        checkIsInternalService,
-        schemaHooks.resolveExternal(dummyExternalResolver),
-        schemaHooks.resolveResult(dummyResolver)
-      ]
+      all: [schemaHooks.resolveExternal(dummyExternalResolver), schemaHooks.resolveResult(dummyResolver)]
     },
     before: {
       all: [schemaHooks.validateQuery(dummyQueryValidator), schemaHooks.resolveQuery(dummyQueryResolver)],
-      find: [checkIsInternalService],
+      find: [],
       get: [],
       create: [schemaHooks.validateData(dummyDataValidator), schemaHooks.resolveData(dummyDataResolver)],
       patch: [schemaHooks.validateData(dummyPatchValidator), schemaHooks.resolveData(dummyPatchResolver)],

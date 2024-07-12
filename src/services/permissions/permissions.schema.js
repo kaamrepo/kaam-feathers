@@ -47,8 +47,8 @@ export const permissionsDataSchema = {
 }
 export const permissionsDataValidator = getValidator(permissionsDataSchema, dataValidator)
 export const permissionsDataResolver = resolve({
-  createdBy: async (_, _, context) => context.params.user._id,
-  updatedBy: async (_, _, context) => context.params.user._id
+  createdBy: async (_, __, context) => context.params.user._id,
+  updatedBy: async (_, __, context) => context.params.user._id
 })
 
 // Schema for updating existing data
@@ -64,7 +64,7 @@ export const permissionsPatchSchema = {
 export const permissionsPatchValidator = getValidator(permissionsPatchSchema, dataValidator)
 export const permissionsPatchResolver = resolve({
   isActive: async () => true,
-  updatedBy: async (_, _, context) => context.params.user._id
+  updatedBy: async (_, __, context) => context.params.user._id
 })
 
 // Schema for allowed query properties
