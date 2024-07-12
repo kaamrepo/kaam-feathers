@@ -51,7 +51,9 @@ export const userRoles = (app) => {
         schemaHooks.validateData(userRolesPatchValidator),
         schemaHooks.resolveData(userRolesPatchResolver)
       ],
-      remove: []
+      remove: [],
+
+      findOneByQuery: []
     },
     after: {
       all: []

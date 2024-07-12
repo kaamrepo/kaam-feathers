@@ -1,0 +1,27 @@
+db.users.insertOne({
+  "_id": ObjectId("66917230e85b21e3104483b5"),
+  "firstname": "KaamPe",
+  "lastname": "SuperAdmin",
+  "email": "kaampesuperadmin@kaampe.com",
+  "dialcode": "+91",
+  "phone": "1111111111",
+  "allowedjobapplication": 5,
+  "allowedjobposting": 5,
+  "otpexpiresat":ISODate("2024-06-23T16:31:20.012Z"),
+  "isactive": true,
+  "createdat": ISODate("2024-06-23T16:31:20.012Z"),
+  "updatedat": ISODate("2024-06-23T16:31:20.012Z"),
+  "otp": "$2a$10$llFUqUBP0RxB0cXvyxcVEO4CwT8fCHUkjfG4E7eIjclLGkCEqjB5a",
+  "password": "$2a$10$llFUqUBP0RxB0cXvyxcVEO4CwT8fCHUkjfG4E7eIjclLGkCEqjB5a"
+})
+
+db.getCollection("user-roles").insertOne({
+    userId:ObjectId("66917230e85b21e3104483b5"),
+    roleId: "KAAM_SUPER_ADMIN",
+    createdAt:  ISODate("2024-06-23T16:31:20.012Z"),
+    updatedAt:  ISODate("2024-06-23T16:31:20.012Z"),
+    isActive: true,
+    permissionEntity: {},
+    createdBy: ObjectId("66917230e85b21e3104483b5"),
+    updatedBy: ObjectId("66917230e85b21e3104483b5")
+})

@@ -1,0 +1,52 @@
+db.roles.insertMany([
+    {
+        "roleId": "KAAM_ADMIN",
+        "roleName": "Kaam admin",
+        "permissionIds": [
+            "DASHBOARD_ALL",
+            "USER_ALL",
+            "REGISTER_USER_ALL",
+            "ON_BOARDING_ADMIN_ALL",
+            "APPROVALS_ALL",
+            "CATEGORIES_ALL",
+            "APPCONFIG_ALL"
+        ],
+        "isActive": true,
+        "isDefault": false
+    },
+    {
+        "roleId": "KAAM_SUPER_ADMIN",
+        "roleName": "Kaam Super admin",
+        "permissionIds": [
+            "ALL_ACCESS"
+        ],
+        "isActive": true,
+        "isDefault": false
+    },
+    {
+        "roleId": "KAAM_EMPLOYEE",
+        "roleName": "Kaam employee",
+        "permissionIds": [
+            "JOBAPPLICATIONS_ALL",
+            "JOBS_ALL",
+            "CATEGORIES_GET",
+            "APPCONFIG_GET",
+            "USERS_ALL"
+        ],
+        "isActive": true,
+        "isDefault": true
+    },
+    {
+        "roleName": "Kaam employer",
+        "roleId": "KAAM_EMPLOYER",
+        "permissionIds": [
+            "JOBAPPLICATIONS_ALL",
+            "JOBS_ALL",
+            "CATEGORIES_GET",
+            "APPCONFIG_GET",
+            "USERS_ALL"
+        ],
+        "isActive": true,
+        "isDefault": true
+    }
+])

@@ -14,7 +14,10 @@ class MyAuthService extends AuthenticationService {
   async getPayload(authResult, params) {
     let payload = await super.getPayload(authResult, params)
     const { user } = authResult
-    const userRole = await this.app.service(userRolesPath).find(null, { query: { userId: user._id } })
+    const userRole = await this.app
+      .service(userRolesPath)
+      .findOneByQuery({ query: { userId: user._id, isActive: true } })
+    console.log('userRole', userRole)
     console.log('🚀 ~ MyAuthService ~ getPayload ~ userRole:', userRole)
 
     if (user) {

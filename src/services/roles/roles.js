@@ -42,7 +42,8 @@ export const roles = (app) => {
       get: [],
       create: [schemaHooks.validateData(rolesDataValidator), schemaHooks.resolveData(rolesDataResolver)],
       patch: [schemaHooks.validateData(rolesPatchValidator), schemaHooks.resolveData(rolesPatchResolver)],
-      remove: []
+      remove: [],
+      findOneByQuery: []
     },
     after: {
       all: []

@@ -1,0 +1,638 @@
+
+const permissions=[
+    {
+        "isActive": true,
+        "isDefault": true,
+        "permissionName": "Dashboard_ALL",
+        "permissionId": "DASHBOARD_ALL",
+        "apiScopes": [
+            "ALL::.*/api/dashboard/*."
+        ],
+        "feModules": [
+            "Dashboard"
+        ]
+    },
+    {
+        "isActive": true,
+        "isDefault": true,
+        "permissionName": "Dashboard_GET",
+        "permissionId": "DASHBOARD_GET",
+        "apiScopes": [
+            "GET::.*/api/dashboard/*."
+        ],
+        "feModules": [
+            "Dashboard"
+        ]
+    },
+    {
+        "isActive": true,
+        "isDefault": true,
+        "permissionName": "Dashboard_Create",
+        "permissionId": "DASHBOARD_CREATE",
+        "apiScopes": [
+            "POST::.*/api/dashboard/*."
+        ],
+        "feModules": [
+            "Dashboard"
+        ]
+    },
+    {
+        "isActive": true,
+        "isDefault": true,
+        "permissionName": "Dashboard_Update",
+        "permissionId": "DASHBOARD_UPDATE",
+        "apiScopes": [
+            "PATCH::.*/api/dashboard/*.",
+            "PUT::.*/api/dashboard/*."
+        ],
+        "feModules": [
+            "Dashboard"
+        ]
+    },
+    {
+        "isActive": true,
+        "isDefault": true,
+        "permissionName": "Dashboard_Delete",
+        "permissionId": "DASHBOARD_DELETE",
+        "apiScopes": [
+            "DELETE::.*/api/dashboard/*."
+        ],
+        "feModules": [
+            "Dashboard"
+        ]
+    },
+    {
+        "isActive": true,
+        "isDefault": true,
+        "permissionName": "Users_ALL",
+        "permissionId": "USER_ALL",
+        "apiScopes": [
+            "ALL::.*/api/users/*."
+        ],
+        "feModules": [
+            "Users"
+        ]
+    },
+    {
+        "isActive": true,
+        "isDefault": true,
+        "permissionName": "Users_GET",
+        "permissionId": "USER_GET",
+        "apiScopes": [
+            "GET::.*/api/users/*."
+        ],
+        "feModules": [
+            "Users"
+        ]
+    },
+    {
+        "isActive": true,
+        "isDefault": true,
+        "permissionName": "Users_Create",
+        "permissionId": "USER_CREATE",
+        "apiScopes": [
+            "POST::.*/api/users/*."
+        ],
+        "feModules": [
+            "Users"
+        ]
+    },
+    {
+        "isActive": true,
+        "isDefault": true,
+        "permissionName": "Users_Update",
+        "permissionId": "USER_UPDATE",
+        "apiScopes": [
+            "PATCH::.*/api/users/*.",
+            "PUT::.*/api/users/*."
+        ],
+        "feModules": [
+            "Users"
+        ]
+    },
+    {
+        "isActive": true,
+        "isDefault": true,
+        "permissionName": "Users_Delete",
+        "permissionId": "USER_DELETE",
+        "apiScopes": [
+            "DELETE::.*/api/users/*."
+        ],
+        "feModules": [
+            "Users"
+        ]
+    },
+    {
+        "isActive": true,
+        "isDefault": true,
+        "permissionName": "RegisterUser_ALL",
+        "permissionId": "REGISTER_USER_ALL",
+        "apiScopes": [
+            "ALL::.*/api/users/*.",
+            "ALL::.*/api/staff/*."
+        ],
+        "feModules": [
+            "Register User"
+        ]
+    },
+    {
+        "isActive": true,
+        "isDefault": true,
+        "permissionName": "RegisterUser_GET",
+        "permissionId": "REGUSER_GET",
+        "apiScopes": [
+            "GET::.*/api/registeruser/*.",
+        ],
+        "feModules": [
+            "Register User"
+        ]
+    },
+    {
+        "isActive": true,
+        "isDefault": true,
+        "permissionName": "RegisterUser_Create",
+        "permissionId": "REGUSER_CREATE",
+        "apiScopes": [
+            "POST::.*/api/registeruser/*."
+        ],
+        "feModules": [
+            "Register User"
+        ]
+    },
+    {
+        "isActive": true,
+        "isDefault": true,
+        "permissionName": "RegisterUser_Update",
+        "permissionId": "REGUSER_UPDATE",
+        "apiScopes": [
+            "PATCH::.*/api/registeruser/*.",
+            "PUT::.*/api/registeruser/*."
+        ],
+        "feModules": [
+            "Register User"
+        ]
+    },
+    {
+        "isActive": true,
+        "isDefault": true,
+        "permissionName": "RegisterUser_Delete",
+        "permissionId": "REGUSER_DELETE",
+        "apiScopes": [
+            "DELETE::.*/api/registeruser/*."
+        ],
+        "feModules": [
+            "Register User"
+        ]
+    },
+    {
+        "isActive": true,
+        "isDefault": true,
+        "permissionName": "OnBoardAdminStaff_ALL",
+        "permissionId": "ON_BOARDING_ADMIN_ALL",
+        "apiScopes": [
+            "ALL::.*/api/onboardadminstaff/*."
+        ],
+        "feModules": [
+            "OnBoard Admin Staff"
+        ]
+    },
+    {
+        "isActive": true,
+        "isDefault": true,
+        "permissionName": "OnBoardAdminStaff_GET",
+        "permissionId": "ON_BOARDING_ADMIN_GET",
+        "apiScopes": [
+            "GET::.*/api/onboardadminstaff/*."
+        ],
+        "feModules": [
+            "OnBoard Admin Staff"
+        ]
+    },
+    {
+        "isActive": true,
+        "isDefault": true,
+        "permissionName": "OnBoardAdminStaff_Create",
+        "permissionId": "ON_BOARDING_ADMIN_CREATE",
+        "apiScopes": [
+            "POST::.*/api/onboardadminstaff/*."
+        ],
+        "feModules": [
+            "OnBoard Admin Staff"
+        ]
+    },
+    {
+        "isActive": true,
+        "isDefault": true,
+        "permissionName": "OnBoardAdminStaff_Update",
+        "permissionId": "ON_BOARDING_ADMIN_UPDATE",
+        "apiScopes": [
+            "PATCH::.*/api/onboardadminstaff/*.",
+            "PUT::.*/api/onboardadminstaff/*."
+        ],
+        "feModules": [
+            "OnBoard Admin Staff"
+        ]
+    },
+    {
+        "isActive": true,
+        "isDefault": true,
+        "permissionName": "OnBoardAdminStaff_Delete",
+        "permissionId": "ON_BOARDING_ADMIN_DELETE",
+        "apiScopes": [
+            "DELETE::.*/api/onboardadminstaff/*."
+        ],
+        "feModules": [
+            "OnBoard Admin Staff"
+        ]
+    },
+    {
+        "isActive": true,
+        "isDefault": true,
+        "permissionName": "Approvals_ALL",
+        "permissionId": "APPROVALS_ALL",
+        "apiScopes": [
+            "ALL::.*/api/approvals/*."
+        ],
+        "feModules": [
+            "Approvals"
+        ]
+    },
+    {
+        "isActive": true,
+        "isDefault": true,
+        "permissionName": "Approvals_GET",
+        "permissionId": "APPROVALS_GET",
+        "apiScopes": [
+            "GET::.*/api/approvals/*."
+        ],
+        "feModules": [
+            "Approvals"
+        ]
+    },
+    {
+        "isActive": true,
+        "isDefault": true,
+        "permissionName": "Approvals_Create",
+        "permissionId": "APPROVALS_CREATE",
+        "apiScopes": [
+            "POST::.*/api/approvals/*."
+        ],
+        "feModules": [
+            "Approvals"
+        ]
+    },
+    {
+        "isActive": true,
+        "isDefault": true,
+        "permissionName": "Approvals_Update",
+        "permissionId": "APPROVALS_UPDATE",
+        "apiScopes": [
+            "PATCH::.*/api/approvals/*.",
+            "PUT::.*/api/approvals/*."
+        ],
+        "feModules": [
+            "Approvals"
+        ]
+    },
+    {
+        "isActive": true,
+        "isDefault": true,
+        "permissionName": "Approvals_Delete",
+        "permissionId": "APPROVALS_DELETE",
+        "apiScopes": [
+            "DELETE::.*/api/approvals/*."
+        ],
+        "feModules": [
+            "Approvals"
+        ]
+    },
+    {
+        "isActive": true,
+        "isDefault": true,
+        "permissionName": "ALL_ACCESS",
+        "permissionId": "ALL_ACCESS",
+        "apiScopes": [
+            "ALL::.*/api/*."
+        ],
+        "feModules": [
+            "ALL"
+        ]
+    },
+    {
+        "isActive": true,
+        "isDefault": true,
+        "permissionName": "Jobs_ALL",
+        "permissionId": "JOBS_ALL",
+        "apiScopes": [
+            "ALL::.*/api/jobs/*."
+        ],
+        "feModules": [
+            "Jobs"
+        ]
+    },
+    {
+        "isActive": true,
+        "isDefault": true,
+        "permissionName": "Jobs_GET",
+        "permissionId": "JOBS_GET",
+        "apiScopes": [
+            "GET::.*/api/jobs/*."
+        ],
+        "feModules": [
+            "Jobs"
+        ]
+    },
+    {
+        "isActive": true,
+        "isDefault": true,
+        "permissionName": "Jobs_Create",
+        "permissionId": "JOBS_CREATE",
+        "apiScopes": [
+            "POST::.*/api/jobs/*."
+        ],
+        "feModules": [
+            "Jobs"
+        ]
+    },
+    {
+        "isActive": true,
+        "isDefault": true,
+        "permissionName": "Jobs_Update",
+        "permissionId": "JOBS_UPDATE",
+        "apiScopes": [
+            "PATCH::.*/api/jobs/*.",
+            "PUT::.*/api/jobs/*."
+        ],
+        "feModules": [
+            "Jobs"
+        ]
+    },
+    {
+        "isActive": true,
+        "isDefault": true,
+        "permissionName": "Jobs_Delete",
+        "permissionId": "JOBS_DELETE",
+        "apiScopes": [
+            "DELETE::.*/api/jobs/*."
+        ],
+        "feModules": [
+            "Jobs"
+        ]
+    },
+    {
+        "isActive": true,
+        "isDefault": true,
+        "permissionName": "JobApplications_ALL",
+        "permissionId": "JOBAPPLICATIONS_ALL",
+        "apiScopes": [
+            "ALL::.*/api/jobapplications/*."
+        ],
+        "feModules": [
+            "JobApplications"
+        ]
+    },
+    {
+        "isActive": true,
+        "isDefault": true,
+        "permissionName": "JobApplications_GET",
+        "permissionId": "JOBAPPLICATIONS_GET",
+        "apiScopes": [
+            "GET::.*/api/jobapplications/*."
+        ],
+        "feModules": [
+            "JobApplications"
+        ]
+    },
+    {
+        "isActive": true,
+        "isDefault": true,
+        "permissionName": "JobApplications_Create",
+        "permissionId": "JOBAPPLICATIONS_CREATE",
+        "apiScopes": [
+            "POST::.*/api/jobapplications/*."
+        ],
+        "feModules": [
+            "JobApplications"
+        ]
+    },
+    {
+        "isActive": true,
+        "isDefault": true,
+        "permissionName": "JobApplications_Update",
+        "permissionId": "JOBAPPLICATIONS_UPDATE",
+        "apiScopes": [
+            "PATCH::.*/api/jobapplications/*.",
+            "PUT::.*/api/jobapplications/*."
+        ],
+        "feModules": [
+            "JobApplications"
+        ]
+    },
+    {
+        "isActive": true,
+        "isDefault": true,
+        "permissionName": "JobApplications_Delete",
+        "permissionId": "JOBAPPLICATIONS_DELETE",
+        "apiScopes": [
+            "DELETE::.*/api/jobapplications/*."
+        ],
+        "feModules": [
+            "JobApplications"
+        ]
+    },
+    {
+        "isActive": true,
+        "isDefault": true,
+        "permissionName": "AppConfig_ALL",
+        "permissionId": "APPCONFIG_ALL",
+        "apiScopes": [
+            "ALL::.*/api/appconfig/*."
+        ],
+        "feModules": [
+            "AppConfig"
+        ]
+    },
+    {
+        "isActive": true,
+        "isDefault": true,
+        "permissionName": "AppConfig_GET",
+        "permissionId": "APPCONFIG_GET",
+        "apiScopes": [
+            "GET::.*/api/appconfig/*."
+        ],
+        "feModules": [
+            "AppConfig"
+        ]
+    },
+    {
+        "isActive": true,
+        "isDefault": true,
+        "permissionName": "AppConfig_Create",
+        "permissionId": "APPCONFIG_CREATE",
+        "apiScopes": [
+            "POST::.*/api/appconfig/*."
+        ],
+        "feModules": [
+            "AppConfig"
+        ]
+    },
+    {
+        "isActive": true,
+        "isDefault": true,
+        "permissionName": "AppConfig_Update",
+        "permissionId": "APPCONFIG_UPDATE",
+        "apiScopes": [
+            "PATCH::.*/api/appconfig/*.",
+            "PUT::.*/api/appconfig/*."
+        ],
+        "feModules": [
+            "AppConfig"
+        ]
+    },
+    {
+        "isActive": true,
+        "isDefault": true,
+        "permissionName": "AppConfig_Delete",
+        "permissionId": "APPCONFIG_DELETE",
+        "apiScopes": [
+            "DELETE::.*/api/appconfig/*."
+        ],
+        "feModules": [
+            "AppConfig"
+        ]
+    },
+    {
+        "isActive": true,
+        "isDefault": true,
+        "permissionName": "Categories_ALL",
+        "permissionId": "CATEGORIES_ALL",
+        "apiScopes": [
+            "ALL::.*/api/categories/*."
+        ],
+        "feModules": [
+            "Categories"
+        ]
+    },
+    {
+        "isActive": true,
+        "isDefault": true,
+        "permissionName": "Categories_GET",
+        "permissionId": "CATEGORIES_GET",
+        "apiScopes": [
+            "GET::.*/api/categories/*."
+        ],
+        "feModules": [
+            "Categories"
+        ]
+    },
+    {
+        "isActive": true,
+        "isDefault": true,
+        "permissionName": "Categories_Create",
+        "permissionId": "CATEGORIES_CREATE",
+        "apiScopes": [
+            "POST:./api/categories/."
+        ],
+        "feModules": [
+            "Categories"
+        ]
+    },
+    {
+        "isActive": true,
+        "isDefault": true,
+        "permissionName": "Categories_update",
+        "permissionId": "CATEGORIES_UPDATE",
+        "apiScopes": [
+            "PATCH::.*/api/categories/*.",
+            "PUT::.*/api/categories/*."
+        ],
+        "feModules": [
+            "Categories"
+        ]
+    },
+    {
+        "isActive": true,
+        "isDefault": true,
+        "permissionName": "Categories_Delete",
+        "permissionId": "CATEGORIES_DELETE",
+        "apiScopes": [
+            "DELETE::.*/api/categories/*."
+        ],
+        "feModules": [
+            "Categories"
+        ]
+    }
+]
+
+const roles=[
+    {
+        roleName:"KAAM_ADMIN",
+        roleId:"Kaam admin",
+        permissionIds :[
+            "DASHBOARD_ALL",
+            "USER_ALL",
+            "REGISTER_USER_ALL",
+            "ON_BOARDING_ADMIN_ALL",
+            "APPROVALS_ALL",
+            "CATEGORIES_ALL",
+            "APPCONFIG_ALL"
+        ]
+        isActive:true,
+        isDefault:false
+    },
+    {
+        roleName:"KAAM_SUPER_ADMIN",
+        roleId:"Kaam Super admin",
+        permissionIds :[
+            "ALL_ACCESS"
+        ]
+        isActive:true,
+        isDefault:false
+    },
+    {
+        roleId: "KAAM_EMPLOYEE",
+        roleName: "Kaam employee",
+        permissionIds : ["JOBAPPLICATIONS_ALL","JOBS_ALL","CATEGORIES_GET","APPCONFIG_GET","USERS_ALL"]
+        isActive: true,
+        isDefault: true
+    },
+    {
+        roleName: "Kaam employer",
+        roleId: "KAAM_EMPLOYER",
+        permissionIds : ["JOBAPPLICATIONS_ALL","JOBS_ALL","CATEGORIES_GET","APPCONFIG_GET","USERS_ALL"]
+        isActive: true,
+        isDefault: true
+    }
+]
+
+// mobile apis 
+
+categories : get
+
+users patch put get
+
+jobs 
+
+api/jobs get/post/patch/put
+
+job application 
+
+api/jobapplications get/post/patch/put
+
+appconfig :- get   
+
+
+// puiblic apis
+authentication
+
+login===>
+api/login patch
+api/authentication post
+
+create new account
+api/users post
+
+
+
+
+

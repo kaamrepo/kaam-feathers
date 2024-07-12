@@ -1,8 +1,9 @@
 // For more information about this file see https://dove.feathersjs.com/guides/cli/service.schemas.html
-import { resolve, getValidator, querySyntax } from '@feathersjs/schema'
+import { resolve, getValidator, querySyntax, virtual } from '@feathersjs/schema'
 import { ObjectIdSchema } from '@feathersjs/schema'
 import { dataValidator, queryValidator } from '../../validators.js'
 import { getQuerySchemaProperties } from '../../utils/query-schema-properties.js'
+import { rolesPath } from '../roles/roles.shared.js'
 
 // Main data model schema
 export const userRolesSchema = {
@@ -17,12 +18,21 @@ export const userRolesSchema = {
     createdAt: { type: 'string', format: 'date-time' },
     updatedAt: { type: 'string', format: 'date-time' },
     isActive: { type: 'boolean' },
+    permissionEntity: { type: 'object', additionalProperties: true, default: {}, properties: {} },
     createdBy: ObjectIdSchema(),
     updatedBy: ObjectIdSchema()
   }
 }
 export const userRolesValidator = getValidator(userRolesSchema, dataValidator)
-export const userRolesResolver = resolve({})
+export const userRolesResolver = resolve({
+  role: async (userRole, context) => {
+    console.log('step-1')
+    console.log('userRole', userRole)
+    console.log('context', context.params)
+    const role = await context.app.service(rolesPath).findOneByQuery({ query: { roleId: userRole.roleId } })
+    return role
+  }
+})
 
 export const userRolesExternalResolver = resolve({})
 
