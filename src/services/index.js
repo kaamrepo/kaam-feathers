@@ -1,3 +1,9 @@
+import { userRoles } from './user-roles/user-roles.js'
+
+import { roles } from './roles/roles.js'
+
+import { permissions } from './permissions/permissions.js'
+
 import { analytics } from './analytics/analytics.js'
 
 import { approval } from './approval/approval.js'
@@ -9,10 +15,6 @@ import { appconfig } from './appconfig/appconfig.js'
 import { categories } from './categories/categories.js'
 
 import { notifications } from './notifications/notifications.js'
-
-import { userJobPreferences } from './user-job-preferences/user-job-preferences.js'
-
-import { jobRoles } from './job-roles/job-roles.js'
 
 import { dummy } from './dummy/dummy.js'
 
@@ -27,6 +29,12 @@ import { user } from './users/users.js'
 import { notificationTemplates } from './notification-templates/notification-templates.js'
 
 export const services = (app) => {
+  app.configure(userRoles)
+
+  app.configure(roles)
+
+  app.configure(permissions)
+
   app.configure(analytics)
 
   app.configure(approval)
@@ -40,10 +48,6 @@ export const services = (app) => {
   app.configure(appconfig)
 
   app.configure(categories)
-
-  app.configure(userJobPreferences)
-
-  app.configure(jobRoles)
 
   app.configure(dummy)
 

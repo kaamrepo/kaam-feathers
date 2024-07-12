@@ -1,43 +1,43 @@
-import { jobPath } from '../jobs/jobs.shared.js';
-import { jobapplicationPath } from '../jobapplications/jobapplications.shared.js';
-import { userPath } from '../users/users.shared.js';
+import { jobPath } from '../jobs/jobs.shared.js'
+import { jobapplicationPath } from '../jobapplications/jobapplications.shared.js'
+import { userPath } from '../users/users.shared.js'
 
 export class AnalyticsService {
   constructor(options) {
-    this.options = options;
-    this.app = options.app;
+    this.options = options
+    this.app = options.app
   }
 
   async find(_params) {
-    let data = {};
-    let query = _params.query;
-    const jobsService = this.app.service(jobPath);
-    const jobApplicationsService = this.app.service(jobapplicationPath);
-    const usersService = this.app.service(userPath);
+    let data = {}
+    let query = _params.query
+    const jobsService = this.app.service(jobPath)
+    const jobApplicationsService = this.app.service(jobapplicationPath)
+    const usersService = this.app.service(userPath)
 
     if (query && query !== undefined) {
       for (const key of Object.keys(query)) {
         switch (key) {
           case 'analyticscount':
-            console.log('in the analytics count case');
-            const jobsCount = await jobsService.find({ query: { $limit: 0 } });
-            const jobApplicationsCount = await jobApplicationsService.find({ query: { $limit: 0 } });
-            const usersCount = await usersService.find({ query: { $limit: 0 } });
+            console.log('in the analytics count case')
+            const jobsCount = await jobsService.find({ query: { $limit: 0 } })
+            const jobApplicationsCount = await jobApplicationsService.find({ query: { $limit: 0 } })
+            const usersCount = await usersService.find({ query: { $limit: 0 } })
             const engagements = await jobApplicationsService.find({
               query: {
                 status: { $in: ['Approved', 'Completed'] },
                 $limit: 0
               }
-            });
-            data.totaljobcount = jobsCount.total;
-            data.totaljobapplicationscount = jobApplicationsCount.total;
-            data.totalusercount = usersCount.total;
-            data.engagementcount = engagements.total;
-            delete query['analyticscount'];
-            break;
+            })
+            data.totaljobcount = jobsCount.total
+            data.totaljobapplicationscount = jobApplicationsCount.total
+            data.totalusercount = usersCount.total
+            data.engagementcount = engagements.total
+            delete query['analyticscount']
+            break
 
           case 'locationanalytics':
-            console.log('in the location analytics case');
+            console.log('in the location analytics case')
             const result = await usersService.find({
               pipeline: [
                 {
@@ -88,30 +88,30 @@ export class AnalyticsService {
                   }
                 }
               ]
-            });
+            })
 
             // Extracting the result from the array (assuming only one result)
-            console.log('location Result', result);
-            data = result.data[0];
-            console.log('data', data);
-            delete query['locationanalytics'];
-            break;
+            console.log('location Result', result)
+            data = result.data[0]
+            console.log('data', data)
+            delete query['locationanalytics']
+            break
 
           case 'userbifercationanalytics':
             const userbifercationresult = await usersService.find({
               pipeline: [
                 {
-                  $unwind: "$roles"
+                  $unwind: '$roles'
                 },
                 {
                   $match: {
-                    roles: { $in: ["employee", "employer"] }
+                    roles: { $in: ['employee', 'employer'] }
                   }
                 },
                 {
                   $group: {
-                    _id: "$_id",
-                    roles: { $addToSet: "$roles" }
+                    _id: '$_id',
+                    roles: { $addToSet: '$roles' }
                   }
                 },
                 {
@@ -119,22 +119,19 @@ export class AnalyticsService {
                     _id: null,
                     employeeCount: {
                       $sum: {
-                        $cond: { if: { $in: ["employee", "$roles"] }, then: 1, else: 0 }
+                        $cond: { if: { $in: ['employee', '$roles'] }, then: 1, else: 0 }
                       }
                     },
                     employerCount: {
                       $sum: {
-                        $cond: { if: { $in: ["employer", "$roles"] }, then: 1, else: 0 }
+                        $cond: { if: { $in: ['employer', '$roles'] }, then: 1, else: 0 }
                       }
                     },
                     mixedRolesCount: {
                       $sum: {
                         $cond: {
                           if: {
-                            $and: [
-                              { $in: ["employee", "$roles"] },
-                              { $in: ["employer", "$roles"] }
-                            ]
+                            $and: [{ $in: ['employee', '$roles'] }, { $in: ['employer', '$roles'] }]
                           },
                           then: 1,
                           else: 0
@@ -144,47 +141,56 @@ export class AnalyticsService {
                   }
                 }
               ]
-            });
+            })
 
             // Assuming the userbifercationresult contains only one document
-            const rawData = userbifercationresult.data[0];
-            console.log("rawData", rawData);
+            const rawData = userbifercationresult.data[0]
+            console.log('rawData', rawData)
 
             // Calculate the total count for normalization
-            const totalCount = rawData.employeeCount + rawData.employerCount + rawData.mixedRolesCount;
+            const totalCount = rawData.employeeCount + rawData.employerCount + rawData.mixedRolesCount
 
             // Normalize the counts to percentages
-            data.employee = (rawData.employeeCount / totalCount) * 100;
-            data.employer = (rawData.employerCount / totalCount) * 100;
-            data.mixed = (rawData.mixedRolesCount / totalCount) * 100;
+            data.employee = (rawData.employeeCount / totalCount) * 100
+            data.employer = (rawData.employerCount / totalCount) * 100
+            data.mixed = (rawData.mixedRolesCount / totalCount) * 100
 
-            delete query['userbifercationanalytics'];
-            break;
+            delete query['userbifercationanalytics']
+            break
 
-            case 'registrationanalytics':
-              console.log('in the registration analytics case');
-  
-              let dateFormat;
-              switch (query.timeframe) {
-                case 'Day':
-                  dateFormat = '%Y-%m-%d';
-                  break;
-                case 'Week':
-                  dateFormat = '%Y-%W';  // Week format
-                  break;
-                case 'Month':
-                  dateFormat = '%Y-%m';
-                  break;
-                case 'Year':
-                  dateFormat = '%Y';
-                  break;
-                default:
-                  dateFormat = '%Y-%m-%d';
-                  break;
-              }
-  
-              const registrationData = await usersService.find({
-                query: {
+          case 'registrationanalytics':
+            console.log('in the registration analytics case')
+
+            let dateFormat
+            switch (query.timeframe) {
+              case 'Day':
+                dateFormat = '%Y-%m-%d'
+                break
+              case 'Week':
+                dateFormat = '%Y-%W' // Week format
+                break
+              case 'Month':
+                dateFormat = '%Y-%m'
+                break
+              case 'Year':
+                dateFormat = '%Y'
+                break
+              default:
+                dateFormat = '%Y-%m-%d'
+                break
+            }
+
+            const registrationData = await usersService.find({
+              query: {
+                $group: {
+                  _id: {
+                    $dateToString: { format: dateFormat, date: '$createdat' }
+                  },
+                  count: { $sum: 1 }
+                }
+              },
+              pipeline: [
+                {
                   $group: {
                     _id: {
                       $dateToString: { format: dateFormat, date: '$createdat' }
@@ -192,48 +198,39 @@ export class AnalyticsService {
                     count: { $sum: 1 }
                   }
                 },
-                pipeline: [
-                  {
-                    $group: {
-                      _id: {
-                        $dateToString: { format: dateFormat, date: '$createdat' }
-                      },
-                      count: { $sum: 1 }
-                    }
-                  },
-                  {
-                    $project: {
-                      _id: 0,
-                      timeframe: '$_id',
-                      count: '$count'
-                    }
+                {
+                  $project: {
+                    _id: 0,
+                    timeframe: '$_id',
+                    count: '$count'
                   }
-                ]
-              });
-  
-              // Flatten and sort the data
-              data = registrationData.data.sort((a, b) => new Date(a.timeframe) - new Date(b.timeframe));
-  
-              // Make sure we have a default structure if no data is returned
-              if (!data.length) {
-                data = [{ timeframe: moment().format(dateFormat), count: 0 }];
-              }
-  
-              console.log('registrationanalytics data', data);
-  
-              delete query['registrationanalytics'];
-              break;
-  
-            default:
-              break;
-          }
+                }
+              ]
+            })
+
+            // Flatten and sort the data
+            data = registrationData.data.sort((a, b) => new Date(a.timeframe) - new Date(b.timeframe))
+
+            // Make sure we have a default structure if no data is returned
+            if (!data.length) {
+              data = [{ timeframe: moment().format(dateFormat), count: 0 }]
+            }
+
+            console.log('registrationanalytics data', data)
+
+            delete query['registrationanalytics']
+            break
+
+          default:
+            break
         }
       }
-  
-      return data;
     }
+
+    return data
   }
-  
-  export const getOptions = (app) => {
-    return { app };
-  };
+}
+
+export const getOptions = (app) => {
+  return { app }
+}

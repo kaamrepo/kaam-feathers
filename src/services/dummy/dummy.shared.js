@@ -1,6 +1,6 @@
 export const dummyPath = 'dummy'
 
-export const dummyMethods = ['find', 'get', 'create', 'patch', 'remove']
+export const dummyMethods = ['find', 'get', 'create', 'patch', 'update', 'remove']
 
 export const dummyClient = (client) => {
   const connection = client.get('connection')

@@ -13,6 +13,7 @@ import {
 } from './dummy.schema.js'
 import { DummyService, getOptions } from './dummy.class.js'
 import { dummyPath, dummyMethods } from './dummy.shared.js'
+import { checkIsInternalService } from '../../hooks/internal-service-check.js'
 
 export * from './dummy.class.js'
 export * from './dummy.schema.js'
@@ -29,26 +30,19 @@ export const dummy = (app) => {
   // Initialize hooks
   app.service(dummyPath).hooks({
     around: {
-      all: [schemaHooks.resolveExternal(dummyExternalResolver), schemaHooks.resolveResult(dummyResolver)]
+      all: [
+        checkIsInternalService,
+        schemaHooks.resolveExternal(dummyExternalResolver),
+        schemaHooks.resolveResult(dummyResolver)
+      ]
     },
     before: {
       all: [schemaHooks.validateQuery(dummyQueryValidator), schemaHooks.resolveQuery(dummyQueryResolver)],
-      find: [],
+      find: [checkIsInternalService],
       get: [],
       create: [schemaHooks.validateData(dummyDataValidator), schemaHooks.resolveData(dummyDataResolver)],
-      patch: [
-        schemaHooks.validateData(dummyPatchValidator),
-        async (hook) => {
-          const { chat_message } = hook.data
-          delete hook.data.chat_message
-          hook.data = {
-            ...hook.data,
-            $push: { messages: chat_message }
-          }
-          return hook
-        },
-        schemaHooks.resolveData(dummyPatchResolver)
-      ],
+      patch: [schemaHooks.validateData(dummyPatchValidator), schemaHooks.resolveData(dummyPatchResolver)],
+      update: [],
       remove: []
     },
     after: {
