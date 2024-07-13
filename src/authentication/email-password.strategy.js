@@ -37,26 +37,3 @@ export class EmailPasswordStrategy extends LocalStrategy {
     }
   }
 }
-// export class EmailPasswordStrategy extends AuthenticationBaseStrategy {
-//   async authenticate(authentication, params) {
-//     // console.log('🚀 ~ BasicStrategy ~ authenticate ~ authentication, params:', authentication, params)
-//     const { email, password } = authentication
-//     if (!email || !password) {
-//       throw new BadRequest('No email or password provided.')
-//     }
-
-//     const entity = await this.app.service(userPath).find({ query: { email } })
-
-//     if (!entity.total) {
-//       throw new NotAuthenticated('Invalid login')
-//     }
-
-//     const user = entity.data.at(0)
-
-//     if (!user) {
-//       throw new NotAuthenticated('Invalid login')
-//     }
-
-//     return { user }
-//   }
-// }

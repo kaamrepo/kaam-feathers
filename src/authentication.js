@@ -18,14 +18,10 @@ class MyAuthService extends AuthenticationService {
       .service(userRolesPath)
       .findOneByQuery({ query: { userId: user._id, isActive: true } })
 
-    if (user && userRole?.role?.permissionIds) {
-      const {
-        permissionIds,
-        scopes: { apiScopes, feScopes }
-      } = userRole.role
-      payload['permissionIds'] = permissionIds ?? []
-      payload['apiScopes'] = apiScopes ?? []
-      payload['feScopes'] = feScopes
+    if (user) {
+      payload['permissionIds'] = userRole?.role?.permissionIds ?? []
+      payload['apiScopes'] = userRole?.role?.scopes?.apiScopes ?? []
+      payload['feScopes'] = userRole?.role?.scopes?.feScopes ?? []
     }
     return payload
   }

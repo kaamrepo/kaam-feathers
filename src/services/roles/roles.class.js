@@ -4,7 +4,7 @@ import { MongoDBService } from '@feathersjs/mongodb'
 export class RolesService extends MongoDBService {
   async findOneByQuery(params) {
     const result = await super.find(params)
-    return result?.data?.at(0) ?? null
+    return result?.data?.at(0) ?? {}
   }
 }
 
