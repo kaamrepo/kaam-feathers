@@ -15,6 +15,7 @@ import {
 import { JobService, getOptions } from './jobs.class.js'
 import { jobPath, jobMethods } from './jobs.shared.js'
 import { commonHook } from '../../hooks/commonHook.js'
+import { authorizeApiRequest } from '../../hooks/check-authorization.js'
 
 export * from './jobs.class.js'
 export * from './jobs.schema.js'
@@ -32,6 +33,7 @@ export const job = (app) => {
     around: {
       all: [
         authenticate('jwt'),
+        authorizeApiRequest,
         schemaHooks.resolveExternal(jobExternalResolver),
         schemaHooks.resolveResult(jobResolver)
       ]

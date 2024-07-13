@@ -81,11 +81,11 @@ export const user = (app) => {
         schemaHooks.resolveResult(userResolver)
       ],
       find: [authenticate('jwt')],
-      get: [],
+      get: [authenticate('jwt')],
       create: [],
-      update: [],
-      patch: [],
-      remove: []
+      update: [authenticate('jwt')],
+      patch: [authenticate('jwt')],
+      remove: [authenticate('jwt')]
     },
     before: {
       find: [commonHook(), searchHook()],
