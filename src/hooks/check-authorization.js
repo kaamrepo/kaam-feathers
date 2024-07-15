@@ -26,7 +26,7 @@ export const authorizeApiRequest = async (context, next) => {
     urlToValidate: '/' + path
   }
 
-  const isAuthorized = checkScopesMatch(apiScopes, path, checkAuthDto)
+  const isAuthorized = checkScopesMatch(apiScopes, checkAuthDto)
 
   if (!isAuthorized) {
     throw new Forbidden("You don't have access to this resource")
@@ -34,7 +34,7 @@ export const authorizeApiRequest = async (context, next) => {
   await next()
 }
 
-function checkScopesMatch(scopes, urlToValidate, checkAuthDto) {
+function checkScopesMatch(scopes, checkAuthDto) {
   for (const aScope of scopes) {
     logger.debug('===================================================================')
     logger.debug('aScope --> ' + aScope)
@@ -44,11 +44,11 @@ function checkScopesMatch(scopes, urlToValidate, checkAuthDto) {
       const regex = new RegExp(
         scopeEndPoint.replaceAll('?', '\\?').replaceAll('permissionEntity.', 'permissionEntity\\.')
       )
-      logger.debug('Request endpoint ' + urlToValidate)
+      logger.debug('Request endpoint ' + checkAuthDto.urlToValidate)
       logger.debug('Scope EndPoint ' + regex)
       logger.debug('Scope Method ' + scopeMethod)
 
-      const isMatched = regex.test(urlToValidate)
+      const isMatched = regex.test(checkAuthDto.urlToValidate)
       logger.debug('isMatched --> ' + isMatched)
       logger.debug('===================================================================')
 
