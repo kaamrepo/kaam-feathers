@@ -109,6 +109,13 @@ export const userExternalResolver = resolve({
     const categories = await Promise.all(categoryPromises)
     const activeCategories = categories.filter((category) => category && category.isActive)
     return activeCategories
+  },
+  experience: async (_value, _data, context) => {
+    return _value?.sort((a, b) => {
+      const yearA = a.year.split('-')[0] // Extract the starting year
+      const yearB = b.year.split('-')[0] // Extract the starting year
+      return yearA - yearB
+    })
   }
 })
 
