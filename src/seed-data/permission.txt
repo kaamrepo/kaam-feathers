@@ -8,7 +8,7 @@ db.permissions.insertMany([
             "ALL::.*/api/dashboard/*."
         ],
         "feModules": [
-            "Dashboard"
+            "DASHBOARD"
         ]
     },
     {
@@ -20,7 +20,7 @@ db.permissions.insertMany([
             "GET::.*/api/dashboard/*."
         ],
         "feModules": [
-            "Dashboard"
+            "DASHBOARD_GET"
         ]
     },
     {
@@ -32,7 +32,8 @@ db.permissions.insertMany([
             "POST::.*/api/dashboard/*."
         ],
         "feModules": [
-            "Dashboard"
+            "DASHBOARD_GET",
+            "DASHBOARD_CREATE"
         ]
     },
     {
@@ -45,7 +46,8 @@ db.permissions.insertMany([
             "PUT::.*/api/dashboard/*."
         ],
         "feModules": [
-            "Dashboard"
+            "DASHBOARD_GET",
+            "DASHBOARD_UPDATE"
         ]
     },
     {
@@ -57,7 +59,8 @@ db.permissions.insertMany([
             "DELETE::.*/api/dashboard/*."
         ],
         "feModules": [
-            "Dashboard"
+            "DASHBOARD_GET",
+            "DASHBOARD_DELETE"
         ]
     },
     {
@@ -69,7 +72,7 @@ db.permissions.insertMany([
             "ALL::.*/api/users/*."
         ],
         "feModules": [
-            "Users"
+            "USERS"
         ]
     },
     {
@@ -81,7 +84,7 @@ db.permissions.insertMany([
             "GET::.*/api/users/*."
         ],
         "feModules": [
-            "Users"
+            "USER_GET"
         ]
     },
     {
@@ -93,7 +96,8 @@ db.permissions.insertMany([
             "POST::.*/api/users/*."
         ],
         "feModules": [
-            "Users"
+            "USER_CREATE",
+            "USER_GET"
         ]
     },
     {
@@ -106,7 +110,8 @@ db.permissions.insertMany([
             "PUT::.*/api/users/*."
         ],
         "feModules": [
-            "Users"
+            "USER_GET",
+            "USER_UPDATE"
         ]
     },
     {
@@ -118,7 +123,8 @@ db.permissions.insertMany([
             "DELETE::.*/api/users/*."
         ],
         "feModules": [
-            "Users"
+            "USER_GET",
+            "USER_DELETE"
         ]
     },
     {
@@ -131,7 +137,7 @@ db.permissions.insertMany([
             "ALL::.*/api/staff/*."
         ],
         "feModules": [
-            "Register User"
+            "REGISTER_USER"
         ]
     },
     {
@@ -143,7 +149,7 @@ db.permissions.insertMany([
             "GET::.*/api/registeruser/*."
         ],
         "feModules": [
-            "Register User"
+            "REGUSER_GET"
         ]
     },
     {
@@ -155,7 +161,8 @@ db.permissions.insertMany([
             "POST::.*/api/registeruser/*."
         ],
         "feModules": [
-            "Register User"
+            "REGUSER_GET",
+            "REGUSER_CREATE"
         ]
     },
     {
@@ -168,7 +175,8 @@ db.permissions.insertMany([
             "PUT::.*/api/registeruser/*."
         ],
         "feModules": [
-            "Register User"
+            "REGUSER_GET",
+            "REGUSER_UPDATE"
         ]
     },
     {
@@ -180,7 +188,8 @@ db.permissions.insertMany([
             "DELETE::.*/api/registeruser/*."
         ],
         "feModules": [
-            "Register User"
+            "REGUSER_GET",
+            "REGUSER_DELETE"
         ]
     },
     {
@@ -192,7 +201,7 @@ db.permissions.insertMany([
             "ALL::.*/api/onboardadminstaff/*."
         ],
         "feModules": [
-            "OnBoard Admin Staff"
+            "ONBOARDING_ADMIN_STAFF"
         ]
     },
     {
@@ -204,7 +213,7 @@ db.permissions.insertMany([
             "GET::.*/api/onboardadminstaff/*."
         ],
         "feModules": [
-            "OnBoard Admin Staff"
+            "ON_BOARDING_ADMIN_GET"
         ]
     },
     {
@@ -216,7 +225,8 @@ db.permissions.insertMany([
             "POST::.*/api/onboardadminstaff/*."
         ],
         "feModules": [
-            "OnBoard Admin Staff"
+            "ON_BOARDING_ADMIN_GET",
+            "ON_BOARDING_ADMIN_CREATE"
         ]
     },
     {
@@ -229,7 +239,7 @@ db.permissions.insertMany([
             "PUT::.*/api/onboardadminstaff/*."
         ],
         "feModules": [
-            "OnBoard Admin Staff"
+            "ON_BOARDING_ADMIN_UPDATE"
         ]
     },
     {
@@ -241,7 +251,7 @@ db.permissions.insertMany([
             "DELETE::.*/api/onboardadminstaff/*."
         ],
         "feModules": [
-            "OnBoard Admin Staff"
+            "ON_BOARDING_ADMIN_DELETE"
         ]
     },
     {
@@ -253,7 +263,7 @@ db.permissions.insertMany([
             "ALL::.*/api/approvals/*."
         ],
         "feModules": [
-            "Approvals"
+            "APPROVALS"
         ]
     },
     {
@@ -265,7 +275,7 @@ db.permissions.insertMany([
             "GET::.*/api/approvals/*."
         ],
         "feModules": [
-            "Approvals"
+            "APPROVALS_GET"
         ]
     },
     {
@@ -277,7 +287,8 @@ db.permissions.insertMany([
             "POST::.*/api/approvals/*."
         ],
         "feModules": [
-            "Approvals"
+            "APPROVALS_GET",
+            "APPROVALS_CREATE"
         ]
     },
     {
@@ -290,7 +301,8 @@ db.permissions.insertMany([
             "PUT::.*/api/approvals/*."
         ],
         "feModules": [
-            "Approvals"
+            "APPROVALS_GET",
+            "APPROVALS_UPDATE"
         ]
     },
     {
@@ -302,7 +314,8 @@ db.permissions.insertMany([
             "DELETE::.*/api/approvals/*."
         ],
         "feModules": [
-            "Approvals"
+            "APPROVALS_GET",
+            "APPROVALS_DELETE"
         ]
     },
     {
@@ -326,7 +339,7 @@ db.permissions.insertMany([
             "ALL::.*/api/jobs/*."
         ],
         "feModules": [
-            "Jobs"
+            "JOBS"
         ]
     },
     {
@@ -338,7 +351,7 @@ db.permissions.insertMany([
             "GET::.*/api/jobs/*."
         ],
         "feModules": [
-            "Jobs"
+            "JOBS_GET"
         ]
     },
     {
@@ -350,7 +363,8 @@ db.permissions.insertMany([
             "POST::.*/api/jobs/*."
         ],
         "feModules": [
-            "Jobs"
+            "JOBS_GET",
+            "JOBS_CREATE"
         ]
     },
     {
@@ -363,7 +377,8 @@ db.permissions.insertMany([
             "PUT::.*/api/jobs/*."
         ],
         "feModules": [
-            "Jobs"
+            "JOBS_GET",
+            "JOBS_UPDATE"
         ]
     },
     {
@@ -375,7 +390,7 @@ db.permissions.insertMany([
             "DELETE::.*/api/jobs/*."
         ],
         "feModules": [
-            "Jobs"
+            "JOBS"
         ]
     },
     {
@@ -387,7 +402,7 @@ db.permissions.insertMany([
             "ALL::.*/api/jobapplications/*."
         ],
         "feModules": [
-            "JobApplications"
+            "JOBAPPLICATIONS"
         ]
     },
     {
@@ -399,7 +414,7 @@ db.permissions.insertMany([
             "GET::.*/api/jobapplications/*."
         ],
         "feModules": [
-            "JobApplications"
+            "JOBAPPLICATIONS_GET"
         ]
     },
     {
@@ -411,7 +426,8 @@ db.permissions.insertMany([
             "POST::.*/api/jobapplications/*."
         ],
         "feModules": [
-            "JobApplications"
+            "JOBAPPLICATIONS_GET",
+            "JOBAPPLICATIONS_CREATE"
         ]
     },
     {
@@ -424,7 +440,8 @@ db.permissions.insertMany([
             "PUT::.*/api/jobapplications/*."
         ],
         "feModules": [
-            "JobApplications"
+            "JOBAPPLICATIONS_GET",
+            "JOBAPPLICATIONS_UPDATE"
         ]
     },
     {
@@ -436,7 +453,8 @@ db.permissions.insertMany([
             "DELETE::.*/api/jobapplications/*."
         ],
         "feModules": [
-            "JobApplications"
+            "JOBAPPLICATIONS_GET",
+            "JOBAPPLICATIONS_DELETE"
         ]
     },
     {
@@ -448,7 +466,7 @@ db.permissions.insertMany([
             "ALL::.*/api/appconfig/*."
         ],
         "feModules": [
-            "AppConfig"
+            "APPCONFIG"
         ]
     },
     {
@@ -460,7 +478,7 @@ db.permissions.insertMany([
             "GET::.*/api/appconfig/*."
         ],
         "feModules": [
-            "AppConfig"
+            "APPCONFIG_GET"
         ]
     },
     {
@@ -472,7 +490,8 @@ db.permissions.insertMany([
             "POST::.*/api/appconfig/*."
         ],
         "feModules": [
-            "AppConfig"
+            "APPCONFIG_GET",
+            "APPCONFIG_CREATE"
         ]
     },
     {
@@ -485,7 +504,8 @@ db.permissions.insertMany([
             "PUT::.*/api/appconfig/*."
         ],
         "feModules": [
-            "AppConfig"
+            "APPCONFIG_GET",
+            "APPCONFIG_UPDATE"
         ]
     },
     {
@@ -497,7 +517,8 @@ db.permissions.insertMany([
             "DELETE::.*/api/appconfig/*."
         ],
         "feModules": [
-            "AppConfig"
+            "APPCONFIG_GET",
+            "APPCONFIG_DELETE"
         ]
     },
     {
@@ -509,7 +530,7 @@ db.permissions.insertMany([
             "ALL::.*/api/categories/*."
         ],
         "feModules": [
-            "Categories"
+            "CATEGORIES"
         ]
     },
     {
@@ -521,7 +542,7 @@ db.permissions.insertMany([
             "GET::.*/api/categories/*."
         ],
         "feModules": [
-            "Categories"
+            "CATEGORIES_GET"
         ]
     },
     {
@@ -533,7 +554,8 @@ db.permissions.insertMany([
             "POST:./api/categories/."
         ],
         "feModules": [
-            "Categories"
+            "CATEGORIES_GET",
+            "CATEGORIES_CREATE"
         ]
     },
     {
@@ -546,7 +568,8 @@ db.permissions.insertMany([
             "PUT::.*/api/categories/*."
         ],
         "feModules": [
-            "Categories"
+            "CATEGORIES_GET",
+            "CATEGORIES_UPDATE"
         ]
     },
     {
@@ -558,7 +581,8 @@ db.permissions.insertMany([
             "DELETE::.*/api/categories/*."
         ],
         "feModules": [
-            "Categories"
+            "CATEGORIES_GET",
+            "CATEGORIES_DELETE"
         ]
     }
 ])
