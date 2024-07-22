@@ -6,6 +6,7 @@ import { dataValidator, queryValidator } from '../../validators.js'
 import { userPath } from '../users/users.shared.js'
 import { salaryBasisEnum } from '../../constant/enums.js'
 import { jobapplicationPath } from '../jobapplications/jobapplications.shared.js'
+import { categoriesPath } from '../categories/categories.shared.js'
 
 // Main data model schema
 export const jobSchema = {
@@ -18,7 +19,7 @@ export const jobSchema = {
     jobtitle: { type: 'string', minLength: 1 },
     numberofopenings: { type: 'number', default: 1 },
     description: { type: 'string', minLength: 1 },
-   tags: {
+    tags: {
       type: 'array',
       items: ObjectIdSchema(),
       minItems: 1,
@@ -31,7 +32,7 @@ export const jobSchema = {
       type: 'object',
       properties: {
         type: { type: 'string', default: 'Point' },
-        coordinates: { type: 'array', items: { type: 'number'|| null } },
+        coordinates: { type: 'array', items: { type: 'number' || null } },
         fulladdress: { type: 'string' },
         pincode: { type: 'string' },
         district: { type: 'string' },
@@ -56,7 +57,7 @@ export const jobExternalResolver = resolve({
     return await context.app.service(userPath).get(job.createdby, { query: { $select } })
   }),
   jobAppliedDetails: virtual(async (job, context) => {
-    console.log("context.params.user",context.method);
+    console.log('context.params.user', context.method)
     const authenticatedUser = context.params.user._id
     if (context.method === 'get') {
       const jobAppliedDetails = await context.app.service(jobapplicationPath).getByQueryParams({
@@ -79,7 +80,14 @@ export const jobExternalResolver = resolve({
       })
       return jobAppliedCount.total
     } else return undefined
-  })
+  }),
+  tags: async (_value, _data, context) => {
+    const $select = ['isActive', 'name', '_id']
+    const category = await context.app
+      .service(categoriesPath)
+      .find({ query: { $select, _id: { $in: _value || [] }, isActive: true } })
+    return category.data
+  }
 })
 
 // Schema for creating new data
@@ -108,7 +116,7 @@ export const jobPatchSchema = {
   additionalProperties: false,
   required: [],
   properties: {
-    ...jobSchema.properties,
+    ...jobSchema.properties
   }
 }
 export const jobPatchValidator = getValidator(jobPatchSchema, dataValidator)
