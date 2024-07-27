@@ -74,6 +74,7 @@
     "winston": "^3.9.0"
   },
   "devDependencies": {
+    "@faker-js/faker": "^8.4.1",
     "@feathersjs/cli": "^5.0.6",
     "@feathersjs/rest-client": "^5.0.6",
     "axios": "^1.4.0",
