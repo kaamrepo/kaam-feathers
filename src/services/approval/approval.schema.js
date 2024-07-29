@@ -7,18 +7,19 @@ export const approvalSchema = {
   $id: 'Approval',
   type: 'object',
   additionalProperties: false,
-  required: ['requestor','status','requesttype','requestedjobapplication','requestedjobposting'],
+  required: ['requestor','status','requesttype'],
   properties: {
     _id: ObjectIdSchema(),
     requestor:ObjectIdSchema(),
-    requesttype:{ type: 'string', enum: ['jobposting', 'jobapplicaiton'] },
+    requesttype:{ type: 'string', enum: ['jobposting', 'jobapplication'] },
     createdat: { type: 'string', format: 'date-time' },
     updatedat: { type: 'string', format: 'date-time' },
     status: { type: 'string', enum: ['raised', 'approved'],default:'raised'},
     approvedby:ObjectIdSchema(),
     requestedjobapplication:{type:'number'},
     requestedjobposting:{type:'number'},
-    isactive: { type: 'boolean',default:true }
+    isactive: { type: 'boolean',default:true },
+    comment:{type:'string'}
     
   }
 }
@@ -37,7 +38,7 @@ export const approvalDataSchema = {
   $id: 'ApprovalData',
   type: 'object',
   additionalProperties: false,
-  required: ['requestor','status','requesttype','requestedjobapplication','requestedjobposting'],
+  required: ['requestor','status','requesttype'],
   properties: {
     ...approvalSchema.properties
   }
