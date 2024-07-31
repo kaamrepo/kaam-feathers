@@ -7,7 +7,9 @@
   "keywords": [
     "feathers"
   ],
-  "author": {},
+  "author": {
+    "name": "Kaampe"
+  },
   "contributors": [],
   "bugs": {},
   "engines": {
