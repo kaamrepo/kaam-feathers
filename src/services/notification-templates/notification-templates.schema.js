@@ -12,7 +12,6 @@ export const notificationTemplatesSchema = {
   properties: {
     _id: ObjectIdSchema(),
     name: { type: 'string' },
-    service: { type: 'string' },
     createdAt: {
       type: 'string',
       format: 'date-time'
@@ -23,11 +22,13 @@ export const notificationTemplatesSchema = {
     },
 
     channelType: {
-      type: 'array',
-      items: {
-        type: 'string',
-        enum: ['SMS', 'EMAIL', 'PUSH']
-      }
+      type: 'object',
+      properties: {
+        SMS: { type: 'string' },
+        EMAIL: { type: 'string' },
+        PUSH: { type: 'string' }
+      },
+      additionalProperties: false
     },
 
     channels: {

@@ -20,25 +20,6 @@ export class NotificationsService {
       text: `A new message with ID: ${id}!`
     }
   }
-  // async create(data, params) {
-  //   if (Array.isArray(data)) {
-  //     return Promise.all(data.map((current) => this.create(current, params)))
-  //   }
-  //   const { type } = data
-  //   switch (type) {
-  //     case 'FCM':
-  //       sendPushNotification(data)
-  //       break
-
-  //     default:
-  //       break
-  //   }
-  //   return {
-  //     message: `${data.type} notification initiated successfully`
-  //   }
-  // }
-
-  // This method has to be added to the 'methods' option to make it available to clients
 
   async create(data, params) {
     await this.sendNotification(data)
@@ -78,14 +59,16 @@ export class NotificationsService {
       throw new BadRequest('template not found')
     }
 
-    const { channelType, service } = template
-
-    const serviceType = service ?? this.options.app.get('kaam_notification_service_type')
+    const { channelType } = template
 
     for (const [key] of Object.entries(data.payload)) {
-      logger.debug(`serviceType:${serviceType}, channelType:${channelType} key:${key}`)
-      const strategy = NotificationFactory.getStrategy(serviceType, key)
-      strategy.sendNotification(template, data.payload[key])
+      if (!channelType[key]) {
+        logger.info(`key:${key} is not configured in the notification template:${data.templateName}`)
+      } else {
+        logger.debug(`serviceType:${channelType[key]}, channelType:${JSON.stringify(channelType)} key:${key}`)
+        const strategy = NotificationFactory.getStrategy(channelType[key], key)
+        strategy.sendNotification(template, data.payload[key])
+      }
     }
   }
 }

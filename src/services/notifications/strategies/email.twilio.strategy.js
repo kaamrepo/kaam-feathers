@@ -5,20 +5,23 @@ import { notificationChannelTypes } from '../factories/notification.factory.js'
 import fs from 'fs'
 import path from 'path'
 import ejs from 'ejs'
-import formData from 'form-data'
-import Mailgun from 'mailgun.js'
 import { Utility } from '../utils/utility.js'
+import 'dotenv/config'
+import nodemailer from 'nodemailer'
 
-const mailgun = new Mailgun(formData)
-
-const mg = mailgun.client({
-  username: 'api',
-  key: process.env.MAILGUN_SECRET_KEY
+const transporter = nodemailer.createTransport({
+  host: 'smtp.sendgrid.net',
+  port: 587,
+  secure: false, // Use `true` for port 465, `false` for all other ports
+  auth: {
+    user: 'apikey',
+    pass: process.env.SENDGRID_SECRETE_KEY
+  }
 })
 
-export class EmailLocalStrategy extends NotificationStrategy {
+export class EmailTwilioStrategy extends NotificationStrategy {
   async sendNotification(template, data) {
-    logger.debug(`inside ${EmailLocalStrategy.name}`)
+    logger.debug(`inside ${EmailTwilioStrategy.name}`)
     if (!template.channelType[notificationChannelTypes.EMAIL]) {
       logger.error(
         `this channelType:${notificationChannelTypes.EMAIL} does not supported by the provided template`
@@ -36,11 +39,11 @@ export class EmailLocalStrategy extends NotificationStrategy {
       logger.debug(`sendEmail recipient ${recipient} variables ${JSON.stringify(variables)}`)
       const missingVariables = Utility.findMissingKeys(templateVariables, variables)
       if (!missingVariables?.length)
-        return mg.messages.create(process.env.MAILGUN_DOMAIN, {
-          from: 'KaamPe <mailgun@sandbox-123.mailgun.org>',
-          to: [recipient],
-          subject: Utility.fillTemplate(content.subject, variables),
-          html: compiledTemplate(variables)
+        return transporter.sendMail({
+          from: `${process.env.APP_NAME} <${process.env.SENDGRID_EMAIL_ID}>`, // sender address
+          to: recipient, // list of receivers
+          subject: Utility.fillTemplate(content.subject, variables), // Subject line
+          html: compiledTemplate(variables) // html body
         })
       else {
         logger.debug(`missing variables found ${missingVariables} for recipient ${recipient}`)

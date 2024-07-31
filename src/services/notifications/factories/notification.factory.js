@@ -2,6 +2,7 @@
 import { EmailLocalStrategy } from '../strategies/email.local.strategy.js'
 import { SmsLocalStrategy } from '../strategies/sms.local.strategy.js'
 import { PushLocalStrategy } from '../strategies/push.local.strategy.js'
+import { EmailTwilioStrategy } from '../strategies/email.twilio.strategy.js'
 
 const notificationServiceTypes = {
   LOCAL: 'LOCAL',
@@ -22,6 +23,8 @@ export class NotificationFactory {
         return new EmailLocalStrategy()
       case channelType === notificationChannelTypes.PUSH && serviceType === notificationServiceTypes.LOCAL:
         return new PushLocalStrategy()
+      case channelType === notificationChannelTypes.EMAIL && serviceType === notificationServiceTypes.TWILIO:
+        return new EmailTwilioStrategy()
       default:
         throw new Error('Unknown channel type')
     }

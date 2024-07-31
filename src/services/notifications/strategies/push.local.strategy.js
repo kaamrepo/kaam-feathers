@@ -7,7 +7,7 @@ import { Utility } from '../utils/utility.js'
 export class PushLocalStrategy extends NotificationStrategy {
   async sendNotification(template, data) {
     logger.debug('inside', PushLocalStrategy.name)
-    if (!template.channelType.includes(notificationChannelTypes.PUSH)) {
+    if (!template.channelType[notificationChannelTypes.PUSH]) {
       logger.error(
         `this channelType:${notificationChannelTypes.PUSH} does not supported by the provided template`
       )
@@ -50,7 +50,7 @@ export class PushLocalStrategy extends NotificationStrategy {
         notification['imgUrl'] = variables?.imgUrl
       }
       const actions = variables?.actions ?? []
-      delete variables?.actions;
+      delete variables?.actions
       notification['data'] = variables ?? {}
       logger.debug(`sendFcmNotification ~ notification: ${JSON.stringify(notification, null, 4)}`)
 
