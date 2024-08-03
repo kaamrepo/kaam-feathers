@@ -49,9 +49,9 @@ app.configure(mongodb)
 app.configure(authentication)
 app.configure(services)
 app.configure(channels)
-console.log('...... husky test')
 // Configure a middleware for 404s and the error handler
 app.use(notFound())
+console.log('lllllllllllllllllllll')
 app.use(errorHandler({ logger }))
 // fcm and cloudinary and s3 setup configuration
 // FcmSetup(app)
