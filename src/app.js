@@ -45,11 +45,11 @@ app.configure(
     pingTimeout: 50000
   })
 )
-console.log('.......')
 app.configure(mongodb)
 app.configure(authentication)
 app.configure(services)
 app.configure(channels)
+console.log('...... husky test')
 // Configure a middleware for 404s and the error handler
 app.use(notFound())
 app.use(errorHandler({ logger }))
