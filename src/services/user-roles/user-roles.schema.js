@@ -46,9 +46,9 @@ export const userRolesDataValidator = getValidator(userRolesDataSchema, dataVali
 export const userRolesDataResolver = resolve({
   createdAt: async () => new Date(),
   updatedAt: async () => new Date(),
-  isActive: async () => true,
-  createdBy: async (_, __, context) => context.params.user._id,
-  updatedBy: async (_, __, context) => context.params.user._id
+  isActive: async () => true
+  // createdBy: async (_, __, context) => context.params.user._id,
+  // updatedBy: async (_, __, context) => context.params.user._id
 })
 
 // Schema for updating existing data

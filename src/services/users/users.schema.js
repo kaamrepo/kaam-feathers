@@ -183,8 +183,6 @@ export const userPatchResolver = resolve({
     } else return undefined
   },
   activeforjobs: async (value, data, context) => {
-    console.log('in the active for jobs resolvers', value)
-    console.log('in the active for jobs data', data)
     if (typeof value === 'boolean' && !data?.isLogout) {
       return value
     } else return undefined

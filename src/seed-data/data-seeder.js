@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker'
-import { exec } from 'child_process';
+import { exec } from 'child_process'
 import fs from 'fs'
 
 const users = []
@@ -36,10 +36,6 @@ for (let i = 0; i < 100; i++) {
     email: userF.firstname + userF.lastname + '@gmail.com',
     fakerUser: true
   }
-  users.push(JSON.stringify(user,null,4))
+  users.push(JSON.stringify(user, null, 4))
 }
-
-// fs.writeFileSync('gg.json',  `[${users}]`, 'utf-8')
-
 exec(`echo ${JSON.stringify(users)} > datta.json`)
-// console.log(JSON.stringify(users))
