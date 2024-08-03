@@ -51,7 +51,7 @@ app.configure(services)
 app.configure(channels)
 // Configure a middleware for 404s and the error handler
 app.use(notFound())
-console.log('lllllllllllllllllllll')
+console.log('ssss')
 app.use(errorHandler({ logger }))
 // fcm and cloudinary and s3 setup configuration
 // FcmSetup(app)
