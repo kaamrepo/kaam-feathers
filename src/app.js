@@ -45,6 +45,7 @@ app.configure(
     pingTimeout: 50000
   })
 )
+console.log('ppppp')
 app.configure(mongodb)
 app.configure(authentication)
 app.configure(services)
