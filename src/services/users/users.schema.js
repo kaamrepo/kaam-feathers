@@ -26,6 +26,8 @@ export const userSchema = {
     updatedat: { type: 'string', format: 'date-time' },
 
     isactive: { type: 'boolean' },
+    isTermsAndConditionsChecked: { type: 'boolean' },
+    termsAndConditionsId: ObjectIdSchema(),
 
     aboutme: { type: 'string', minLength: 0, maxLength: 256 },
     dateofbirth: { type: 'string', format: 'date-time' },
@@ -124,7 +126,16 @@ export const userDataSchema = {
   $id: 'UserData',
   type: 'object',
   additionalProperties: false,
-  required: ['phone', 'otp', 'dialcode', 'firstname', 'lastname', 'otpexpiresat'],
+  required: [
+    'phone',
+    'otp',
+    'dialcode',
+    'firstname',
+    'lastname',
+    'otpexpiresat',
+    'isTermsAndConditionsChecked',
+    'termsAndConditionsId'
+  ],
   properties: {
     ...userSchema.properties
   }
