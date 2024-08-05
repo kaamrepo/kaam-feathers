@@ -39,6 +39,7 @@ import { searchHook } from '../../hooks/searchHook.js'
 import commonUploadHandler from '../../helpers/commonUploadHandler.js'
 import { sentPasswordEmailNotification } from './hooks/create/sentPasswordEmailNotification.js'
 import { createNewUserRole } from './hooks/create/createNewUserRole.js'
+import { addUserRoleInParams } from './hooks/create/addUserRoleInParams.js'
 // A configure function that registers the service and its hooks via `app.configure`
 export const user = (app) => {
   const upload = commonUploadHandler({
@@ -91,6 +92,7 @@ export const user = (app) => {
       find: [commonHook(), searchHook()],
       get: [],
       create: [
+        addUserRoleInParams,
         checkUserAlreadyRegistered,
         generateOTPandExpiryTime,
         schemaHooks.validateData(userDataValidator),
@@ -142,6 +144,7 @@ export const user = (app) => {
     before: {
       all: [],
       create: [
+        addUserRoleInParams,
         checkUserAlreadyRegistered,
         appendPassword,
         addDefaultValuesToUser,

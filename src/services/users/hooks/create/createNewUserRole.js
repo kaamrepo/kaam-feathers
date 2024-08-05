@@ -5,17 +5,17 @@ export const createNewUserRole = async (context) => {
   // find roleId
   const roleData = await context.app.service(rolesPath).find({
     query: {
-      roleId: context.result.role,
+      roleId: context.params.role,
       paginate: false,
       isActive: true
     }
   })
   // check role
   if (!roleData) {
-    throw new Error(`Role With roleId ${context.result.role} not found`)
+    throw new Error(`Role With roleId ${context.params.role} not found`)
   }
   const userrole = {
-    roleId: context.result.role,
+    roleId: context.params.role,
     userId: context.result._id.toString(),
     isActive: true
   }
