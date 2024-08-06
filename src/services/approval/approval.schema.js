@@ -19,7 +19,9 @@ export const approvalSchema = {
     requestedjobapplication:{type:'number'},
     requestedjobposting:{type:'number'},
     isactive: { type: 'boolean',default:true },
-    comment:{type:'string'}
+    comment:{type:'string'},
+    skip:{type:'number'},
+    limit:{type:'number'},
     
   }
 }
@@ -38,7 +40,7 @@ export const approvalDataSchema = {
   $id: 'ApprovalData',
   type: 'object',
   additionalProperties: false,
-  required: ['requestor','status','requesttype'],
+  required: ['requestor','status','requesttype','createdat'],
   properties: {
     ...approvalSchema.properties
   }
@@ -63,7 +65,7 @@ export const approvalPatchResolver = resolve({})
 export const approvalQuerySchema = {
   $id: 'ApprovalQuery',
   type: 'object',
-  additionalProperties: false,
+  additionalProperties: true,
   properties: {
     ...querySyntax(approvalSchema.properties)
   }

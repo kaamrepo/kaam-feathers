@@ -41,8 +41,8 @@ export const approval = (app) => {
         schemaHooks.validateQuery(approvalQueryValidator),
         schemaHooks.resolveQuery(approvalQueryResolver)
       ],
-      find: [],
-      get: [],
+      find: [(hook)=>{console.log("hoook in the find",hook.params.query);}],
+      get: [(hook)=>{console.log("hoook in the get",hook.params.query);}],
       create: [
         schemaHooks.validateData(approvalDataValidator),
         schemaHooks.resolveData(approvalDataResolver)
