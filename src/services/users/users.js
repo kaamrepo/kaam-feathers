@@ -92,8 +92,8 @@ export const user = (app) => {
       find: [commonHook(), searchHook()],
       get: [],
       create: [
-        addUserRoleInParams,
         checkUserAlreadyRegistered,
+        addUserRoleInParams,
         generateOTPandExpiryTime,
         schemaHooks.validateData(userDataValidator),
         sendOTP,

@@ -4,6 +4,8 @@ import { ObjectIdSchema } from '@feathersjs/schema'
 import { dataValidator, queryValidator } from '../../validators.js'
 import { getQuerySchemaProperties } from '../../utils/query-schema-properties.js'
 import { rolesPath } from '../roles/roles.shared.js'
+import { userPath } from '../users/users.shared.js'
+import { logger } from '../../logger.js'
 
 // Main data model schema
 export const userRolesSchema = {
@@ -24,11 +26,7 @@ export const userRolesSchema = {
   }
 }
 export const userRolesValidator = getValidator(userRolesSchema, dataValidator)
-export const userRolesResolver = resolve({
-  role: async (_, userRole, context) => {
-    return await context.app.service(rolesPath).findOneByQuery({ query: { roleId: userRole.roleId } })
-  }
-})
+export const userRolesResolver = resolve({})
 
 export const userRolesExternalResolver = resolve({})
 
@@ -71,9 +69,19 @@ export const userRolesPatchResolver = resolve({
 export const userRolesQuerySchema = {
   $id: 'UserRolesQuery',
   type: 'object',
-  additionalProperties: false,
+  additionalProperties: true,
   properties: {
-    ...querySyntax({ ...userRolesSchema.properties, ...getQuerySchemaProperties(userRolesSchema) })
+    ...querySyntax({
+      user: {
+        type: 'object',
+        additionalProperties: true
+      },
+      ...userRolesSchema.properties,
+      ...getQuerySchemaProperties(userRolesSchema)
+    })
+    // 'user.tags': {
+    //   type: 'object'
+    // }
   }
 }
 export const userRolesQueryValidator = getValidator(userRolesQuerySchema, queryValidator)

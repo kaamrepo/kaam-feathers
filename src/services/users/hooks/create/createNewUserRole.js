@@ -19,6 +19,7 @@ export const createNewUserRole = async (context) => {
     userId: context.result._id.toString(),
     isActive: true
   }
+  console.log('🚀 ~ createNewUserRole ~ userrole:', userrole)
   // create new role
   await context.app.service(userRolesPath).create(userrole)
   return context

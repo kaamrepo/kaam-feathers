@@ -8,6 +8,8 @@ import { auth } from './hooks/auth.js'
 import { userPath } from './services/users/users.shared.js'
 import { EmailPasswordStrategy } from './authentication/email-password.strategy.js'
 import { userRolesPath } from './services/user-roles/user-roles.shared.js'
+import { rolesPath } from './services/roles/roles.shared.js'
+import { logger } from './logger.js'
 export const authenticationPath = `${COMMON_ENDPOINT}authentication`
 
 class MyAuthService extends AuthenticationService {
@@ -17,12 +19,25 @@ class MyAuthService extends AuthenticationService {
     const userRole = await this.app
       .service(userRolesPath)
       .findOneByQuery({ query: { userId: user._id, isActive: true } })
+    logger.debug('MyAuthService ~ getPayload ~ userRole:', userRole)
 
     if (user) {
-      payload['permissionIds'] = userRole?.role?.permissionIds ?? []
-      payload['apiScopes'] = userRole?.role?.scopes?.apiScopes ?? []
-      payload['feScopes'] = userRole?.role?.scopes?.feScopes ?? []
+      payload['permissionIds'] = []
+      payload['apiScopes'] = []
+      payload['feScopes'] = []
+      if (userRole) {
+        const role = await this.app
+          .service(rolesPath)
+          .findOneByQuery({ query: { roleId: userRole.roleId, isActive: true } })
+        logger.debug('MyAuthService ~ getPayload ~ role:', role)
+        if (role) {
+          payload['permissionIds'] = role?.permissionIds ?? []
+          payload['apiScopes'] = role?.scopes?.apiScopes ?? []
+          payload['feScopes'] = role?.scopes?.feScopes ?? []
+        }
+      }
     }
+    logger.debug('MyAuthService ~ getPayload ~ payload:', payload)
     return payload
   }
 }
