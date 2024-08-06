@@ -1,24 +1,18 @@
-# Use a smaller base image (Alpine)
-FROM node:18-alpine
+FROM node:20-alpine
 
-# Set the working directory in the container
-WORKDIR /app
+WORKDIR /usr/src/app
 
-# Copy package.json and package-lock.json to the container
+# Ensure correct file permissions
 COPY package*.json ./
+RUN chmod 777 package*.json
 
-# Install application dependencies and cleanup in one RUN command
-RUN set -eux; \
-    npm install; \
-    npm cache clean --force
+RUN npm install
 
-# Copy the entire application code to the container
 COPY . .
 
-# ENV 
+# Ensure all copied files have correct permissions
+# RUN chmod -R 777 .
 
-# Expose the port your app runs on
-EXPOSE 8000
+EXPOSE 3030
 
-# Start the Node.js application
-CMD ["npm", "start"]
+CMD ["npm", "run", "start"]
