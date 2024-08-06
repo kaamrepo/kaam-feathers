@@ -2,7 +2,7 @@ import { BadRequest } from '@feathersjs/errors'
 import { jobPath } from '../../jobs/jobs.shared.js'
 import { jobapplicationPath } from '../jobapplications.shared.js'
 import { userPath } from '../../users/users.shared.js'
-
+import { logger } from '../../../logger.js'
 export const changeJobApplicationStatus = async (hook) => {
   const { data, id, app } = hook
 
@@ -40,18 +40,14 @@ export const changeJobApplicationStatus = async (hook) => {
         allowedJobApplicationForEmployee,
         employeeId
       })
-    } 
-    else if (status === 'Completed') {
-      console.log('JOB Completed');
-      
+    } else if (status === 'Completed') {
+      logger.debug('JOB Completed')
+
       // Perform any additional actions for rejected status if needed
-    } 
-    else if (status === 'Rejected') {
-      console.log('JOB Completed')
+    } else if (status === 'Rejected') {
+      logger.debug('JOB Completed')
       // Perform any additional actions for rejected status if needed
-    } 
-    
-    else {
+    } else {
       throw new BadRequest('Invalid status')
     }
   } catch (error) {

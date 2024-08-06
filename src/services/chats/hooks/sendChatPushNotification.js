@@ -2,14 +2,13 @@ import { jobapplicationPath } from '../../jobapplications/jobapplications.shared
 import { NotificationTemplates } from '../../notification-templates/notification-template-names.js'
 import { notificationsPath } from '../../notifications/notifications.shared.js'
 import { userPath } from '../../users/users.shared.js'
-
+import { logger } from '../../../logger.js'
 export const sendChatPushNotification = async (context) => {
   const {
     result,
     params: { chat }
   } = context
 
-  console.log('chat', chat)
   if (!chat) return context
 
   if (result?._id) {
@@ -31,7 +30,7 @@ export const sendChatPushNotification = async (context) => {
         chatid: result?._id
       }
       if (lastMessage.senderid.toString() == appliedby.toString()) {
-        console.log('message sent by applicant, notification should be sent to employer')
+        logger.debug('message sent by applicant, notification should be sent to employer')
         //  get employer's fcm tokens and send a push notification
         const { firebasetokens } = employer
         const { firstname, lastname } = applicant
@@ -44,7 +43,7 @@ export const sendChatPushNotification = async (context) => {
         }
       } else if (lastMessage.senderid.toString() == employerid.toString()) {
         //  get applicant's fcm tokens and send a push notification
-        console.log('message sent by employer, notification should be sent to applicant')
+        logger.debug('message sent by employer, notification should be sent to applicant')
         const { firebasetokens } = applicant
         const { firstname, lastname } = employer
 

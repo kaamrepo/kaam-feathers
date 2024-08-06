@@ -141,7 +141,6 @@ export const getJobsAsPerPreference = async (context) => {
           delete query['excludeIds']
           break
         case 'excludeIdsInJobSearch':
-          console.log("in the excluedInJobSearch case");
           if (Array.isArray(query['excludeIdsInJobSearch'])) {
             query['createdby'] = { $nin: query['excludeIdsInJobSearch'].map((id) => new ObjectId(id)) }
           } else if (query['excludeIdsInJobSearch']) {

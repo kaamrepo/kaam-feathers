@@ -26,6 +26,8 @@ export const userSchema = {
     updatedat: { type: 'string', format: 'date-time' },
 
     isactive: { type: 'boolean' },
+    isTermsAndConditionsChecked: { type: 'boolean' },
+    termsAndConditionsId: ObjectIdSchema(),
 
     aboutme: { type: 'string', minLength: 0, maxLength: 256 },
     dateofbirth: { type: 'string', format: 'date-time' },
@@ -124,7 +126,16 @@ export const userDataSchema = {
   $id: 'UserData',
   type: 'object',
   additionalProperties: false,
-  required: ['phone', 'otp', 'dialcode', 'firstname', 'lastname', 'otpexpiresat'],
+  required: [
+    'phone',
+    'otp',
+    'dialcode',
+    'firstname',
+    'lastname',
+    'otpexpiresat',
+    'isTermsAndConditionsChecked',
+    'termsAndConditionsId'
+  ],
   properties: {
     ...userSchema.properties
   }
@@ -183,8 +194,6 @@ export const userPatchResolver = resolve({
     } else return undefined
   },
   activeforjobs: async (value, data, context) => {
-    console.log('in the active for jobs resolvers', value)
-    console.log('in the active for jobs data', data)
     if (typeof value === 'boolean' && !data?.isLogout) {
       return value
     } else return undefined

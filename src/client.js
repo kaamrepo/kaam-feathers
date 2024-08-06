@@ -1,6 +1,8 @@
 // For more information about this file see https://dove.feathersjs.com/guides/cli/client.html
 import { feathers } from '@feathersjs/feathers'
 import authenticationClient from '@feathersjs/authentication-client'
+import { termsAndConditionsClient } from './services/terms-and-conditions/terms-and-conditions.shared.js'
+
 import { userRolesClient } from './services/user-roles/user-roles.shared.js'
 
 import { rolesClient } from './services/roles/roles.shared.js'
@@ -75,6 +77,8 @@ export const createClient = (connection, authenticationOptions = {}) => {
   client.configure(rolesClient)
 
   client.configure(userRolesClient)
+
+  client.configure(termsAndConditionsClient)
 
   return client
 }

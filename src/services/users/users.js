@@ -38,7 +38,8 @@ import { commonHook } from '../../hooks/commonHook.js'
 import { searchHook } from '../../hooks/searchHook.js'
 import commonUploadHandler from '../../helpers/commonUploadHandler.js'
 import { sentPasswordEmailNotification } from './hooks/create/sentPasswordEmailNotification.js'
-
+import { createNewUserRole } from './hooks/create/createNewUserRole.js'
+import { addUserRoleInParams } from './hooks/create/addUserRoleInParams.js'
 // A configure function that registers the service and its hooks via `app.configure`
 export const user = (app) => {
   const upload = commonUploadHandler({
@@ -91,6 +92,7 @@ export const user = (app) => {
       find: [commonHook(), searchHook()],
       get: [],
       create: [
+        addUserRoleInParams,
         checkUserAlreadyRegistered,
         generateOTPandExpiryTime,
         schemaHooks.validateData(userDataValidator),
@@ -108,32 +110,7 @@ export const user = (app) => {
     },
     after: {
       all: [schemaHooks.validateQuery(userQueryValidator), schemaHooks.resolveQuery(userQueryResolver)],
-      create: [
-        // async (hook) => {
-        //   try {
-        //     let notificationMessage = {
-        //       notification: {
-        //         title: 'Toolbox training completed',
-        //         body: 'Test 1'
-        //       },
-        //       data: {
-        //         event: 'Toolbox Training',
-        //         action: 'close'
-        //       }
-        //     }
-        //     let response = await notificationHelper(
-        //       hook.app,
-        //       [
-        //         'f6ZU75sdSbyfiiJ-Hjk6WB:APA91bF0XGwpmZYcLC3SqYq1RtT4GFfa4ezJxUt-FcubFPRdLDpyMbvD9yPudFYn1KFjzI5uQ3fsG4-aZ5r3wK1ErEXQhO-gbDU0axgfJ3UGIGFAH4xkuT0r1grbmpCiNmF1B8AGGzpA'
-        //       ],
-        //       notificationMessage
-        //     )
-        //     console.log('response', response)
-        //   } catch (error) {
-        //     console.log('Notificaion error', error)
-        //   }
-        // }
-      ]
+      create: [createNewUserRole]
     },
     error: {
       all: [],
@@ -167,6 +144,7 @@ export const user = (app) => {
     before: {
       all: [],
       create: [
+        addUserRoleInParams,
         checkUserAlreadyRegistered,
         appendPassword,
         addDefaultValuesToUser,
@@ -175,6 +153,8 @@ export const user = (app) => {
     },
     after: {
       create: [
+        // createuserrole
+        createNewUserRole,
         // sent email passwordString
         sentPasswordEmailNotification
       ]

@@ -1,3 +1,5 @@
+import { termsAndConditions } from './terms-and-conditions/terms-and-conditions.js'
+
 import { userRoles } from './user-roles/user-roles.js'
 
 import { roles } from './roles/roles.js'
@@ -29,6 +31,8 @@ import { user } from './users/users.js'
 import { notificationTemplates } from './notification-templates/notification-templates.js'
 
 export const services = (app) => {
+  app.configure(termsAndConditions)
+
   app.configure(userRoles)
 
   app.configure(roles)

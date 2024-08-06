@@ -45,7 +45,7 @@ export const userRoles = (app) => {
       get: [],
       create: [
         schemaHooks.validateData(userRolesDataValidator),
-        schemaHooks.resolveData(userRolesDataResolver)
+        schemaHooks.resolveData(userRolesDataResolver),
       ],
       patch: [
         schemaHooks.validateData(userRolesPatchValidator),

@@ -17,7 +17,7 @@ import { rolesPath, rolesMethods } from './roles.shared.js'
 
 export * from './roles.class.js'
 export * from './roles.schema.js'
-
+import { commonHook } from '../../hooks/commonHook.js'
 // A configure function that registers the service and its hooks via `app.configure`
 export const roles = (app) => {
   // Register our service on the Feathers application
@@ -37,7 +37,11 @@ export const roles = (app) => {
       ]
     },
     before: {
-      all: [schemaHooks.validateQuery(rolesQueryValidator), schemaHooks.resolveQuery(rolesQueryResolver)],
+      all: [
+        commonHook(),
+        schemaHooks.validateQuery(rolesQueryValidator),
+        schemaHooks.resolveQuery(rolesQueryResolver)
+      ],
       find: [],
       get: [],
       create: [schemaHooks.validateData(rolesDataValidator), schemaHooks.resolveData(rolesDataResolver)],

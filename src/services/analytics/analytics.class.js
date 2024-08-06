@@ -19,7 +19,6 @@ export class AnalyticsService {
       for (const key of Object.keys(query)) {
         switch (key) {
           case 'analyticscount':
-            console.log('in the analytics count case')
             const jobsCount = await jobsService.find({ query: { $limit: 0 } })
             const jobApplicationsCount = await jobApplicationsService.find({ query: { $limit: 0 } })
             const usersCount = await usersService.find({ query: { $limit: 0 } })
@@ -37,7 +36,6 @@ export class AnalyticsService {
             break
 
           case 'locationanalytics':
-            console.log('in the location analytics case')
             const result = await usersService.find({
               pipeline: [
                 {
@@ -90,10 +88,8 @@ export class AnalyticsService {
               ]
             })
 
-            // Extracting the result from the array (assuming only one result)
-            console.log('location Result', result)
+            // Extracting the result from the array (assuming only one result
             data = result.data[0]
-            console.log('data', data)
             delete query['locationanalytics']
             break
 
@@ -145,8 +141,7 @@ export class AnalyticsService {
 
             // Assuming the userbifercationresult contains only one document
             const rawData = userbifercationresult.data[0]
-            console.log('rawData', rawData)
-
+           
             // Calculate the total count for normalization
             const totalCount = rawData.employeeCount + rawData.employerCount + rawData.mixedRolesCount
 
@@ -159,8 +154,6 @@ export class AnalyticsService {
             break
 
           case 'registrationanalytics':
-            console.log('in the registration analytics case')
-
             let dateFormat
             switch (query.timeframe) {
               case 'Day':
@@ -216,7 +209,6 @@ export class AnalyticsService {
               data = [{ timeframe: moment().format(dateFormat), count: 0 }]
             }
 
-            console.log('registrationanalytics data', data)
 
             delete query['registrationanalytics']
             break
