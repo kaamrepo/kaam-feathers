@@ -14,6 +14,7 @@ import {
 } from './incrementalrequest.schema.js'
 import { IncrementalRequestService, getOptions } from './incrementalrequest.class.js'
 import { incrementalRequestPath, incrementalRequestMethods } from './incrementalrequest.shared.js'
+import { authorizeApiRequest } from '../../hooks/check-authorization.js'
 
 export * from './incrementalrequest.class.js'
 export * from './incrementalrequest.schema.js'
@@ -32,6 +33,7 @@ export const incrementalRequest = (app) => {
     around: {
       all: [
         authenticate('jwt'),
+        authorizeApiRequest,
         schemaHooks.resolveExternal(incrementalRequestExternalResolver),
         schemaHooks.resolveResult(incrementalRequestResolver)
       ]

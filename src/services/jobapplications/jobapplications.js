@@ -18,6 +18,7 @@ import { createChatForAppliedJob } from './hooks/createChatForAppliedJob.js'
 import { commonHook } from '../../hooks/commonHook.js'
 import { sendPushNotificationToEmployer } from './hooks/sendPushNotificationToEmployer.js'
 import { changeJobApplicationStatus } from './hooks/changeJobApplicationStatus.js'
+import { authorizeApiRequest } from '../../hooks/check-authorization.js'
 export * from './jobapplications.class.js'
 export * from './jobapplications.schema.js'
 
@@ -35,6 +36,7 @@ export const jobapplication = (app) => {
     around: {
       all: [
         authenticate('jwt'),
+        authorizeApiRequest,
         schemaHooks.resolveExternal(jobapplicationExternalResolver),
         schemaHooks.resolveResult(jobapplicationResolver)
       ]
@@ -49,7 +51,7 @@ export const jobapplication = (app) => {
       get: [],
       create: [
         schemaHooks.validateData(jobapplicationDataValidator),
-        schemaHooks.resolveData(jobapplicationDataResolver),
+        schemaHooks.resolveData(jobapplicationDataResolver)
       ],
       patch: [
         changeJobApplicationStatus,

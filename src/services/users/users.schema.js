@@ -1,6 +1,6 @@
 // For more information about this file see https://dove.feathersjs.com/guides/cli/service.schemas.html
 import { resolve, getValidator, querySyntax } from '@feathersjs/schema'
-import { ObjectIdSchema } from '@feathersjs/schema'
+import { ObjectIdSchema, virtual } from '@feathersjs/schema'
 import { passwordHash } from '@feathersjs/authentication-local'
 import { dataValidator, queryValidator } from '../../validators.js'
 import { resolveObjectId } from '@feathersjs/mongodb'
@@ -96,12 +96,13 @@ export const userExternalResolver = resolve({
   // The password should never be visible externally
   otp: async () => undefined,
   password: async () => undefined,
-  tagsDetails: async (_value, data, context) => {
+
+  tagsDetails: virtual(async (user, context) => {
     const $select = ['isActive', 'name', '_id']
-    const tags = data.tags || []
+    const tags = user.tags || []
     const categoryPromises = tags.map(async (tagId) => {
       try {
-        const category = await context.app.service(categoriesPath).get(tagId, { query: { $select } })
+        const category = await context.app.service(categoriesPath)._get(tagId, { query: { $select } })
         return category
       } catch (error) {
         console.error(`Failed to fetch category for tagId: ${tagId}`, error)
@@ -111,7 +112,7 @@ export const userExternalResolver = resolve({
     const categories = await Promise.all(categoryPromises)
     const activeCategories = categories.filter((category) => category && category.isActive)
     return activeCategories
-  },
+  }),
   experience: async (_value, _data, context) => {
     return _value?.sort((a, b) => {
       const yearA = a.year.split('-')[0] // Extract the starting year

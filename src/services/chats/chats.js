@@ -17,6 +17,7 @@ import { chatPath, chatMethods } from './chats.shared.js'
 import { updateChatIdInJobApplication } from './hooks/updateChatIdInJobApplication.js'
 import { pushChatMessage } from './hooks/pushChatMessage.js'
 import { sendChatPushNotification } from './hooks/sendChatPushNotification.js'
+import { authorizeApiRequest } from '../../hooks/check-authorization.js'
 
 export * from './chats.class.js'
 export * from './chats.schema.js'
@@ -35,6 +36,7 @@ export const chat = (app) => {
     around: {
       all: [
         authenticate('jwt'),
+        authorizeApiRequest,
         schemaHooks.resolveExternal(chatExternalResolver),
         schemaHooks.resolveResult(chatResolver)
       ]

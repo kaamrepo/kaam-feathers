@@ -14,6 +14,8 @@ import { notificationsPath, notificationsMethods } from './notifications.shared.
 export * from './notifications.class.js'
 export * from './notifications.schema.js'
 import { MethodNotAllowed } from '@feathersjs/errors'
+import { authorizeApiRequest } from '../../hooks/check-authorization.js'
+import { authenticate } from '@feathersjs/authentication'
 
 // A configure function that registers the service and its hooks via `app.configure`
 export const notifications = (app) => {
@@ -28,6 +30,8 @@ export const notifications = (app) => {
   app.service(notificationsPath).hooks({
     around: {
       all: [
+        authenticate('jwt'),
+        authorizeApiRequest,
         schemaHooks.resolveExternal(notificationsExternalResolver),
         schemaHooks.resolveResult(notificationsResolver)
       ]

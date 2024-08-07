@@ -15,6 +15,7 @@ import {
 import { NotificationTemplatesService, getOptions } from './notification-templates.class.js'
 import { notificationTemplatesPath, notificationTemplatesMethods } from './notification-templates.shared.js'
 import { commonHook } from '../../hooks/commonHook.js'
+import { authorizeApiRequest } from '../../hooks/check-authorization.js'
 
 export * from './notification-templates.class.js'
 export * from './notification-templates.schema.js'
@@ -32,7 +33,8 @@ export const notificationTemplates = (app) => {
   app.service(notificationTemplatesPath).hooks({
     around: {
       all: [
-        // authenticate('jwt'),
+        authenticate('jwt'),
+        authorizeApiRequest,
         schemaHooks.resolveExternal(notificationTemplatesExternalResolver),
         schemaHooks.resolveResult(notificationTemplatesResolver)
       ]

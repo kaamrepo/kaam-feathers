@@ -15,6 +15,7 @@ import {
 import { CategoriesService, getOptions } from './categories.class.js'
 import { categoriesPath, categoriesMethods } from './categories.shared.js'
 import { commonHook } from '../../hooks/commonHook.js'
+import { authorizeApiRequest } from '../../hooks/check-authorization.js'
 
 export * from './categories.class.js'
 export * from './categories.schema.js'
@@ -58,6 +59,7 @@ export const categories = (app) => {
     around: {
       all: [
         authenticate('jwt'),
+        authorizeApiRequest,
         schemaHooks.resolveExternal(categoriesExternalResolver),
         schemaHooks.resolveResult(categoriesResolver)
       ]

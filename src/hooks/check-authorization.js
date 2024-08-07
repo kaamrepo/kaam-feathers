@@ -6,16 +6,15 @@ export const authorizeApiRequest = async (context, next) => {
   const {
     method,
     path,
-    params: {
-      authentication: { payload },
-      user
-    }
+    params: { authentication, user }
   } = context
 
-  if (!user.isactive) {
+  console.log('method', context?.method, 'path', context?.path)
+
+  if (!user?.isactive) {
     throw new Forbidden('Access denied')
   }
-  const { permissionIds, apiScopes } = payload
+  const { permissionIds, apiScopes } = authentication?.payload
 
   if (!permissionIds?.length || !apiScopes?.length) {
     throw new Forbidden("You don't have access to this resource")
