@@ -40,6 +40,7 @@ import commonUploadHandler from '../../helpers/commonUploadHandler.js'
 import { sentPasswordEmailNotification } from './hooks/create/sentPasswordEmailNotification.js'
 import { createNewUserRole } from './hooks/create/createNewUserRole.js'
 import { addUserRoleInParams } from './hooks/create/addUserRoleInParams.js'
+import { fetchUsersByRoleId } from './hooks/filters/fetchUsersByRoleId.js'
 // A configure function that registers the service and its hooks via `app.configure`
 export const user = (app) => {
   const upload = commonUploadHandler({
@@ -89,7 +90,7 @@ export const user = (app) => {
       remove: [authenticate('jwt')]
     },
     before: {
-      find: [commonHook(), searchHook()],
+      find: [commonHook(), searchHook(), fetchUsersByRoleId()],
       get: [],
       create: [
         checkUserAlreadyRegistered,

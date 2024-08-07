@@ -29,7 +29,6 @@ export const searchHook = (hook) => async (hook) => {
         case 'location':
           delete query['location']
           break
-
         default:
           break
       }

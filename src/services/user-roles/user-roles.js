@@ -41,16 +41,7 @@ export const userRoles = (app) => {
         schemaHooks.validateQuery(userRolesQueryValidator),
         schemaHooks.resolveQuery(userRolesQueryResolver)
       ],
-      find: [
-        (h) => {
-          h.params['cQuery'] = {
-            user: h.params.query.user
-          }
-          delete h.params.query.user
-          console.log('asdasdsadsad', h.params.query)
-          return h
-        }
-      ],
+      find: [],
       get: [],
       create: [
         schemaHooks.validateData(userRolesDataValidator),
